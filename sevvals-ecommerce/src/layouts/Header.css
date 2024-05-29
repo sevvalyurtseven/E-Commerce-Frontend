@@ -1,0 +1,45 @@
+/* Header.css */
+
+.header-container {
+  @apply bg-white;
+}
+
+.header-top {
+  @apply flex justify-between items-center bg-slate-800 p-6;
+}
+
+.header-top-info {
+  @apply flex items-center gap-10;
+}
+
+.header-top-follow-us {
+  @apply text-white text-sm font-bold;
+}
+
+.header-main {
+  @apply flex justify-between items-center px-9 py-4 bg-white;
+}
+
+.header-main-links {
+  @apply flex items-center gap-6 tracking-wider;
+}
+
+.header-main-auth {
+  @apply flex items-center gap-8 text-center text-sky-500 text-base tracking-wide font-bold;
+}
+
+.mobile-header {
+  @apply bg-white;
+}
+
+.mobile-header-container {
+  @apply container mx-auto p-10 flex justify-between items-center;
+}
+
+.mobile-header-nav {
+  @apply container mx-auto py-4;
+}
+
+.mobile-header-links {
+  @apply flex flex-col items-center space-y-4 text-2xl tracking-widest text-neutral-500 font-medium gap-3;
+}

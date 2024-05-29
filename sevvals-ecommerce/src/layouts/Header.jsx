@@ -14,8 +14,8 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-
 import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
+import "./Header.css"; // Import your CSS file
 
 function Header() {
   const [isMobile, setIsMobile] = useState(false);
@@ -32,43 +32,49 @@ function Header() {
   }, []);
 
   return (
-    <div className="bg-white">
-      {!isMobile && (
-        <div className="flex flex-col gap-3 bg-white">
-          <div className="flex justify-between items-center bg-slate-800 p-6">
-            <div className="flex items-center gap-10">
-              <span className="text-white text-sm font-bold">
+    <div className="header-container">
+      {!isMobile ? (
+        <div className="flex flex-col gap-3">
+          <div className="header-top">
+            <div className="header-top-info">
+              <span className="header-top-follow-us">
                 <FontAwesomeIcon icon={faPhone} /> (225) 555-0118
               </span>
-              <span className="text-white text-sm font-bold">
+              <span className="header-top-follow-us">
                 <FontAwesomeIcon icon={faEnvelope} />{" "}
                 michelle.rivera@example.com
               </span>
             </div>
-            <span className="text-white text-sm font-bold">
+            <span className="header-top-follow-us">
               Follow Us and get a chance to win 80% off
             </span>
             <div className="flex items-center gap-3 text-white">
-              <span className="text-white text-sm font-bold">Follow Us :</span>
+              <span className="header-top-follow-us">Follow Us :</span>
               <FontAwesomeIcon icon={faInstagram} className="w-4 h-4" />
               <FontAwesomeIcon icon={faYoutube} className="w-4 h-4" />
               <FontAwesomeIcon icon={faFacebook} className="w-4 h-4" />
               <FontAwesomeIcon icon={faTwitter} className="w-4 h-4" />
             </div>
           </div>
-          <div className="flex justify-between items-center px-9 py-4 bg-white">
+          <div className="header-main">
             <span className="text-slate-800 text-2xl font-bold">Bandage</span>
-            <div className="flex items-center gap-6  tracking-wide">
-              <span className="text-neutral-500 text-m font-bold">Home</span>
-              <span className="text-slate-800 text-m font-medium">
+            <div className="header-main-links">
+              <span className="text-neutral-500 text-base font-bold">Home</span>
+              <span className="text-slate-800 text-base font-medium">
                 Shop <FontAwesomeIcon icon={faAngleDown} />
               </span>
-              <span className="text-neutral-500 text-m font-bold">About</span>
-              <span className="text-neutral-500 text-m font-bold">Blog</span>
-              <span className="text-neutral-500 text-m font-bold">Contact</span>
-              <span className="text-neutral-500 text-m font-bold">Pages</span>
+              <span className="text-neutral-500 text-base font-bold">
+                About
+              </span>
+              <span className="text-neutral-500 text-base font-bold">Blog</span>
+              <span className="text-neutral-500 text-base font-bold">
+                Contact
+              </span>
+              <span className="text-neutral-500 text-base font-bold">
+                Pages
+              </span>
             </div>
-            <div className="flex items-center gap-8 text-center text-sky-500 text-m tracking-wide font-bold ">
+            <div className="header-main-auth">
               <span className="flex items-center gap-2">
                 <FontAwesomeIcon icon={faUser} />
                 <span>Login</span>
@@ -88,11 +94,9 @@ function Header() {
             </div>
           </div>
         </div>
-      )}
-
-      {isMobile && (
-        <div className="bg-white">
-          <div className="container mx-auto p-10 flex justify-between items-center">
+      ) : (
+        <div className="mobile-header">
+          <div className="mobile-header-container">
             <a href="#" className="text-2xl font-bold">
               Bandage
             </a>
@@ -108,8 +112,8 @@ function Header() {
               </a>
             </div>
           </div>
-          <div className="container mx-auto py-4">
-            <nav className="flex flex-col items-center space-y-4 text-2xl tracking-widest text-neutral-500 font-normal gap-3">
+          <div className="mobile-header-nav">
+            <nav className="mobile-header-links">
               <a href="#">Home</a>
               <a href="#">Shop</a>
               <a href="#">About</a>
