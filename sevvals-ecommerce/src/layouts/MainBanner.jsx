@@ -44,7 +44,7 @@ function MainBanner() {
           className="flex transition-transform duration-500 ease-in-out transform"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
-          {slides.map((slide, index) => (
+          {slides.map((slide) => (
             <div key={slide.id} className="w-full flex-shrink-0 h-full">
               <div className="flex flex-col md:flex-row items-center justify-between  h-full">
                 <div className="flex-1 sm:text-left sm:pl-32 text-center">
