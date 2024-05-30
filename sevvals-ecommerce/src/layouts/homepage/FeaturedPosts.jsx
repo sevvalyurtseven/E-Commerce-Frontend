@@ -1,4 +1,3 @@
-import React from "react";
 import post1 from "../../assets/featured-posts/post2.png";
 import post2 from "../../assets/featured-posts/post1.png";
 import PostCard from "../../components/PostCard";
