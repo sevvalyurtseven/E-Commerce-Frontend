@@ -22,13 +22,13 @@ function TopProductOfTheWeek() {
     <div className="flex flex-wrap items-center justify-center gap-5 py-20">
       <div className="relative md:w-[40%] w-[80%]">
         <img src={img1} alt="Top Product Of the Week" />
-        <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-2/6 h-3/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-16">
+        <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-2/6 h-3/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-6">
           <div className="flex flex-col items-center">
             <h4 className="text-white text-2xl font-bold leading-loose tracking-wider text-left">
               Top Product Of <br /> the Week
             </h4>
             <div className="flex items-center ">
-              <button className="text-white border border-white py-4 text-sm font-bold leading-snug tracking-wider">
+              <button className="text-white border border-white p-4 text-sm font-bold leading-snug tracking-wider">
                 EXPLORE ITEMS
               </button>
             </div>
@@ -39,7 +39,7 @@ function TopProductOfTheWeek() {
         {products.map((product) => (
           <div key={product.id} className="relative">
             <img src={product.image} alt={product.title} />
-            <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-max h-4/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-12">
+            <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-max h-4/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-6">
               <div className="flex flex-col items-center">
                 <h4 className="text-white text-2xl font-bold leading-loose tracking-wider text-center">
                   {product.title}

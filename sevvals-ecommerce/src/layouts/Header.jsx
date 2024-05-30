@@ -95,7 +95,7 @@ function Header() {
           </div>
         </div>
       ) : (
-        <div className="mobile-header">
+        <div>
           <div className="mobile-header-container">
             <a href="#" className="text-2xl font-bold">
               Bandage

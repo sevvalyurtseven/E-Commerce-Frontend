@@ -28,16 +28,12 @@
   @apply flex items-center gap-8 text-center text-sky-500 text-base tracking-wide font-bold;
 }
 
-.mobile-header {
-  @apply bg-white;
-}
-
 .mobile-header-container {
-  @apply container mx-auto p-10 flex justify-between items-center;
+  @apply container p-10 flex justify-between items-center;
 }
 
 .mobile-header-nav {
-  @apply container mx-auto py-4;
+  @apply container py-4;
 }
 
 .mobile-header-links {

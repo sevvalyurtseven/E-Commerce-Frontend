@@ -38,8 +38,8 @@ function MainBanner() {
   };
 
   return (
-    <div className="sm:py-10 sm:pl-12 sm:pr-28 py-10 px-12">
-      <div className="bg-gradient-to-r from-cyan-200 to-emerald-200 rounded-xl relative overflow-hidden">
+    <div className="sm:py-10 sm:pl-12 sm:pr-28 py-10 px-0">
+      <div className="w-full bg-gradient-to-r from-cyan-200 to-emerald-200 rounded-xl relative overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-in-out transform"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}

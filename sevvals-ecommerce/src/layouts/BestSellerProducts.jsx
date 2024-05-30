@@ -93,7 +93,7 @@ const products = [
   },
 ];
 
-const BestSellerProducts = () => {
+function BestSellerProducts() {
   return (
     <div className="flex flex-col items-center justify-center py-12">
       <h4 className=" text-neutral-500 text-xl font-normal leading-[30px] tracking-tight">
@@ -117,8 +117,11 @@ const BestSellerProducts = () => {
           />
         ))}
       </div>
+      <button className="border border-[#23A6F0] text-[#23A6F0] font-bold p-4">
+        LOAD MORE PRODUCTS
+      </button>
     </div>
   );
-};
+}
 
 export default BestSellerProducts;
