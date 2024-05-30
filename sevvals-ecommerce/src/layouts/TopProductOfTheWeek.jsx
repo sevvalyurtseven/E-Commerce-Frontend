@@ -20,7 +20,7 @@ const products = [
 function TopProductOfTheWeek() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-5 py-20">
-      <div className="relative md:w-[42%] w-[80%]">
+      <div className="relative md:w-[40%] w-[80%]">
         <img src={img1} alt="Top Product Of the Week" />
         <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-2/6 h-3/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-16">
           <div className="flex flex-col items-center">
@@ -35,7 +35,7 @@ function TopProductOfTheWeek() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-5 md:w-[45%] w-[80%]">
+      <div className="flex flex-col gap-5 md:w-[36%] w-[80%]">
         {products.map((product) => (
           <div key={product.id} className="relative">
             <img src={product.image} alt={product.title} />
