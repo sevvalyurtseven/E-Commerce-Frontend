@@ -4,7 +4,7 @@ import girl2 from "../assets/we-love-what-we-do/contentGirl2.png";
 function FeaturedProducts() {
   return (
     <div className="flex flex-col w-full py-20">
-      <div className="flex justify-center items-center flex-wrap-reverse gap-8 ">
+      <div className="flex justify-center items-center flex-wrap-reverse gap-8 md:gap-0 ">
         <div className="flex h-80 sm:h-auto">
           <img src={girl1} />
           <img src={girl2} />
