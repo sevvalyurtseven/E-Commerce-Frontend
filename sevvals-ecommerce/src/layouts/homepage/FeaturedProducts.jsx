@@ -1,5 +1,5 @@
-import girl1 from "../assets/we-love-what-we-do/contentGirl.png";
-import girl2 from "../assets/we-love-what-we-do/contentGirl2.png";
+import girl1 from "../../assets/we-love-what-we-do/contentGirl.png";
+import girl2 from "../../assets/we-love-what-we-do/contentGirl2.png";
 
 function FeaturedProducts() {
   return (

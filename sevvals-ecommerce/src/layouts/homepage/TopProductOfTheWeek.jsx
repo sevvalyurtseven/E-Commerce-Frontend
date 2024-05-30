@@ -1,6 +1,6 @@
-import img1 from "../assets/top-product-of-the-week/image1.png";
-import img2 from "../assets/top-product-of-the-week/image2.png";
-import img3 from "../assets/top-product-of-the-week/image3.png";
+import img1 from "../../assets/top-product-of-the-week/image1.png";
+import img2 from "../../assets/top-product-of-the-week/image2.png";
+import img3 from "../../assets/top-product-of-the-week/image3.png";
 
 const products = [
   {

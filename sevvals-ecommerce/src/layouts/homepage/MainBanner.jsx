@@ -1,5 +1,5 @@
 import { useState } from "react";
-import curlyGirl from "../assets/slide-curly-girl/none.png";
+import curlyGirl from "../../assets/slide-curly-girl/none.png";
 
 function MainBanner() {
   const [currentSlide, setCurrentSlide] = useState(0);

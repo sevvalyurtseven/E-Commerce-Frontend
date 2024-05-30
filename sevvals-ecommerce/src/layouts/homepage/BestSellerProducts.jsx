@@ -1,14 +1,14 @@
-import manken1 from "../assets/best-seller-products/fixed-height-4.png";
-import manken2 from "../assets/best-seller-products/fixed-height-5.png";
-import manken3 from "../assets/best-seller-products/fixed-height-6.png";
-import manken4 from "../assets/best-seller-products/fixed-height-3.png";
-import manken5 from "../assets/best-seller-products/product-cover-5.png";
-import manken6 from "../assets/best-seller-products/fixed-height.png";
-import manken7 from "../assets/best-seller-products/fixed-height-5.png";
-import manken8 from "../assets/best-seller-products/fixed-height-6.png";
-import manken9 from "../assets/best-seller-products/product-cover-5-1.png";
-import manken10 from "../assets/best-seller-products/fixed-height-7.png";
-import ProductCard from "../components/ProductCard";
+import manken1 from "../../assets/best-seller-products/fixed-height-4.png";
+import manken2 from "../../assets/best-seller-products/fixed-height-5.png";
+import manken3 from "../../assets/best-seller-products/fixed-height-6.png";
+import manken4 from "../../assets/best-seller-products/fixed-height-3.png";
+import manken5 from "../../assets/best-seller-products/product-cover-5.png";
+import manken6 from "../../assets/best-seller-products/fixed-height.png";
+import manken7 from "../../assets/best-seller-products/fixed-height-5.png";
+import manken8 from "../../assets/best-seller-products/fixed-height-6.png";
+import manken9 from "../../assets/best-seller-products/product-cover-5-1.png";
+import manken10 from "../../assets/best-seller-products/fixed-height-7.png";
+import ProductCard from "../../components/ProductCard";
 
 const products = [
   {
