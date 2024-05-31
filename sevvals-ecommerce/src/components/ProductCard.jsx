@@ -11,7 +11,7 @@ function ProductCard({
   const location = useLocation(); // Mevcut URL'yi almak için useLocation kullanılması
   return (
     <Link to="/product-detail">
-      <div className="flex flex-col items-center text-center gap-5">
+      <div className="flex flex-col items-center text-center gap-5 bg-white">
         <img src={image} alt={title} className="w-full h-full" />
         <h5 className="text-slate-800 text-base font-bold leading-normal tracking-wider">
           {title}
