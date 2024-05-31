@@ -35,9 +35,12 @@ function TopProductOfTheWeek() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-5 md:w-[36%] w-[80%] transition-transform duration-300 ease-in-out transform hover:scale-110">
+      <div className="flex flex-col gap-5 md:w-[36%] w-[80%]">
         {products.map((product) => (
-          <div key={product.id} className="relative">
+          <div
+            key={product.id}
+            className="relative transition-transform duration-300 ease-in-out transform hover:scale-110"
+          >
             <img src={product.image} alt={product.title} />
             <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-max h-4/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-6">
               <div className="flex flex-col items-center">
