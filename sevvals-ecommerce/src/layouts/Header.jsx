@@ -72,7 +72,7 @@ function Header() {
               >
                 About
               </Link>
-              <Link to="/blog" className="text-neutral-500 text-base font-bold">
+              <Link to="/team" className="text-neutral-500 text-base font-bold">
                 Blog
               </Link>
               <Link
@@ -131,7 +131,7 @@ function Header() {
               <Link to="/">Home</Link>
               <Link to="/shop">Shop</Link>
               <Link to="/about">About</Link>
-              <Link to="/blog">Blog</Link>
+              <Link to="/team">Blog</Link>
               <Link to="/contact">Contact</Link>
               <Link to="/pages">Pages</Link>
             </nav>

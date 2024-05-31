@@ -117,7 +117,7 @@ function BestSellerProducts() {
           />
         ))}
       </div>
-      <button className="border border-[#23A6F0] text-[#23A6F0] font-bold p-4">
+      <button className="border border-[#23A6F0] text-[#23A6F0] font-bold p-4 hover:bg-[#23A6F0] hover:text-white transition-transform duration-300 ease-in-out transform hover:scale-110">
         LOAD MORE PRODUCTS
       </button>
     </div>

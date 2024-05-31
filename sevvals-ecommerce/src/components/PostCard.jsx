@@ -24,7 +24,7 @@ function PostCard({
 }) {
   return (
     <div className="flex flex-wrap justify-center sm:justify-start text-center sm:text-start gap-10 py-6 border sm:border-none border-[#E5E5E5]">
-      <div className="relative">
+      <div className="relative transition-transform duration-300 ease-in-out transform hover:scale-110">
         <p className="absolute top-5 left-5 text-center h-6 px-3 bg-red-500 rounded-[3px] shadow justify-start items-center flex text-white tracking-wider">
           Sales
         </p>

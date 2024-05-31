@@ -1,6 +1,6 @@
 function ShopCard({ image, title, itemCount }) {
   return (
-    <div className="flex flex-col items-center text-center relative">
+    <div className="flex flex-col items-center text-center relative transition-transform duration-300 ease-in-out transform hover:scale-105">
       <img
         src={image}
         alt={title}
