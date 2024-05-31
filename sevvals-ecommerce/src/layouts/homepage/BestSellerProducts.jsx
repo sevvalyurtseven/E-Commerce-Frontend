@@ -105,7 +105,7 @@ function BestSellerProducts() {
       <p className=" text-neutral-500 text-sm font-normal leading-tight tracking-tight">
         Problems trying to resolve the conflict between{" "}
       </p>
-      <div className="flex flex-wrap justify-center gap-5 py-16 w-[85%] mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 w-[70%] py-16">
         {products.map((product) => (
           <ProductCard
             key={product.id}

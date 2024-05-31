@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
 import "./Header.css"; // Import your CSS file
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isMobile, setIsMobile] = useState(false);
@@ -59,20 +60,33 @@ function Header() {
           <div className="header-main">
             <span className="text-slate-800 text-2xl font-bold">Bandage</span>
             <div className="header-main-links">
-              <span className="text-neutral-500 text-base font-bold">Home</span>
-              <span className="text-slate-800 text-base font-medium">
+              <Link to="/" className="text-neutral-500 text-base font-bold">
+                Home
+              </Link>
+              <Link to="/shop" className="text-slate-800 text-base font-medium">
                 Shop <FontAwesomeIcon icon={faAngleDown} />
-              </span>
-              <span className="text-neutral-500 text-base font-bold">
+              </Link>
+              <Link
+                to="/about"
+                className="text-neutral-500 text-base font-bold"
+              >
                 About
-              </span>
-              <span className="text-neutral-500 text-base font-bold">Blog</span>
-              <span className="text-neutral-500 text-base font-bold">
+              </Link>
+              <Link to="/blog" className="text-neutral-500 text-base font-bold">
+                Blog
+              </Link>
+              <Link
+                to="/contact"
+                className="text-neutral-500 text-base font-bold"
+              >
                 Contact
-              </span>
-              <span className="text-neutral-500 text-base font-bold">
+              </Link>
+              <Link
+                to="/pages"
+                className="text-neutral-500 text-base font-bold"
+              >
                 Pages
-              </span>
+              </Link>
             </div>
             <div className="header-main-auth">
               <span className="flex items-center gap-2">
@@ -114,12 +128,12 @@ function Header() {
           </div>
           <div className="mobile-header-nav">
             <nav className="mobile-header-links">
-              <a href="#">Home</a>
-              <a href="#">Shop</a>
-              <a href="#">About</a>
-              <a href="#">Blog</a>
-              <a href="#">Contact</a>
-              <a href="#">Pages</a>
+              <Link to="/">Home</Link>
+              <Link to="/shop">Shop</Link>
+              <Link to="/about">About</Link>
+              <Link to="/blog">Blog</Link>
+              <Link to="/contact">Contact</Link>
+              <Link to="/pages">Pages</Link>
             </nav>
           </div>
         </div>

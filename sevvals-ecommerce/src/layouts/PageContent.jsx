@@ -1,9 +1,18 @@
+import { Route, Switch } from "react-router-dom";
 import HomePage from "../pages/HomePage";
+import ShopPage from "../pages/ShopPage";
 
 function PageContent() {
   return (
     <>
-      <HomePage />
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+        <Route path="/shop">
+          <ShopPage />
+        </Route>
+      </Switch>
     </>
   );
 }
