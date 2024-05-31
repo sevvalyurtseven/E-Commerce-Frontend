@@ -18,7 +18,7 @@ function ContactContent() {
         {contactCards.map((image, index) => (
           <div
             key={index}
-            className={`flex flex-col items-center gap-8 py-16 px-8 boorder border-[#fafafa] shadow-lg  ${
+            className={`flex flex-col items-center gap-8 py-16 px-8 boorder border-[#fafafa] shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110  ${
               index === 1 ? "bg-[#252B42]" : "bg-white"
             }`}
           >

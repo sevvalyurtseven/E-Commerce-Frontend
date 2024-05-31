@@ -7,7 +7,7 @@ import linkedin from "../../assets/contact/logos_linkedin-icon.svg";
 function ContactInfo() {
   return (
     <div className="flex flex-col lg:flex-row">
-      <div className="flex flex-col gap-12 lg:gap-8 lg:p-40 p-20 justify-center lg:justify-start items-center lg:items-start">
+      <div className="flex flex-col gap-6 lg:gap-8 lg:p-40 p-20 justify-center lg:justify-start items-center lg:items-start">
         <h2 className="text-slate-800 text-base font-bold leading-normal tracking-wider">
           CONTACT US
         </h2>
@@ -19,10 +19,10 @@ function ContactInfo() {
           We know how large objects will act, <br className="hidden lg:block" />
           but things on a small scale
         </p>
-        <p className="text-slate-800  lg:text-xl  text-2xl font-bold leading-loose tracking-wider">
+        <p className="text-slate-800  text-xl font-bold leading-loose tracking-wider">
           Phone ; +451 215 215
         </p>
-        <p className="text-slate-800 lg:text-xl  text-2xl  font-bold leading-loose tracking-wider">
+        <p className="text-slate-800 text-xl   font-bold leading-loose tracking-wider">
           Fax : +451 215 215
         </p>
         <div className="flex lg:gap-11 gap-8">
