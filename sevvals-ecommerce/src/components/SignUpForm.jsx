@@ -7,7 +7,7 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
     watch,
   } = useForm({ mode: "onChange" });
   const [storeFields, setStoreFields] = useState(false);
@@ -317,7 +317,7 @@ const SignUpForm = () => {
           <button
             type="submit"
             className="btn bg-[#c461b2] text-white hover:bg-[#e7a0da] hover:text-[#fafafa] w-full"
-            disabled={isSubmitting}
+            disabled={!isValid || isSubmitting}
           >
             {isSubmitting ? (
               <svg
