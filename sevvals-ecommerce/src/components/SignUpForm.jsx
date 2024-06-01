@@ -61,6 +61,7 @@ const SignUpForm = () => {
             </label>
             <input
               id="name"
+              placeholder="Enter your name"
               className="input input-bordered"
               {...register("name", {
                 required: "Name is required",
@@ -80,6 +81,7 @@ const SignUpForm = () => {
             </label>
             <input
               id="email"
+              placeholder="Enter your email"
               className="input input-bordered"
               {...register("email", {
                 required: "Email is required",
@@ -100,6 +102,7 @@ const SignUpForm = () => {
             <input
               id="password"
               type="password"
+              placeholder="Enter your password"
               className="input input-bordered"
               {...register("password", {
                 required: "Password is required",
@@ -133,6 +136,7 @@ const SignUpForm = () => {
             <input
               id="passwordConfirm"
               type="password"
+              placeholder="Confirm your password"
               className="input input-bordered"
               {...register("passwordConfirm", {
                 required: "Please confirm your password",
@@ -212,6 +216,7 @@ const SignUpForm = () => {
               </label>
               <input
                 id="storeName"
+                placeholder="Enter store name"
                 className="input input-bordered"
                 {...register("store.name", {
                   required: storeFields ? "Store name is required" : false,
@@ -235,6 +240,7 @@ const SignUpForm = () => {
               </label>
               <input
                 id="storePhone"
+                placeholder="Enter store phone number"
                 className="input input-bordered"
                 {...register("store.phone", {
                   required: storeFields ? "Store phone is required" : false,
@@ -258,6 +264,7 @@ const SignUpForm = () => {
               </label>
               <input
                 id="storeTaxID"
+                placeholder="Enter store tax ID"
                 className="input input-bordered"
                 {...register("store.tax_no", {
                   required: storeFields ? "Store tax ID is required" : false,
@@ -282,6 +289,7 @@ const SignUpForm = () => {
               </label>
               <input
                 id="storeBankAccount"
+                placeholder="Enter store bank account"
                 className="input input-bordered"
                 {...register("store.bank_account", {
                   required: storeFields
