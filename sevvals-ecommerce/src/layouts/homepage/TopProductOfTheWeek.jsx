@@ -20,14 +20,14 @@ const products = [
 function TopProductOfTheWeek() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-5 py-20">
-      <div className="relative md:w-[40%] w-[80%]">
+      <div className="relative md:w-[40%] w-[80%] transition-transform duration-300 ease-in-out transform hover:scale-110">
         <img src={img1} alt="Top Product Of the Week" />
-        <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-2/6 h-3/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-6">
+        <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-2/6 h-3/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-6 ">
           <div className="flex flex-col items-center">
             <h4 className="text-white text-2xl font-bold leading-loose tracking-wider text-left">
               Top Product Of <br /> the Week
             </h4>
-            <div className="flex items-center ">
+            <div className="flex items-center hover:bg-black ">
               <button className="text-white border border-white p-4 text-sm font-bold leading-snug tracking-wider">
                 EXPLORE ITEMS
               </button>
@@ -37,14 +37,17 @@ function TopProductOfTheWeek() {
       </div>
       <div className="flex flex-col gap-5 md:w-[36%] w-[80%]">
         {products.map((product) => (
-          <div key={product.id} className="relative">
+          <div
+            key={product.id}
+            className="relative transition-transform duration-300 ease-in-out transform hover:scale-110"
+          >
             <img src={product.image} alt={product.title} />
             <div className="absolute bottom-0 left-0 md:w-4/6 w-full md:h-max h-4/6 border border-cyan-600 bg-cyan-600 bg-opacity-75 md:p-3 p-6">
               <div className="flex flex-col items-center">
                 <h4 className="text-white text-2xl font-bold leading-loose tracking-wider text-center">
                   {product.title}
                 </h4>
-                <div className="flex items-center text-[#23A6F0] text-3xl">
+                <div className="flex items-center hover:bg-black">
                   <button className="text-white border border-white py-3 px-8 text-sm font-bold leading-snug tracking-wider">
                     {product.buttonText}
                   </button>

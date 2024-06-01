@@ -18,7 +18,7 @@ function ContactContent() {
         {contactCards.map((image, index) => (
           <div
             key={index}
-            className={`flex flex-col items-center gap-8 py-16 px-8 boorder border-[#fafafa] shadow-lg  ${
+            className={`flex flex-col items-center gap-8 py-16 px-8 boorder border-[#fafafa] shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110  ${
               index === 1 ? "bg-[#252B42]" : "bg-white"
             }`}
           >
@@ -46,7 +46,7 @@ function ContactContent() {
                 Get Support
               </h4>
 
-              <button className="border-[#23A6F0] border-2 rounded-full text-[#23A6F0] text-sm font-bold leading-normal tracking-wider px-8 py-3">
+              <button className="border-[#23A6F0] border-2 rounded-full text-[#23A6F0] hover:text-white hover:bg-[#23A6F0] text-sm font-bold leading-normal tracking-wider px-8 py-3">
                 Submit Request
               </button>
             </div>
@@ -61,8 +61,8 @@ function ContactContent() {
         <h2 className=" text-slate-800 text-6xl font-bold leading-[80px] tracking-wider">
           Let’s Talk
         </h2>
-        <div className="border border-solid bg-sky-500 px-10 py-4 rounded-md">
-          <button className="text-center text-white text-sm font-bold leading-snug tracking-wider">
+        <div className="border border-solid bg-sky-500 px-10 py-4 rounded-md transition-transform duration-300 ease-in-out transform hover:scale-110">
+          <button className="text-center text-white text-sm font-bold leading-snug tracking-wider ">
             Try it free now
           </button>
         </div>

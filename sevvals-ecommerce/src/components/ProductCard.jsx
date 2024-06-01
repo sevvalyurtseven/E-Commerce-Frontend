@@ -10,7 +10,10 @@ function ProductCard({
 }) {
   const location = useLocation(); // Mevcut URL'yi almak için useLocation kullanılması
   return (
-    <Link to="/product-detail">
+    <Link
+      to="/product-detail"
+      className="transition-transform duration-300 ease-in-out transform hover:scale-110"
+    >
       <div className="flex flex-col items-center text-center gap-5 bg-white pb-6">
         <img src={image} alt={title} className="w-full h-full" />
         <h5 className="text-slate-800 text-base font-bold leading-normal tracking-wider">
