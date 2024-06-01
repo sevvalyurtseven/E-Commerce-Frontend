@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const SignUpForm = () => {
+const SignUp = () => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
@@ -23,6 +23,38 @@ const SignUpForm = () => {
               {...register("name")}
             />
           </div>
+          <div className="form-control">
+            <label className="label" htmlFor="email">
+              Email
+            </label>
+            <input
+              id="email"
+              className="input input-bordered"
+              {...register("email")}
+            />
+          </div>
+          <div className="form-control">
+            <label className="label" htmlFor="password">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              className="input input-bordered"
+              {...register("password")}
+            />
+          </div>
+          <div className="form-control">
+            <label className="label" htmlFor="passwordConfirm">
+              Confirm Password
+            </label>
+            <input
+              id="passwordConfirm"
+              type="password"
+              className="input input-bordered"
+              {...register("passwordConfirm")}
+            />
+          </div>
           <button type="submit" className="btn btn-primary w-full mt-4">
             Submit
           </button>
@@ -32,4 +64,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignUp;
