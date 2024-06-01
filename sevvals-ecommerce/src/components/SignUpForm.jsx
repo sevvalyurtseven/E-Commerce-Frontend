@@ -9,7 +9,7 @@ const SignUpForm = () => {
     control,
     formState: { errors },
     watch,
-  } = useForm();
+  } = useForm({ mode: "onChange" });
   const [storeFields, setStoreFields] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [roles, setRoles] = useState([]);
