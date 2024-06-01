@@ -30,7 +30,7 @@ function StatsSection() {
           <div className="absolute inset-0 flex items-center justify-center">
             <FontAwesomeIcon
               icon={faCirclePlay}
-              className=" text-7xl text-white rounded-full bg-[#23A6F0]"
+              className=" text-7xl text-white rounded-full bg-[#23A6F0] transition-transform duration-300 ease-in-out transform hover:scale-110"
             />
           </div>
         </div>
