@@ -53,10 +53,12 @@ const SignUpForm = () => {
         style={{ backgroundImage: `url(${backgroundImage})` }}
       ></div>
       <div className="relative z-10 w-full max-w-sm p-6 space-y-4 bg-white shadow-xl rounded-xl">
-        <h2 className="text-2xl font-bold text-center">Sign Up</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <h2 className="text-2xl font-bold text-center tracking-wider">
+          Sign Up
+        </h2>
+        <form className="tracking-wider" onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control">
-            <label className="label" htmlFor="name">
+            <label className="label font-semibold" htmlFor="name">
               Name
             </label>
             <input
@@ -76,7 +78,7 @@ const SignUpForm = () => {
             )}
           </div>
           <div className="form-control">
-            <label className="label" htmlFor="email">
+            <label className="label font-semibold" htmlFor="email">
               Email
             </label>
             <input
@@ -96,7 +98,7 @@ const SignUpForm = () => {
             )}
           </div>
           <div className="form-control">
-            <label className="label" htmlFor="password">
+            <label className="label font-semibold" htmlFor="password">
               Password
             </label>
             <input
@@ -130,7 +132,7 @@ const SignUpForm = () => {
             )}
           </div>
           <div className="form-control">
-            <label className="label" htmlFor="passwordConfirm">
+            <label className="label font-semibold" htmlFor="passwordConfirm">
               Confirm Password
             </label>
             <input
@@ -151,7 +153,7 @@ const SignUpForm = () => {
             )}
           </div>
           <div className="form-control mb-4">
-            <label className="label" htmlFor="role_id">
+            <label className="label font-semibold" htmlFor="role_id">
               Role
             </label>
             <Controller
@@ -211,7 +213,7 @@ const SignUpForm = () => {
             }`}
           >
             <div className="form-control">
-              <label className="label" htmlFor="storeName">
+              <label className="label font-semibold" htmlFor="storeName">
                 Store Name
               </label>
               <input
@@ -235,7 +237,7 @@ const SignUpForm = () => {
               )}
             </div>
             <div className="form-control">
-              <label className="label" htmlFor="storePhone">
+              <label className="label font-semibold" htmlFor="storePhone">
                 Store Phone
               </label>
               <input
@@ -259,7 +261,7 @@ const SignUpForm = () => {
               )}
             </div>
             <div className="form-control">
-              <label className="label" htmlFor="storeTaxID">
+              <label className="label font-semibold" htmlFor="storeTaxID">
                 Store Tax ID
               </label>
               <input
@@ -284,7 +286,7 @@ const SignUpForm = () => {
               )}
             </div>
             <div className="form-control">
-              <label className="label" htmlFor="storeBankAccount">
+              <label className="label font-semibold" htmlFor="storeBankAccount">
                 Store Bank Account
               </label>
               <input
