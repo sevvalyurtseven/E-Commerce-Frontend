@@ -16,8 +16,8 @@ const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Rolleri getir
-    // Örnek roller set edilir, GET isteği ile roller alınacak
+    // Fetch roles
+    // Example roles are set, should be fetched with GET request
     setRoles([
       { id: "customer", name: "Customer" },
       { id: "store", name: "Store" },
@@ -241,7 +241,7 @@ const SignUpForm = () => {
                   pattern: storeFields
                     ? {
                         value: /^(\+90|0)?5\d{9}$/,
-                        message: "Geçerli bir Türkiye telefon numarası girin",
+                        message: "Enter a valid Turkish phone number",
                       }
                     : undefined,
                 })}
@@ -265,7 +265,7 @@ const SignUpForm = () => {
                     ? {
                         value: /^T\d{4}V\d{6}$/,
                         message:
-                          "Geçerli bir Vergi Kimlik Numarası girin (TXXXXVXXXXXX formatında)",
+                          "Enter a valid Tax ID (in the format TXXXXVXXXXXX)",
                       }
                     : undefined,
                 })}
@@ -291,7 +291,7 @@ const SignUpForm = () => {
                     ? {
                         value: /^TR\d{24}$/,
                         message:
-                          "Geçerli bir IBAN girin (TR ile başlayan ve toplam 26 karakter)",
+                          "Enter a valid IBAN (starting with TR and 26 characters long)",
                       }
                     : undefined,
                 })}
