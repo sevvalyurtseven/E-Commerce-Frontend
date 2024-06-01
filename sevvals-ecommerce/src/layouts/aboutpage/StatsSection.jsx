@@ -12,7 +12,7 @@ function StatsSection() {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row md:justify-around justify-center items-center py-28  flex-wrap lg:flex-nowrap gap-10 lg:gap-0">
+      <div className="flex flex-col md:flex-row md:justify-evenly justify-center items-center py-28  flex-wrap lg:flex-nowrap gap-10 lg:gap-0">
         {stats.map((stat, index) => (
           <div key={index}>
             <h1 className="text-center text-slate-800 text-[58px] font-bold leading-[80px] tracking-tight">
