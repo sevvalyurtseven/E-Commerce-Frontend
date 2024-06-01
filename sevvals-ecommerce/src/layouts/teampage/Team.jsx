@@ -53,12 +53,12 @@ function Team() {
         </h5>
       </div>
       <div className="flex flex-col lg:flex-row gap-2 pt-10 flex-wrap lg:flex-nowrap">
-        <img src={team1} alt="team1" className="w-full" />
-        <div className="flex lg:flex-col flex-row gap-2  w-full">
+        <img src={team1} alt="team1" className="lg:w-full" />
+        <div className="flex lg:flex-col flex-row gap-2  w-[49%] lg:w-full">
           <img src={team2} alt="team2" />
           <img src={team3} alt="team3" />
         </div>
-        <div className="flex lg:flex-col flex-row gap-2 w-full">
+        <div className="flex lg:flex-col flex-row gap-2 w-[49%] lg:w-full">
           <img src={team4} alt="team4" />
           <img src={team5} alt="team5" />
         </div>
