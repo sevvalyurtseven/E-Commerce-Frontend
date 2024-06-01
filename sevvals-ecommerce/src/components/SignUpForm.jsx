@@ -29,10 +29,11 @@ const SignUpForm = () => {
     setStoreFields(value === "store");
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = (data, event) => {
     setIsSubmitting(true);
     // Simulate an API request
     setTimeout(() => {
+      event.target.reset();
       console.log(data);
       setIsSubmitting(false);
     }, 2000);
