@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import backgroundImage from "../assets/signup/signup.jpg";
+import { toast } from "react-toastify";
 
 const SignUpForm = () => {
   const {
@@ -31,11 +32,11 @@ const SignUpForm = () => {
 
   const onSubmit = (data, event) => {
     setIsSubmitting(true);
-    // Simulate an API request
     setTimeout(() => {
       event.target.reset();
-      console.log(data);
       setIsSubmitting(false);
+      toast.success("Form submitted successfully");
+      console.log(data);
     }, 2000);
   };
 
