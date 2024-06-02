@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import backgroundImage from "../assets/signup/signup.jpg";
+import axiosInstance from "../api/api";
 
 // setValue, react-hook-form kütüphanesinin bir fonksiyonudur ve form alanlarının değerlerini programatik olarak ayarlamak için kullanılır. Form bileşenine varsayılan değerleri dinamik olarak atamak veya belirli bir olaydan sonra form alanlarını güncellemek için kullanılabilir.
 
@@ -24,8 +24,8 @@ const SignUpForm = () => {
 
   useEffect(() => {
     // Rolleri getir
-    axios
-      .get("https://workintech-fe-ecommerce.onrender.com/roles")
+    axiosInstance
+      .get("/roles")
       .then((response) => {
         setRoles(response.data);
         // Varsayılan rolü "Müşteri" yap
@@ -72,11 +72,8 @@ const SignUpForm = () => {
     console.log("Düzenlenmiş veri:", formattedData); // Konsola düzenlenmiş veriyi yazdır
 
     setIsSubmitting(true); // Formun gönderildiğini işaretle
-    axios
-      .post(
-        "https://workintech-fe-ecommerce.onrender.com/signup",
-        formattedData
-      )
+    axiosInstance
+      .post("/signup", formattedData)
       .then((response) => {
         event.target.reset();
         setIsSubmitting(false); // Formun gönderilme durumunu sıfırla
