@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import backgroundImage from "../assets/signup/signup.jpg";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import { toast } from "react-toastify";
+import backgroundImage from "../assets/signup/signup.jpg";
+
+// setValue, react-hook-form kütüphanesinin bir fonksiyonudur ve form alanlarının değerlerini programatik olarak ayarlamak için kullanılır. Form bileşenine varsayılan değerleri dinamik olarak atamak veya belirli bir olaydan sonra form alanlarını güncellemek için kullanılabilir.
 
 const SignUpForm = () => {
   const {
@@ -10,44 +14,93 @@ const SignUpForm = () => {
     control,
     formState: { errors, isValid },
     watch,
+    setValue,
   } = useForm({ mode: "onChange" });
-  const [storeFields, setStoreFields] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [roles, setRoles] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const history = useHistory();
+  const [storeFields, setStoreFields] = useState(false); // Mağaza alanlarının gösterilip gösterilmeyeceğini kontrol eder
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown menünün açık olup olmadığını kontrol eder
+  const [roles, setRoles] = useState([]); // Roller listesini tutar
+  const [isSubmitting, setIsSubmitting] = useState(false); // Formun gönderilip gönderilmediğini kontrol eder
 
   useEffect(() => {
-    // Fetch roles
-    // Example roles are set, should be fetched with GET request
-    setRoles([
-      { id: "customer", name: "Customer" },
-      { id: "store", name: "Store" },
-      { id: "admin", name: "Admin" },
-    ]);
-  }, []);
+    // Rolleri getir
+    axios
+      .get("https://workintech-fe-ecommerce.onrender.com/roles")
+      .then((response) => {
+        setRoles(response.data);
+        // Varsayılan rolü "Müşteri" yap
+        const customerRole = response.data.find(
+          (role) => role.name === "Müşteri"
+        );
+        if (customerRole) {
+          setValue("role_id", customerRole.id);
+        }
+      })
+      .catch((error) => {
+        console.error("Roller getirilirken hata oluştu:", error);
+      });
+  }, [setValue]);
 
   const handleRoleChange = (value) => {
-    setStoreFields(value === "store");
+    setStoreFields(value === "store"); // Eğer seçilen rol "store" ise mağaza alanlarını göster
   };
 
   const onSubmit = (data, event) => {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      event.target.reset();
-      setIsSubmitting(false);
-      toast.success("Form submitted successfully");
-      console.log(data);
-    }, 2000);
+    console.log("Form verileri:", data); // Konsola form verilerini yazdır
+
+    // Veriyi sunucunun beklediği formatta düzenle
+    let formattedData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      role_id: data.role_id,
+    };
+
+    // Eğer rol "store" ise mağaza bilgilerini ekle
+    if (data.role_id === "store") {
+      formattedData = {
+        ...formattedData,
+        store: {
+          name: data.store?.name,
+          phone: data.store?.phone,
+          tax_no: data.store?.tax_no,
+          bank_account: data.store?.bank_account,
+        },
+      };
+    }
+
+    console.log("Düzenlenmiş veri:", formattedData); // Konsola düzenlenmiş veriyi yazdır
+
+    setIsSubmitting(true); // Formun gönderildiğini işaretle
+    axios
+      .post(
+        "https://workintech-fe-ecommerce.onrender.com/signup",
+        formattedData
+      )
+      .then((response) => {
+        event.target.reset();
+        setIsSubmitting(false); // Formun gönderilme durumunu sıfırla
+        history.goBack(); // Bir önceki sayfaya geri dön
+        setTimeout(() => {
+          toast.success(
+            "Please click the link in the email to activate your account!"
+          );
+        }, 500); // Toastify mesajını 500ms gecikmeli göster
+      })
+      .catch((error) => {
+        console.error("Hata cevabı:", error.response);
+        toast.error("An error occurred during the registration process.");
+        setIsSubmitting(false); // Formun gönderilme durumunu sıfırla
+      });
   };
 
   const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+    setDropdownOpen(!dropdownOpen); // Dropdown menüyü aç/kapat
   };
 
   const closeDropdown = () => {
-    setDropdownOpen(false);
+    setDropdownOpen(false); // Dropdown menüyü kapat
   };
-
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-gray-100 py-36">
       <div
@@ -161,7 +214,6 @@ const SignUpForm = () => {
             <Controller
               control={control}
               name="role_id"
-              defaultValue="customer"
               render={({ field }) => (
                 <div className="relative w-full">
                   <button
