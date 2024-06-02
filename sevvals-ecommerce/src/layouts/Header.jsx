@@ -16,7 +16,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
 import "./Header.css"; // Import your CSS file
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   const [isMobile, setIsMobile] = useState(false);
@@ -60,40 +60,46 @@ function Header() {
           <div className="header-main">
             <span className="text-slate-800 text-2xl font-bold">Bandage</span>
             <div className="header-main-links">
-              <Link to="/" className="text-neutral-500 text-base font-bold">
+              <NavLink to="/" className="text-neutral-500 text-base font-bold">
                 Home
-              </Link>
-              <Link to="/shop" className="text-slate-800 text-base font-medium">
+              </NavLink>
+              <NavLink
+                to="/shop"
+                className="text-slate-800 text-base font-medium"
+              >
                 Shop <FontAwesomeIcon icon={faAngleDown} />
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/about"
                 className="text-neutral-500 text-base font-bold"
               >
                 About
-              </Link>
-              <Link to="/team" className="text-neutral-500 text-base font-bold">
+              </NavLink>
+              <NavLink
+                to="/team"
+                className="text-neutral-500 text-base font-bold"
+              >
                 Blog
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/contact"
                 className="text-neutral-500 text-base font-bold"
               >
                 Contact
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/pages"
                 className="text-neutral-500 text-base font-bold"
               >
                 Pages
-              </Link>
+              </NavLink>
             </div>
             <div className="header-main-auth">
               <span className="flex items-center gap-2">
                 <FontAwesomeIcon icon={faUser} />
                 <span>Login</span>
                 <span>/</span>
-                <span>Register</span>
+                <NavLink to="/signup">Register</NavLink>
               </span>
 
               <span>
@@ -128,12 +134,12 @@ function Header() {
           </div>
           <div className="mobile-header-nav">
             <nav className="mobile-header-links">
-              <Link to="/">Home</Link>
-              <Link to="/shop">Shop</Link>
-              <Link to="/about">About</Link>
-              <Link to="/team">Blog</Link>
-              <Link to="/contact">Contact</Link>
-              <Link to="/pages">Pages</Link>
+              <NavLink to="/">Home</NavLink>
+              <NavLink to="/shop">Shop</NavLink>
+              <NavLink to="/about">About</NavLink>
+              <NavLink to="/team">Blog</NavLink>
+              <NavLink to="/contact">Contact</NavLink>
+              <NavLink to="/pages">Pages</NavLink>
             </nav>
           </div>
         </div>
