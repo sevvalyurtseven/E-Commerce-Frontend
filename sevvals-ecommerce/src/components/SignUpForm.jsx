@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import backgroundImage from "../assets/signup/signup.jpg";
 import axiosInstance from "../api/api";
 
+// setValue, react-hook-form kütüphanesinin bir fonksiyonudur ve form alanlarının değerlerini programatik olarak ayarlamak için kullanılır. Form bileşenine varsayılan değerleri dinamik olarak atamak veya belirli bir olaydan sonra form alanlarını güncellemek için kullanılabilir.
+
 const SignUpForm = () => {
   const {
     register,
@@ -15,16 +17,18 @@ const SignUpForm = () => {
     setValue,
   } = useForm({ mode: "onChange" });
   const history = useHistory();
-  const [storeFields, setStoreFields] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [roles, setRoles] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [storeFields, setStoreFields] = useState(false); // Mağaza alanlarının gösterilip gösterilmeyeceğini kontrol eder
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown menünün açık olup olmadığını kontrol eder
+  const [roles, setRoles] = useState([]); // Roller listesini tutar
+  const [isSubmitting, setIsSubmitting] = useState(false); // Formun gönderilip gönderilmediğini kontrol eder
 
   useEffect(() => {
+    // Rolleri getir
     axiosInstance
       .get("/roles")
       .then((response) => {
         setRoles(response.data);
+        // Varsayılan rolü "Müşteri" yap
         const customerRole = response.data.find(
           (role) => role.name === "Müşteri"
         );
@@ -38,11 +42,13 @@ const SignUpForm = () => {
   }, [setValue]);
 
   const handleRoleChange = (roleName) => {
-    setStoreFields(roleName === "Mağaza");
+    setStoreFields(roleName === "Mağaza"); // Eğer seçilen rol "Mağaza" ise mağaza alanlarını göster
   };
 
   const onSubmit = (data, event) => {
-    console.log("Form verileri:", data);
+    console.log("Form verileri:", data); // Konsola form verilerini yazdır
+
+    // Veriyi sunucunun beklediği formatta düzenle
 
     let formattedData = {
       name: data.name,
@@ -50,7 +56,7 @@ const SignUpForm = () => {
       password: data.password,
       role_id: data.role_id,
     };
-
+    // Eğer rol "Magaza" ise mağaza bilgilerini ekle
     if (storeFields) {
       formattedData = {
         ...formattedData,
@@ -63,34 +69,34 @@ const SignUpForm = () => {
       };
     }
 
-    console.log("Düzenlenmiş veri:", formattedData);
+    console.log("Düzenlenmiş veri:", formattedData); // Konsola düzenlenmiş veriyi yazdır
 
-    setIsSubmitting(true);
+    setIsSubmitting(true); // Formun gönderildiğini işaretle
     axiosInstance
       .post("/signup", formattedData)
       .then((response) => {
         event.target.reset();
-        setIsSubmitting(false);
-        history.goBack();
+        setIsSubmitting(false); // Formun gönderilme durumunu sıfırla
+        history.goBack(); // Bir önceki sayfaya geri dön
         setTimeout(() => {
           toast.success(
             "Please click the link in the email to activate your account!"
           );
-        }, 500);
+        }, 500); // Toastify mesajını 500ms gecikmeli göster
       })
       .catch((error) => {
         console.error("Hata cevabı:", error.response);
         toast.error("An error occurred during the registration process.");
-        setIsSubmitting(false);
+        setIsSubmitting(false); // Formun gönderilme durumunu sıfırla
       });
   };
 
   const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+    setDropdownOpen(!dropdownOpen); // Dropdown menüyü aç/kapat
   };
 
   const closeDropdown = () => {
-    setDropdownOpen(false);
+    setDropdownOpen(false); // Dropdown menüyü kapat
   };
 
   return (
