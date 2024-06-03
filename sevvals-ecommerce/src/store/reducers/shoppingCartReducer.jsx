@@ -15,7 +15,7 @@ const initialState = {
   error: null, // hata mesajını tutan alan
 };
 
-const shoppingCartReducer = (state = initialState, action) => {
+export const shoppingCartReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CART:
       return { ...state, cart: action.payload };
@@ -33,5 +33,3 @@ const shoppingCartReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default shoppingCartReducer;

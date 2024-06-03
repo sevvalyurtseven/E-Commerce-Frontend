@@ -19,7 +19,7 @@ const initialState = {
   error: null, // hata mesajını tutan alan
 };
 
-const clientReducer = (state = initialState, action) => {
+export const clientReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
       return { ...state, user: action.payload };
@@ -39,5 +39,3 @@ const clientReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default clientReducer;

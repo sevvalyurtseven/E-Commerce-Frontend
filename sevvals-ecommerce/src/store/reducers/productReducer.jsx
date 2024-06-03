@@ -22,7 +22,7 @@ const initialState = {
   error: null, // hata mesajını tutan alan
 };
 
-const productReducer = (state = initialState, action) => {
+export const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CATEGORIES:
       return { ...state, categories: action.payload };
@@ -48,5 +48,3 @@ const productReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default productReducer;
