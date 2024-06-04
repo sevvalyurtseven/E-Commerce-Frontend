@@ -32,7 +32,7 @@ const initialState = {
 export const clientReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
-      return { ...state, user: action.payload };
+      return { ...state, user: action.payload, isLoggedIn: true };
     case LOGIN_REQUEST:
       return { ...state, isFetching: true, error: null };
     case LOGIN_SUCCESS:
