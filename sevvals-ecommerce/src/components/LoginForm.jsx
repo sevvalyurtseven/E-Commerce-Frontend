@@ -9,6 +9,7 @@ import getGravatar from "gravatar-url"; // Gravatar URL'i almak için
 
 import backgroundImage from "../assets/signup/signup.jpg"; // Arka plan resmi
 import { setUser, userLogin } from "../store/actions/clientActions";
+import { NavLink } from "react-router-dom";
 
 const LoginForm = () => {
   const {
@@ -95,7 +96,7 @@ const LoginForm = () => {
               <input
                 type="checkbox"
                 {...register("rememberMe")}
-                className="mr-2 leading-tight"
+                className=" leading-tight"
               />
               Remember me
             </label>
@@ -109,6 +110,12 @@ const LoginForm = () => {
             </button>
           </div>
         </form>
+        <p className="text-center mt-4">
+          Don't have an account?{" "}
+          <NavLink to="/signup" className="text-blue-500 underline">
+            Sign up here
+          </NavLink>
+        </p>
       </div>
     </div>
   );
