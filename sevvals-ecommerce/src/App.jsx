@@ -14,6 +14,11 @@ function App() {
 
   useEffect(() => {
     const verifyToken = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
       try {
         const response = await axiosInstance.get("/verify");
         dispatch(setUser(response.data));
