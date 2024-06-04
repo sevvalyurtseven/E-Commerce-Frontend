@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axiosInstance from "./api/api";
 import { setUser } from "./store/actions/clientActions";
+import { fetchCategories } from "./store/actions/productActions";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
     };
 
     verifyToken();
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   if (loading) {
