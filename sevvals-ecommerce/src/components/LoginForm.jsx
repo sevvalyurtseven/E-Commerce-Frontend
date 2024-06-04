@@ -32,7 +32,7 @@ const LoginForm = () => {
       .then((response) => {
         if (response.token) {
           const gravatar = getGravatar(data.email);
-          localStorage.setItem("token", response.token);
+
           dispatch(
             setUser({
               name: response.name,
