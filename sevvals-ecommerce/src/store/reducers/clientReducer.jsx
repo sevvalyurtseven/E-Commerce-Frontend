@@ -2,6 +2,10 @@ import {
   GET_ROLES_ERROR,
   GET_ROLES_FETCHING,
   GET_ROLES_SUCCESS,
+  LOGIN_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT_USER,
   SET_LANGUAGE,
   SET_ROLES,
   SET_THEME,
@@ -9,7 +13,12 @@ import {
 } from "../actions/clientActions";
 
 const initialState = {
-  user: {},
+  user: {
+    name: null,
+    email: null,
+    token: null,
+    role_id: null,
+  },
   addressList: [],
   creditCards: [],
   roles: [],
@@ -17,12 +26,35 @@ const initialState = {
   language: "",
   isFetching: false, // fetching durumunu belirten alan
   error: null, // hata mesajını tutan alan
+  isLoggedIn: false, // kullanıcı giriş yapmış mı?
 };
 
 export const clientReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
       return { ...state, user: action.payload };
+    case LOGIN_REQUEST:
+      return { ...state, isFetching: true, error: null };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        user: action.payload,
+        isLoggedIn: true,
+      };
+    case LOGIN_FAILURE:
+      return { ...state, isFetching: false, error: action.payload };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        user: {
+          name: null,
+          email: null,
+          token: null,
+          role_id: null,
+        },
+        isLoggedIn: false,
+      };
     case SET_ROLES:
       return { ...state, roles: action.payload };
     case SET_THEME:
