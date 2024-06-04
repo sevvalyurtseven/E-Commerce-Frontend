@@ -98,23 +98,21 @@ export const fetchRoles = () => {
 
 //Login Thunk Action Creator:
 
-export const userLogin = (data, history) => {
+export const userLogin = (data) => {
   return (dispatch) => {
     dispatch(loginRequest());
-    axiosInstance
+    return axiosInstance
       .post("/login", data)
       .then((response) => {
-        console.log(response.data);
-
         dispatch(loginSuccess(response.data));
-        localStorage.setItem("token", response.data.token);
-        toast.success("Welcome back!");
-        history.push("/");
+        if (data.rememberMe) {
+          localStorage.setItem("token", response.data.token);
+        }
+        return response.data;
       })
       .catch((error) => {
-        console.error("Error:", error);
         dispatch(loginFailure(error.response.data.message));
-        toast.error("Error occurred: " + error.response.data.message);
+        throw error;
       });
   };
 };
@@ -123,6 +121,6 @@ export const userLogout = () => {
   return (dispatch) => {
     dispatch(logoutUser());
     localStorage.removeItem("token");
-    console.log("Logged out");
+    toast.success("Logged out successfully!");
   };
 };
