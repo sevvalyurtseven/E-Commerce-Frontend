@@ -21,6 +21,12 @@ export const GET_PRODUCTS_SUCCESS =
   "Ürünleri fetch işlemi başarıyla tamamlandığında kullanılır";
 export const GET_PRODUCTS_ERROR =
   "Ürünleri fetch işlemi başarısız olduğunda kullanılır";
+export const GET_CATEGORIES_FETCHING =
+  "Kategorileri fetch işlemi başlatıldığında kullanılır";
+export const GET_CATEGORIES_SUCCESS =
+  "Kategorileri fetch işlemi başarıyla tamamlandığında kullanılır";
+export const GET_CATEGORIES_ERROR =
+  "Kategorileri fetch işlemi başarısız olduğunda kullanılır";
 
 // Action Creators:
 
@@ -73,6 +79,20 @@ export const fetchProductsError = (error) => ({
   payload: error,
 });
 
+export const fetchCategoriesRequest = () => ({
+  type: GET_CATEGORIES_FETCHING,
+});
+
+export const fetchCategoriesSuccess = (categories) => ({
+  type: GET_CATEGORIES_SUCCESS,
+  payload: categories,
+});
+
+export const fetchCategoriesError = (error) => ({
+  type: GET_CATEGORIES_ERROR,
+  payload: error,
+});
+
 // Async Action Creators:
 
 // Thunk Action Creator:
@@ -85,6 +105,18 @@ export const fetchProducts = () => {
       dispatch(fetchProductsSuccess(response.data));
     } catch (error) {
       dispatch(fetchProductsError(error.message));
+    }
+  };
+};
+
+export const fetchCategories = () => {
+  return async (dispatch) => {
+    dispatch(fetchCategoriesRequest());
+    try {
+      const response = await axiosInstance.get("/categories");
+      dispatch(fetchCategoriesSuccess(response.data));
+    } catch (error) {
+      dispatch(fetchCategoriesError(error.message));
     }
   };
 };
