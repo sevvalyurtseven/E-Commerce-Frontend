@@ -4,7 +4,7 @@ import { productReducer } from "./productReducer";
 import { shoppingCartReducer } from "./shoppingCartReducer";
 
 const reducers = combineReducers({
-  clients: clientReducer,
+  client: clientReducer,
   products: productReducer,
   shoppingCart: shoppingCartReducer,
 });
