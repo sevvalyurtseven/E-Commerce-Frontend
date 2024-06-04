@@ -1,5 +1,3 @@
-/* Header.css */
-
 .header-container {
   @apply bg-white;
 }
@@ -17,7 +15,7 @@
 }
 
 .header-main {
-  @apply flex justify-between items-center px-9 py-4 bg-white;
+  @apply flex justify-between items-center px-9 py-4 bg-white z-50;
 }
 
 .header-main-links {
@@ -26,6 +24,14 @@
 
 .header-main-auth {
   @apply flex items-center gap-8 text-center text-sky-500 text-base tracking-wide font-bold;
+}
+
+.dropdown-content {
+  @apply z-50 grid grid-cols-2 gap-4;
+}
+
+.menu-title {
+  @apply col-span-1 font-bold;
 }
 
 .mobile-header-container {

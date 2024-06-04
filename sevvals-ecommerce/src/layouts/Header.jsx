@@ -24,11 +24,12 @@ import { userLogout } from "../store/actions/clientActions";
 
 function Header() {
   const dispatch = useDispatch();
-  // useSelector hook'u ile state'den user bilgisini alıyoruz
   const client = useSelector((state) => state.client);
   const user = client?.user || {};
+  const categories = useSelector((state) => state.products.categories);
 
   const [isMobile, setIsMobile] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,8 +46,12 @@ function Header() {
     dispatch(userLogout());
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
-    <div className="header-container">
+    <div className="header-container z-50">
       {!isMobile ? (
         <div className="flex flex-col gap-3">
           <div className="header-top">
@@ -76,12 +81,52 @@ function Header() {
               <NavLink to="/" className="text-neutral-500 text-base font-bold">
                 Home
               </NavLink>
-              <NavLink
-                to="/shop"
-                className="text-slate-800 text-base font-medium"
-              >
-                Shop <FontAwesomeIcon icon={faAngleDown} />
-              </NavLink>
+              <div className="relative">
+                <NavLink
+                  to="/shop"
+                  className="text-neutral-500 text-base font-bold"
+                >
+                  Shop
+                </NavLink>
+                <button className="btn-ghost p-1" onClick={toggleDropdown}>
+                  <FontAwesomeIcon icon={faAngleDown} />
+                </button>
+                {isDropdownOpen && (
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 grid grid-cols-2 gap-4 absolute"
+                  >
+                    <li className="menu-title">
+                      <span>Kadın</span>
+                      <ul>
+                        {categories
+                          .filter((cat) => cat.gender === "k")
+                          .map((category) => (
+                            <li key={category.id}>
+                              <NavLink to={`/shop/kadin/${category.code}`}>
+                                {category.title}
+                              </NavLink>
+                            </li>
+                          ))}
+                      </ul>
+                    </li>
+                    <li className="menu-title">
+                      <span>Erkek</span>
+                      <ul>
+                        {categories
+                          .filter((cat) => cat.gender === "e")
+                          .map((category) => (
+                            <li key={category.id}>
+                              <NavLink to={`/shop/erkek/${category.code}`}>
+                                {category.title}
+                              </NavLink>
+                            </li>
+                          ))}
+                      </ul>
+                    </li>
+                  </ul>
+                )}
+              </div>
               <NavLink
                 to="/about"
                 className="text-neutral-500 text-base font-bold"
