@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import backgroundImage from "../assets/signup/signup.jpg";
 import axiosInstance from "../api/api";
+import { NavLink } from "react-router-dom";
 
 // setValue, react-hook-form kütüphanesinin bir fonksiyonudur ve form alanlarının değerlerini programatik olarak ayarlamak için kullanılır. Form bileşenine varsayılan değerleri dinamik olarak atamak veya belirli bir olaydan sonra form alanlarını güncellemek için kullanılabilir.
 
@@ -381,6 +382,12 @@ const SignUpForm = () => {
             )}
           </button>
         </form>
+        <p className="text-center mt-4">
+          Already have an account?{" "}
+          <NavLink to="/login" className="text-blue-500 underline">
+            Login here
+          </NavLink>
+        </p>
       </div>
     </div>
   );
