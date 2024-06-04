@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
+  faAngleRight,
   faBars,
   faCartShopping,
   faPhone,
@@ -17,8 +18,16 @@ import {
 import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
 import "./Header.css"; // Import your CSS file
 import { NavLink } from "react-router-dom";
+import gravatarUrl from "gravatar-url";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../store/actions/clientActions";
 
 function Header() {
+  const dispatch = useDispatch();
+  // useSelector hook'u ile state'den user bilgisini alıyoruz
+  const client = useSelector((state) => state.client);
+  const user = client?.user || {};
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -31,6 +40,10 @@ function Header() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleLogout = () => {
+    dispatch(userLogout());
+  };
 
   return (
     <div className="header-container">
@@ -94,14 +107,38 @@ function Header() {
                 Pages
               </NavLink>
             </div>
-            <div className="header-main-auth">
-              <span className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faUser} />
-                <span>Login</span>
-                <span>/</span>
-                <NavLink to="/signup">Register</NavLink>
-              </span>
-
+            <div className="header-main-auth flex items-center gap-4">
+              {user.email ? (
+                <div className="flex items-center gap-2">
+                  <img
+                    src={gravatarUrl(user.email, { size: 40 })}
+                    alt="User avatar"
+                    className="rounded-full"
+                  />
+                  <span>{user.name || user.email}</span>
+                  <button
+                    onClick={handleLogout}
+                    className="ml-4 btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <NavLink to="/login">
+                    <button className="btn ">
+                      <FontAwesomeIcon icon={faUser} className="text-sky-500" />
+                      Login
+                    </button>
+                  </NavLink>
+                  <NavLink to="/signup">
+                    <button className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]">
+                      Become a Member
+                      <FontAwesomeIcon icon={faAngleRight} />
+                    </button>
+                  </NavLink>
+                </div>
+              )}
               <span>
                 <FontAwesomeIcon icon={faSearch} />
               </span>
@@ -120,7 +157,34 @@ function Header() {
             <a href="#" className="text-2xl font-bold">
               Bandage
             </a>
-            <div className="flex space-x-7 text-xl">
+            {user.email ? (
+              <div className="flex items-center gap-10">
+                <img
+                  src={gravatarUrl(user.email, { size: 30 })}
+                  alt="User avatar"
+                  className="rounded-full"
+                />
+
+                <button
+                  onClick={handleLogout}
+                  className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <NavLink to="/login">
+                  <button className="btn text-sm">Login</button>
+                </NavLink>
+                <NavLink to="/signup">
+                  <button className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]">
+                    Become a Member
+                  </button>
+                </NavLink>
+              </div>
+            )}
+            <div className="flex space-x-5 text-xl pl-2">
               <a href="#">
                 <FontAwesomeIcon icon={faSearch} />
               </a>

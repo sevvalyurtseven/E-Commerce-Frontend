@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axiosInstance from "../../api/api";
 
 // Action Type Constants:
@@ -18,6 +19,13 @@ export const GET_ROLES_SUCCESS =
   "Roller fetch işlemi başarıyla tamamlandığında kullanılır";
 export const GET_ROLES_ERROR =
   "Roller fetch işlemi başarısız olduğunda kullanılır";
+
+//Login Action Type Constants:
+export const LOGOUT_USER = "Kullanıcı cıkış yapmak için kullanılır";
+export const LOGIN_REQUEST = "Login işlemi başlatıldığında kullanılır";
+export const LOGIN_SUCCESS =
+  "Login işlemi başarıyla tamamlandığında kullanılır";
+export const LOGIN_FAILURE = "Login işlemi başarısız oldugunda kullanılır";
 
 // Action Creators:
 
@@ -55,6 +63,23 @@ export const fetchRolesError = (error) => ({
   payload: error,
 });
 
+// Login Action Creators:
+export const loginRequest = () => ({
+  type: LOGIN_REQUEST,
+});
+
+export const loginSuccess = (data) => ({
+  type: LOGIN_SUCCESS,
+  payload: data,
+});
+
+export const loginFailure = (error) => ({
+  type: LOGIN_FAILURE,
+  payload: error,
+});
+
+export const logoutUser = () => ({ type: LOGOUT_USER });
+
 // Async Action Creators:
 
 // Thunk Action Creator:
@@ -68,5 +93,34 @@ export const fetchRoles = () => {
     } catch (error) {
       dispatch(fetchRolesError(error.message));
     }
+  };
+};
+
+//Login Thunk Action Creator:
+
+export const userLogin = (data) => {
+  return (dispatch) => {
+    dispatch(loginRequest());
+    return axiosInstance
+      .post("/login", data)
+      .then((response) => {
+        dispatch(loginSuccess(response.data));
+        if (data.rememberMe) {
+          localStorage.setItem("token", response.data.token);
+        }
+        return response.data;
+      })
+      .catch((error) => {
+        dispatch(loginFailure(error.response.data.message));
+        throw error;
+      });
+  };
+};
+
+export const userLogout = () => {
+  return (dispatch) => {
+    dispatch(logoutUser());
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully!");
   };
 };
