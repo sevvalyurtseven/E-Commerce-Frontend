@@ -21,7 +21,6 @@ export const GET_ROLES_ERROR =
   "Roller fetch işlemi başarısız olduğunda kullanılır";
 
 //Login Action Type Constants:
-export const LOGIN_USER = "Kullanıcı girişi yapmak için kullanılır";
 export const LOGOUT_USER = "Kullanıcı cıkış yapmak için kullanılır";
 export const LOGIN_REQUEST = "Login işlemi başlatıldığında kullanılır";
 export const LOGIN_SUCCESS =
@@ -78,8 +77,6 @@ export const loginFailure = (error) => ({
   type: LOGIN_FAILURE,
   payload: error,
 });
-
-export const loginUser = (user) => ({ type: LOGIN_USER, payload: user });
 
 export const logoutUser = () => ({ type: LOGOUT_USER });
 
