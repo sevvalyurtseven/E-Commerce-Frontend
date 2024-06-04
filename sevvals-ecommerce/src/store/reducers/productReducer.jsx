@@ -1,4 +1,7 @@
 import {
+  GET_CATEGORIES_ERROR,
+  GET_CATEGORIES_FETCHING,
+  GET_CATEGORIES_SUCCESS,
   GET_PRODUCTS_ERROR,
   GET_PRODUCTS_FETCHING,
   GET_PRODUCTS_SUCCESS,
@@ -43,6 +46,12 @@ export const productReducer = (state = initialState, action) => {
     case GET_PRODUCTS_SUCCESS:
       return { ...state, isFetching: false, productList: action.payload };
     case GET_PRODUCTS_ERROR:
+      return { ...state, isFetching: false, error: action.payload };
+    case GET_CATEGORIES_FETCHING:
+      return { ...state, isFetching: true, error: null };
+    case GET_CATEGORIES_SUCCESS:
+      return { ...state, isFetching: false, categories: action.payload };
+    case GET_CATEGORIES_ERROR:
       return { ...state, isFetching: false, error: action.payload };
     default:
       return state;
