@@ -1,11 +1,13 @@
 // src/components/LoginForm.js
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import getGravatar from "gravatar-url"; // Gravatar URL'i almak için
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import backgroundImage from "../assets/signup/signup.jpg"; // Arka plan resmi
 import { setUser, userLogin } from "../store/actions/clientActions";
@@ -19,6 +21,11 @@ const LoginForm = () => {
   } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const loginSubmit = (data) => {
     dispatch(userLogin(data))
@@ -74,19 +81,26 @@ const LoginForm = () => {
               <span className="text-red-500">{errors.email.message}</span>
             )}
           </div>
-          <div className="form-control">
+          <div className="form-control relative">
             <label className="label font-semibold" htmlFor="password">
               Password
             </label>
             <input
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
               className="input input-bordered"
               {...register("password", {
                 required: "Password is required",
               })}
             />
+            <button
+              type="button"
+              className="absolute top-14 right-0 pr-3 flex items-center text-gray-600 text-lg"
+              onClick={togglePasswordVisibility}
+            >
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            </button>
             {errors.password && (
               <span className="text-red-500">{errors.password.message}</span>
             )}
