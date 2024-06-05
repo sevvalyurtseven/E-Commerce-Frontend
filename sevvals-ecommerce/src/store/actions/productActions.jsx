@@ -97,17 +97,25 @@ export const fetchCategoriesError = (error) => ({
 
 // Thunk Action Creator:
 
-export const fetchProducts = () => {
-  return async (dispatch) => {
+export const fetchProducts =
+  (limit = 587, offset = 0, category = null, filter = null, sort = null) =>
+  async (dispatch) => {
     dispatch(fetchProductsRequest());
     try {
-      const response = await axiosInstance.get("/products");
+      const response = await axiosInstance.get("/products", {
+        params: {
+          limit,
+          offset,
+          category,
+          filter,
+          sort,
+        },
+      });
       dispatch(fetchProductsSuccess(response.data));
     } catch (error) {
-      dispatch(fetchProductsError(error.message));
+      dispatch(fetchProductsError(error));
     }
   };
-};
 
 export const fetchCategories = () => {
   return async (dispatch) => {
