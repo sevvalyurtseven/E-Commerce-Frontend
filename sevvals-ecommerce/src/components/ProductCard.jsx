@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import colors from "../assets/featured-posts/product-colors.png";
 
@@ -16,10 +17,10 @@ function ProductCard({
     >
       <div className="flex flex-col items-center text-center gap-5 bg-white pb-6">
         <img src={image} alt={title} className="w-full h-full" />
-        <h5 className="text-slate-800 text-base font-bold leading-normal tracking-wider">
+        <h5 className="text-slate-800 text-base font-bold leading-normal tracking-wider line-clamp-2">
           {title}
         </h5>
-        <p className="text-center text-neutral-500 text-sm font-bold leading-normal tracking-wider">
+        <p className="text-center text-neutral-500 text-sm font-bold leading-normal tracking-wider line-clamp-2">
           {department}
         </p>
         <div className="flex justify-center items-center gap-2">

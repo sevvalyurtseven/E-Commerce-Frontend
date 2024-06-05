@@ -1,3 +1,5 @@
+import React from "react";
+
 function Pagination({ currentPage, totalPages, onPageChange }) {
   const handleFirstPage = () => {
     onPageChange(1);
@@ -25,7 +27,24 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
+    let startPage, endPage;
+    if (totalPages <= 3) {
+      startPage = 1;
+      endPage = totalPages;
+    } else {
+      if (currentPage <= 2) {
+        startPage = 1;
+        endPage = 3;
+      } else if (currentPage + 1 >= totalPages) {
+        startPage = totalPages - 2;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - 1;
+        endPage = currentPage + 1;
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(
         <button
           key={i}
