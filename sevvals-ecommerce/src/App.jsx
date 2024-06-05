@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axiosInstance from "./api/api";
 import { setUser } from "./store/actions/clientActions";
+import { fetchCategories } from "./store/actions/productActions";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,6 +15,11 @@ function App() {
 
   useEffect(() => {
     const verifyToken = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
       try {
         const response = await axiosInstance.get("/verify");
         dispatch(setUser(response.data));
@@ -27,6 +33,7 @@ function App() {
     };
 
     verifyToken();
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   if (loading) {
