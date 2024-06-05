@@ -44,13 +44,22 @@ export const productReducer = (state = initialState, action) => {
     case GET_PRODUCTS_FETCHING:
       return { ...state, isFetching: true, error: null };
     case GET_PRODUCTS_SUCCESS:
-      return { ...state, isFetching: false, productList: action.payload };
+      return {
+        ...state,
+        isFetching: false,
+        productList: action.payload.products,
+        total: action.payload.total,
+      };
     case GET_PRODUCTS_ERROR:
       return { ...state, isFetching: false, error: action.payload };
     case GET_CATEGORIES_FETCHING:
       return { ...state, isFetching: true, error: null };
     case GET_CATEGORIES_SUCCESS:
-      return { ...state, isFetching: false, categories: action.payload };
+      return {
+        ...state,
+        isFetching: false,
+        categories: action.payload,
+      };
     case GET_CATEGORIES_ERROR:
       return { ...state, isFetching: false, error: action.payload };
     default:
