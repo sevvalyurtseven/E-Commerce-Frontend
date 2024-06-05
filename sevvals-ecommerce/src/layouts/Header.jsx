@@ -103,7 +103,12 @@ function Header() {
                           .filter((cat) => cat.gender === "k")
                           .map((category) => (
                             <li key={category.id}>
-                              <NavLink to={`/shop/kadin/${category.code}`}>
+                              <NavLink
+                                to={`/shop/kadin/${category.code.replace(
+                                  "k:",
+                                  ""
+                                )}`}
+                              >
                                 {category.title}
                               </NavLink>
                             </li>
@@ -117,7 +122,12 @@ function Header() {
                           .filter((cat) => cat.gender === "e")
                           .map((category) => (
                             <li key={category.id}>
-                              <NavLink to={`/shop/erkek/${category.code}`}>
+                              <NavLink
+                                to={`/shop/erkek/${category.code.replace(
+                                  "e:",
+                                  ""
+                                )}`}
+                              >
                                 {category.title}
                               </NavLink>
                             </li>
