@@ -4,6 +4,25 @@ import { Link } from "react-router-dom";
 import ShopCard from "../../components/ShopCard";
 import { useSelector } from "react-redux";
 
+const convertToEnglish = (str) => {
+  const charMap = {
+    ç: "c",
+    ğ: "g",
+    ı: "i",
+    ö: "o",
+    ş: "s",
+    ü: "u",
+    Ç: "C",
+    Ğ: "G",
+    İ: "I",
+    Ö: "O",
+    Ş: "S",
+    Ü: "U",
+  };
+
+  return str.replace(/[\u00c0-\u024f]/g, (c) => charMap[c] || c).toLowerCase();
+};
+
 function Shop() {
   const categories = useSelector((state) => state.products.categories);
 
@@ -38,9 +57,9 @@ function Shop() {
             title={category.title}
             gender={category.gender === "k" ? "KADIN" : "ERKEK"}
             image={category.img}
-            link={`/shop/${category.gender === "k" ? "kadin" : "erkek"}/${
-              category.code
-            }`}
+            link={`/shop/${
+              category.gender === "k" ? "kadin" : "erkek"
+            }/${convertToEnglish(category.title)}`}
           />
         ))}
       </div>
