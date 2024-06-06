@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function ShopCard({ image, title, gender, link }) {
   return (
-    <div className="flex flex-col items-center text-center relative transition-transform duration-300 ease-in-out transform hover:scale-105 w-full h-72">
+    <div className="flex flex-col items-center text-center relative transition-transform duration-300 ease-in-out transform hover:scale-105 w-full h-full">
       <Link to={link} className="w-full h-full">
         <img
           src={image}
