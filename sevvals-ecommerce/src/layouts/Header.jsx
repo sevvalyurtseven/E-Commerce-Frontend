@@ -16,38 +16,48 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
-import "./Header.css"; // Import your CSS file
-import { NavLink } from "react-router-dom";
+import "./Header.css"; // CSS dosyasını import et
+import { NavLink, useHistory } from "react-router-dom";
 import gravatarUrl from "gravatar-url";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../store/actions/clientActions";
 
 function Header() {
-  const dispatch = useDispatch();
-  const client = useSelector((state) => state.client);
-  const user = client?.user || {};
-  const categories = useSelector((state) => state.products.categories);
+  const dispatch = useDispatch(); // Redux dispatch fonksiyonunu kullanmak için
+  const client = useSelector((state) => state.client); // Client durumunu almak için
+  const user = client?.user || {}; // Kullanıcı bilgilerini almak için
+  const categories = useSelector((state) => state.products.categories); // Kategori bilgilerini almak için
+  const history = useHistory(); // URL yönlendirmeleri için
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // Mobil cihaz durumunu yönetmek için
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown menü durumunu yönetmek için
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 900);
+      setIsMobile(window.innerWidth <= 900); // Pencere boyutuna göre mobil durumunu ayarla
     };
 
-    handleResize(); // Set the initial state
+    handleResize(); // İlk durumu ayarla
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize); // Pencere yeniden boyutlandırıldığında handleResize fonksiyonunu çalıştır
+    return () => window.removeEventListener("resize", handleResize); // Bileşen kaldırıldığında event listener'ı kaldır
   }, []);
 
   const handleLogout = () => {
-    dispatch(userLogout());
+    dispatch(userLogout()); // Kullanıcıyı çıkış yaptır
   };
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen(!isDropdownOpen); // Dropdown menüyü aç/kapat
+  };
+
+  const handleCategoryClick = (category) => {
+    const gender = category.gender === "k" ? "kadin" : "erkek";
+    history.push(
+      `/shop/${gender}/${category.code.replace("k:", "").replace("e:", "")}/${
+        category.id
+      }`
+    ); // Kategoriye göre yönlendirme yap
   };
 
   return (
@@ -102,15 +112,11 @@ function Header() {
                         {categories
                           .filter((cat) => cat.gender === "k")
                           .map((category) => (
-                            <li key={category.id}>
-                              <NavLink
-                                to={`/shop/kadin/${category.code.replace(
-                                  "k:",
-                                  ""
-                                )}`}
-                              >
-                                {category.title}
-                              </NavLink>
+                            <li
+                              key={category.id}
+                              onClick={() => handleCategoryClick(category)}
+                            >
+                              <span>{category.title}</span>
                             </li>
                           ))}
                       </ul>
@@ -121,15 +127,11 @@ function Header() {
                         {categories
                           .filter((cat) => cat.gender === "e")
                           .map((category) => (
-                            <li key={category.id}>
-                              <NavLink
-                                to={`/shop/erkek/${category.code.replace(
-                                  "e:",
-                                  ""
-                                )}`}
-                              >
-                                {category.title}
-                              </NavLink>
+                            <li
+                              key={category.id}
+                              onClick={() => handleCategoryClick(category)}
+                            >
+                              <span>{category.title}</span>
                             </li>
                           ))}
                       </ul>
@@ -181,7 +183,7 @@ function Header() {
               ) : (
                 <div className="flex items-center gap-2">
                   <NavLink to="/login">
-                    <button className="btn ">
+                    <button className="btn">
                       <FontAwesomeIcon icon={faUser} className="text-sky-500" />
                       Login
                     </button>
@@ -219,7 +221,6 @@ function Header() {
                   alt="User avatar"
                   className="rounded-full"
                 />
-
                 <button
                   onClick={handleLogout}
                   className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"

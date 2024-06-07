@@ -10,38 +10,20 @@ import LoginPage from "../pages/LoginPage";
 
 function PageContent() {
   return (
-    <>
-      <Switch>
-        <Route exact path="/">
-          <HomePage />
-        </Route>
-        <Route path="/shop">
-          <ShopPage />
-        </Route>
-        <Route path="/product-detail">
-          <ProductDetailPage />
-        </Route>
-        <Route path="/contact">
-          <ContactPage />
-        </Route>
-
-        <Route path="/team">
-          <TeamPage />
-        </Route>
-
-        <Route path="/about">
-          <AboutPage />
-        </Route>
-
-        <Route path="/signup">
-          <SignUpPage />
-        </Route>
-
-        <Route path="/login">
-          <LoginPage />
-        </Route>
-      </Switch>
-    </>
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route
+        path="/shop/:gender/:categoryName/:categoryId"
+        component={ShopPage}
+      />
+      <Route exact path="/shop" component={ShopPage} />
+      <Route path="/product-detail/:productId" component={ProductDetailPage} />
+      <Route path="/contact" component={ContactPage} />
+      <Route path="/team" component={TeamPage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/signup" component={SignUpPage} />
+      <Route path="/login" component={LoginPage} />
+    </Switch>
   );
 }
 
