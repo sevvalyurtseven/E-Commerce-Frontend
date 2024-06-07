@@ -9,7 +9,7 @@ function FeaturedProducts() {
           <img src={girl1} />
           <img src={girl2} />
         </div>
-        <div className="flex flex-col gap-6 mx-36 ">
+        <div className="flex flex-col gap-6 sm:mx-36 mx-10 sm:items-start items-center ">
           <h3 className="text-sky-500 text-base font-bold leading-normal tracking-wider">
             Featured Products
           </h3>
