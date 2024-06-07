@@ -31,6 +31,8 @@ function ShopList({ categoryId }) {
 
   const productSectionRef = useRef(null);
 
+  const itemsPerPage = 25;
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const priceSortParam = params.get("priceSort") || "";
@@ -41,8 +43,9 @@ function ShopList({ categoryId }) {
     setPriceSort(priceSortParam);
     setRatingSort(ratingSortParam);
     setFilterState(filterParam);
+    setCurrentPage(pageParam);
 
-    const limit = 25;
+    const limit = itemsPerPage;
     const offset = (pageParam - 1) * limit;
     const sortParams = [priceSortParam, ratingSortParam]
       .filter(Boolean)
@@ -56,11 +59,6 @@ function ShopList({ categoryId }) {
       });
     }
   }, [dispatch, categoryId, location.search]);
-
-  useEffect(() => {
-    // Kategori değiştiğinde currentPage'i sıfırla
-    setCurrentPage(1);
-  }, [categoryId]);
 
   const handleSortChange = (value, type) => {
     if (type === "price") {
@@ -86,12 +84,15 @@ function ShopList({ categoryId }) {
       ratingSort: selectedRatingSort,
       filter: selectedFilter,
       page: 1,
+      offset: 0,
     });
   };
 
   const handlePageChange = (data) => {
-    setCurrentPage(data.selected + 1);
-    updateUrlParams({ page: data.selected + 1 });
+    const newPage = data.selected + 1;
+    const offset = (newPage - 1) * itemsPerPage;
+    setCurrentPage(newPage);
+    updateUrlParams({ page: newPage, limit: itemsPerPage, offset });
   };
 
   const updateUrlParams = (params) => {
@@ -115,7 +116,16 @@ function ShopList({ categoryId }) {
     history.push(`/product-detail/${productId}`);
   };
 
-  const itemsPerPage = 25;
+  const handleCategoryChange = () => {
+    setSelectedPriceSort("");
+    setSelectedRatingSort("");
+    setCurrentPage(1);
+  };
+
+  useEffect(() => {
+    handleCategoryChange();
+  }, [categoryId]);
+
   const totalPages = Math.ceil(total / itemsPerPage);
 
   return (
@@ -242,7 +252,6 @@ function ShopList({ categoryId }) {
                   department={product.description}
                   originalPrice={product.price}
                   discountedPrice={product.price}
-                  className="h-full"
                 />
               </div>
             ))}
