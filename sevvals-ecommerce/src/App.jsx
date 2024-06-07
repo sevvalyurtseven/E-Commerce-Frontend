@@ -7,33 +7,35 @@ import { useEffect, useState } from "react";
 import axiosInstance from "./api/api";
 import { setUser } from "./store/actions/clientActions";
 import { fetchCategories } from "./store/actions/productActions";
+import { useLocation } from "react-router-dom";
 
 function App() {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const user = useSelector((state) => state.client.user);
+  const dispatch = useDispatch(); // Redux dispatch fonksiyonunu kullanmak için
+  const [loading, setLoading] = useState(true); // Yükleme durumunu yönetmek için
+  const user = useSelector((state) => state.client.user); // Kullanıcı durumunu almak için
+  const location = useLocation(); // Şu anki URL konumunu almak için
 
   useEffect(() => {
     const verifyToken = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
-        setLoading(false);
+        setLoading(false); // Token yoksa yükleme durumunu false yap
         return;
       }
       try {
         const response = await axiosInstance.get("/verify");
-        dispatch(setUser(response.data));
+        dispatch(setUser(response.data)); // Kullanıcıyı Redux'a kaydet
       } catch (error) {
         console.error("Token verification failed", error);
         localStorage.removeItem("token");
-        dispatch(setUser({ isLoggedIn: false }));
+        dispatch(setUser({ isLoggedIn: false })); // Hata olursa kullanıcıyı çıkış yapmış olarak ayarla
       } finally {
-        setLoading(false);
+        setLoading(false); // Yükleme durumunu false yap
       }
     };
 
     verifyToken();
-    dispatch(fetchCategories());
+    dispatch(fetchCategories()); // Kategorileri fetch et
   }, [dispatch]);
 
   if (loading) {
@@ -44,9 +46,6 @@ function App() {
     );
   }
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
   return (
     <>
       <PageContent />
