@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../store/actions/productActions";
 import ProductCard from "../../components/ProductCard";
@@ -12,23 +12,42 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function ShopList({ categoryId }) {
-  const dispatch = useDispatch(); // Redux dispatch fonksiyonunu kullanmak için
+  // Redux dispatch fonksiyonunu kullanmak için
+  const dispatch = useDispatch();
+
+  // Redux store'dan ürün bilgilerini almak için
   const { productList, total, isFetching } = useSelector(
     (state) => state.products
-  ); // Ürün bilgilerini almak için
-  const [currentPage, setCurrentPage] = useState(1); // Geçerli sayfa durumunu yönetmek için
-  const [priceSort, setPriceSort] = useState(""); // Fiyat sıralama durumunu yönetmek için
-  const [ratingSort, setRatingSort] = useState(""); // Reyting sıralama durumunu yönetmek için
-  const [filter, setFilterState] = useState(""); // Filtreleme durumunu yönetmek için
+  );
+
+  // Geçerli sayfa durumunu yönetmek için
+  const [currentPage, setCurrentPage] = useState(1);
+  // Fiyat sıralama durumunu yönetmek için
+  const [priceSort, setPriceSort] = useState("");
+  // Reyting sıralama durumunu yönetmek için
+  const [ratingSort, setRatingSort] = useState("");
+  // Filtreleme durumunu yönetmek için
+  const [filter, setFilterState] = useState("");
+  // Seçili fiyat sıralama durumunu yönetmek için
   const [selectedPriceSort, setSelectedPriceSort] = useState("");
+  // Seçili reyting sıralama durumunu yönetmek için
   const [selectedRatingSort, setSelectedRatingSort] = useState("");
+  // Seçili filtreleme durumunu yönetmek için
   const [selectedFilter, setSelectedFilter] = useState("");
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown menü durumunu yönetmek için
-  const location = useLocation(); // Şu anki URL konumunu almak için
-  const history = useHistory(); // URL yönlendirmeleri için
-  const { gender, categoryName } = useParams(); // URL parametrelerini almak için
+  // Dropdown menü durumunu yönetmek için
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // Şu anki URL konumunu almak için
+  const location = useLocation();
+  // URL yönlendirmeleri için
+  const history = useHistory();
+  // URL parametrelerini almak için
+  const { gender, categoryName } = useParams();
+
+  // Ürünlerin olduğu bölüme kaydırma referansı
+  const productSectionRef = useRef(null);
 
   useEffect(() => {
+    // URL parametrelerini almak için
     const params = new URLSearchParams(location.search);
     const priceSortParam = params.get("priceSort") || "";
     const ratingSortParam = params.get("ratingSort") || "";
@@ -44,9 +63,18 @@ function ShopList({ categoryId }) {
     const sortParams = [priceSortParam, ratingSortParam]
       .filter(Boolean)
       .join(",");
-    dispatch(fetchProducts(limit, offset, categoryId, filterParam, sortParams)); // Ürünleri fetch et
+    dispatch(fetchProducts(limit, offset, categoryId, filterParam, sortParams));
+
+    // Sayfayı ürünlerin olduğu bölüme kaydırma
+    if (productSectionRef.current) {
+      window.scrollTo({
+        top: productSectionRef.current.offsetTop,
+        behavior: "smooth",
+      });
+    }
   }, [dispatch, categoryId, location.search]);
 
+  // Sıralama değişikliğini yönetmek için
   const handleSortChange = (value, type) => {
     if (type === "price") {
       setSelectedPriceSort(value);
@@ -57,10 +85,12 @@ function ShopList({ categoryId }) {
     }
   };
 
+  // Filtreleme değişikliğini yönetmek için
   const handleFilterChange = (e) => {
     setSelectedFilter(e.target.value);
   };
 
+  // Filtreleme butonuna tıklama olayını yönetmek için
   const handleFilterButtonClick = () => {
     setPriceSort(selectedPriceSort);
     setRatingSort(selectedRatingSort);
@@ -74,14 +104,16 @@ function ShopList({ categoryId }) {
     });
   };
 
+  // Sayfa değişikliğini yönetmek için
   const handlePageChange = (page) => {
     setCurrentPage(page);
     updateUrlParams({ page });
   };
 
+  // URL parametrelerini güncellemek için
   const updateUrlParams = (params) => {
     const query = new URLSearchParams(location.search);
-    query.set("category", categoryId); // Category ID'yi her zaman dahil et
+    query.set("category", categoryId);
     Object.keys(params).forEach((key) => {
       if (params[key] !== undefined) {
         query.set(key, params[key]);
@@ -92,6 +124,7 @@ function ShopList({ categoryId }) {
     history.push({ search: query.toString() });
   };
 
+  // Ürün tıklama olayını yönetmek için
   const handleProductClick = (productId) => {
     history.push(`/product-detail/${productId}`);
   };
@@ -202,7 +235,10 @@ function ShopList({ categoryId }) {
             <button className="btn loading">Loading</button>
           </div>
         ) : productList.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-[90%] py-16">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-[90%] py-16"
+            ref={productSectionRef}
+          >
             {productList.map((product) => (
               <div
                 key={product.id}
