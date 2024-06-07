@@ -98,7 +98,7 @@ export const fetchCategoriesError = (error) => ({
 // Thunk Action Creator:
 
 export const fetchProducts =
-  (limit = 587, offset = 0, category = null, filter = null, sort = null) =>
+  (limit = 50, offset = 0, category = null, filter = null, sort = null) =>
   async (dispatch) => {
     dispatch(fetchProductsRequest());
     try {
@@ -111,8 +111,10 @@ export const fetchProducts =
           sort,
         },
       });
+      console.log("fetchProducts response:", response.data); // Hata ayıklama için eklendi
       dispatch(fetchProductsSuccess(response.data));
     } catch (error) {
+      console.error("Fetch products failed", error); // Hata mesajını konsola yazdır
       dispatch(fetchProductsError(error));
     }
   };
@@ -124,6 +126,7 @@ export const fetchCategories = () => {
       const response = await axiosInstance.get("/categories");
       dispatch(fetchCategoriesSuccess(response.data));
     } catch (error) {
+      console.error("Fetch categories failed", error); // Hata mesajını konsola yazdır
       dispatch(fetchCategoriesError(error.message));
     }
   };
