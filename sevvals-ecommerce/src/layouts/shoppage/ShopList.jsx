@@ -20,6 +20,9 @@ function ShopList({ categoryId }) {
   const [priceSort, setPriceSort] = useState(""); // Fiyat sıralama durumunu yönetmek için
   const [ratingSort, setRatingSort] = useState(""); // Reyting sıralama durumunu yönetmek için
   const [filter, setFilterState] = useState(""); // Filtreleme durumunu yönetmek için
+  const [selectedPriceSort, setSelectedPriceSort] = useState("");
+  const [selectedRatingSort, setSelectedRatingSort] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown menü durumunu yönetmek için
   const location = useLocation(); // Şu anki URL konumunu almak için
   const history = useHistory(); // URL yönlendirmeleri için
@@ -46,20 +49,29 @@ function ShopList({ categoryId }) {
 
   const handleSortChange = (value, type) => {
     if (type === "price") {
-      setPriceSort(value);
-      setRatingSort("");
-      updateUrlParams({ priceSort: value, ratingSort: "", page: 1 });
+      setSelectedPriceSort(value);
+      setSelectedRatingSort("");
     } else if (type === "rating") {
-      setRatingSort(value);
-      setPriceSort("");
-      updateUrlParams({ ratingSort: value, priceSort: "", page: 1 });
+      setSelectedRatingSort(value);
+      setSelectedPriceSort("");
     }
   };
 
   const handleFilterChange = (e) => {
-    setFilterState(e.target.value);
+    setSelectedFilter(e.target.value);
+  };
+
+  const handleFilterButtonClick = () => {
+    setPriceSort(selectedPriceSort);
+    setRatingSort(selectedRatingSort);
+    setFilterState(selectedFilter);
     setCurrentPage(1);
-    updateUrlParams({ filter: e.target.value, page: 1 });
+    updateUrlParams({
+      priceSort: selectedPriceSort,
+      ratingSort: selectedRatingSort,
+      filter: selectedFilter,
+      page: 1,
+    });
   };
 
   const handlePageChange = (page) => {
@@ -125,7 +137,7 @@ function ShopList({ categoryId }) {
                     <input
                       type="radio"
                       name="priceSort"
-                      checked={priceSort === "price:asc"}
+                      checked={selectedPriceSort === "price:asc"}
                       readOnly
                     />{" "}
                     Price: Low to High
@@ -136,7 +148,7 @@ function ShopList({ categoryId }) {
                     <input
                       type="radio"
                       name="priceSort"
-                      checked={priceSort === "price:desc"}
+                      checked={selectedPriceSort === "price:desc"}
                       readOnly
                     />{" "}
                     Price: High to Low
@@ -147,7 +159,7 @@ function ShopList({ categoryId }) {
                     <input
                       type="radio"
                       name="ratingSort"
-                      checked={ratingSort === "rating:asc"}
+                      checked={selectedRatingSort === "rating:asc"}
                       readOnly
                     />{" "}
                     Rating: Low to High
@@ -158,7 +170,7 @@ function ShopList({ categoryId }) {
                     <input
                       type="radio"
                       name="ratingSort"
-                      checked={ratingSort === "rating:desc"}
+                      checked={selectedRatingSort === "rating:desc"}
                       readOnly
                     />{" "}
                     Rating: High to Low
@@ -172,9 +184,15 @@ function ShopList({ categoryId }) {
             type="text"
             placeholder="Filter"
             className="input input-bordered"
-            value={filter}
+            value={selectedFilter}
             onChange={handleFilterChange}
           />
+          <button
+            className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
+            onClick={handleFilterButtonClick}
+          >
+            Filter
+          </button>
         </div>
       </div>
 
