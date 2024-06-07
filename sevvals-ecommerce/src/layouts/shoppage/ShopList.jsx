@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../store/actions/productActions";
 import ProductCard from "../../components/ProductCard";
-import Pagination from "../../components/Pagination";
+import ReactPaginate from "react-paginate";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,60 +12,44 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function ShopList({ categoryId }) {
-  // Redux dispatch fonksiyonunu kullanmak için
   const dispatch = useDispatch();
-
-  // Redux store'dan ürün bilgilerini almak için
   const { productList, total, isFetching } = useSelector(
     (state) => state.products
   );
 
-  // Geçerli sayfa durumunu yönetmek için
   const [currentPage, setCurrentPage] = useState(1);
-  // Fiyat sıralama durumunu yönetmek için
   const [priceSort, setPriceSort] = useState("");
-  // Reyting sıralama durumunu yönetmek için
   const [ratingSort, setRatingSort] = useState("");
-  // Filtreleme durumunu yönetmek için
   const [filter, setFilterState] = useState("");
-  // Seçili fiyat sıralama durumunu yönetmek için
   const [selectedPriceSort, setSelectedPriceSort] = useState("");
-  // Seçili reyting sıralama durumunu yönetmek için
   const [selectedRatingSort, setSelectedRatingSort] = useState("");
-  // Seçili filtreleme durumunu yönetmek için
   const [selectedFilter, setSelectedFilter] = useState("");
-  // Dropdown menü durumunu yönetmek için
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // Şu anki URL konumunu almak için
   const location = useLocation();
-  // URL yönlendirmeleri için
   const history = useHistory();
-  // URL parametrelerini almak için
   const { gender, categoryName } = useParams();
 
-  // Ürünlerin olduğu bölüme kaydırma referansı
   const productSectionRef = useRef(null);
 
   useEffect(() => {
-    // URL parametrelerini almak için
     const params = new URLSearchParams(location.search);
     const priceSortParam = params.get("priceSort") || "";
     const ratingSortParam = params.get("ratingSort") || "";
     const filterParam = params.get("filter") || "";
     const pageParam = parseInt(params.get("page") || "1", 10);
+
     setPriceSort(priceSortParam);
     setRatingSort(ratingSortParam);
     setFilterState(filterParam);
-    setCurrentPage(pageParam);
+    setCurrentPage(categoryId ? 1 : pageParam);
 
-    const limit = 50;
-    const offset = (pageParam - 1) * limit;
+    const limit = 25;
+    const offset = ((categoryId ? 1 : pageParam) - 1) * limit;
     const sortParams = [priceSortParam, ratingSortParam]
       .filter(Boolean)
       .join(",");
     dispatch(fetchProducts(limit, offset, categoryId, filterParam, sortParams));
 
-    // Sayfayı ürünlerin olduğu bölüme kaydırma
     if (productSectionRef.current) {
       window.scrollTo({
         top: productSectionRef.current.offsetTop,
@@ -74,7 +58,6 @@ function ShopList({ categoryId }) {
     }
   }, [dispatch, categoryId, location.search]);
 
-  // Sıralama değişikliğini yönetmek için
   const handleSortChange = (value, type) => {
     if (type === "price") {
       setSelectedPriceSort(value);
@@ -85,12 +68,10 @@ function ShopList({ categoryId }) {
     }
   };
 
-  // Filtreleme değişikliğini yönetmek için
   const handleFilterChange = (e) => {
     setSelectedFilter(e.target.value);
   };
 
-  // Filtreleme butonuna tıklama olayını yönetmek için
   const handleFilterButtonClick = () => {
     setPriceSort(selectedPriceSort);
     setRatingSort(selectedRatingSort);
@@ -104,16 +85,18 @@ function ShopList({ categoryId }) {
     });
   };
 
-  // Sayfa değişikliğini yönetmek için
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    updateUrlParams({ page });
+  const handlePageChange = (data) => {
+    setCurrentPage(data.selected + 1);
+    updateUrlParams({ page: data.selected + 1 });
   };
 
-  // URL parametrelerini güncellemek için
   const updateUrlParams = (params) => {
     const query = new URLSearchParams(location.search);
-    query.set("category", categoryId);
+    if (categoryId) {
+      query.set("category", categoryId);
+    } else {
+      query.delete("category");
+    }
     Object.keys(params).forEach((key) => {
       if (params[key] !== undefined) {
         query.set(key, params[key]);
@@ -124,12 +107,20 @@ function ShopList({ categoryId }) {
     history.push({ search: query.toString() });
   };
 
-  // Ürün tıklama olayını yönetmek için
   const handleProductClick = (productId) => {
     history.push(`/product-detail/${productId}`);
   };
 
-  const itemsPerPage = 50;
+  const handleCategoryChange = () => {
+    setSelectedPriceSort("");
+    setSelectedRatingSort("");
+  };
+
+  useEffect(() => {
+    handleCategoryChange();
+  }, [categoryId]);
+
+  const itemsPerPage = 25;
   const totalPages = Math.ceil(total / itemsPerPage);
 
   return (
@@ -260,10 +251,25 @@ function ShopList({ categoryId }) {
             No products found for this category.
           </p>
         )}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          breakLabel={"..."}
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
           onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          activeClassName={"active"}
+          forcePage={currentPage - 1} // Pagination'ı sıfırlamak için
         />
       </div>
     </div>
