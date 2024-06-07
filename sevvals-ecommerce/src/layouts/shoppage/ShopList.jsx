@@ -46,13 +46,13 @@ function ShopList({ categoryId }) {
 
   const handleSortChange = (value, type) => {
     if (type === "price") {
-      const newPriceSort = value === priceSort ? "" : value;
-      setPriceSort(newPriceSort);
-      updateUrlParams({ priceSort: newPriceSort, page: 1 });
+      setPriceSort(value);
+      setRatingSort("");
+      updateUrlParams({ priceSort: value, ratingSort: "", page: 1 });
     } else if (type === "rating") {
-      const newRatingSort = value === ratingSort ? "" : value;
-      setRatingSort(newRatingSort);
-      updateUrlParams({ ratingSort: newRatingSort, page: 1 });
+      setRatingSort(value);
+      setPriceSort("");
+      updateUrlParams({ ratingSort: value, priceSort: "", page: 1 });
     }
   };
 
@@ -93,6 +93,7 @@ function ShopList({ categoryId }) {
         <p className="text-neutral-500 text-md font-bold leading-normal tracking-widest">
           Showing all {total} results
         </p>
+
         <div className="flex items-center gap-5">
           <p className="text-neutral-500 text-md font-bold leading-normal tracking-widest">
             Views:
@@ -104,6 +105,7 @@ function ShopList({ categoryId }) {
             <FontAwesomeIcon icon={faListCheck} />
           </button>
         </div>
+
         <div className="flex items-center gap-5">
           <div className="dropdown">
             <label
@@ -121,7 +123,8 @@ function ShopList({ categoryId }) {
                 <li>
                   <a onClick={() => handleSortChange("price:asc", "price")}>
                     <input
-                      type="checkbox"
+                      type="radio"
+                      name="priceSort"
                       checked={priceSort === "price:asc"}
                       readOnly
                     />{" "}
@@ -131,7 +134,8 @@ function ShopList({ categoryId }) {
                 <li>
                   <a onClick={() => handleSortChange("price:desc", "price")}>
                     <input
-                      type="checkbox"
+                      type="radio"
+                      name="priceSort"
                       checked={priceSort === "price:desc"}
                       readOnly
                     />{" "}
@@ -141,7 +145,8 @@ function ShopList({ categoryId }) {
                 <li>
                   <a onClick={() => handleSortChange("rating:asc", "rating")}>
                     <input
-                      type="checkbox"
+                      type="radio"
+                      name="ratingSort"
                       checked={ratingSort === "rating:asc"}
                       readOnly
                     />{" "}
@@ -151,7 +156,8 @@ function ShopList({ categoryId }) {
                 <li>
                   <a onClick={() => handleSortChange("rating:desc", "rating")}>
                     <input
-                      type="checkbox"
+                      type="radio"
+                      name="ratingSort"
                       checked={ratingSort === "rating:desc"}
                       readOnly
                     />{" "}
@@ -161,6 +167,7 @@ function ShopList({ categoryId }) {
               </ul>
             )}
           </div>
+
           <input
             type="text"
             placeholder="Filter"
@@ -170,6 +177,7 @@ function ShopList({ categoryId }) {
           />
         </div>
       </div>
+
       <div className="flex flex-col items-center justify-center py-12">
         {isFetching ? (
           <div className="flex items-center justify-center min-h-screen">
