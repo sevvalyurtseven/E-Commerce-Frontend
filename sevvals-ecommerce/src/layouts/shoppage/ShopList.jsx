@@ -142,14 +142,19 @@ function ShopList({ categoryId }) {
           </button>
         </div>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 ">
           <div className="dropdown">
             <label
               tabIndex="0"
-              className="btn btn-outline m-1"
+              className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa] m-1"
               onClick={() => setDropdownOpen(!dropdownOpen)}
+              style={{
+                padding: "0.5rem 0.5rem",
+                whiteSpace: "nowrap", // Yazının tek satırda kalmasını sağladık
+              }}
             >
-              Sort By <FontAwesomeIcon icon={faAngleDown} className="ml-2" />
+              Sort By{" "}
+              <FontAwesomeIcon icon={faAngleDown} className=" items-center" />
             </label>
             {dropdownOpen && (
               <ul
@@ -207,7 +212,7 @@ function ShopList({ categoryId }) {
           <input
             type="text"
             placeholder="Filter"
-            className="input input-bordered"
+            className="input input-bordered sm:px-2"
             value={selectedFilter}
             onChange={handleFilterChange}
           />
