@@ -41,10 +41,9 @@ function ShopList({ categoryId }) {
     setPriceSort(priceSortParam);
     setRatingSort(ratingSortParam);
     setFilterState(filterParam);
-    setCurrentPage(categoryId ? 1 : pageParam);
 
     const limit = 25;
-    const offset = ((categoryId ? 1 : pageParam) - 1) * limit;
+    const offset = (pageParam - 1) * limit;
     const sortParams = [priceSortParam, ratingSortParam]
       .filter(Boolean)
       .join(",");
@@ -57,6 +56,11 @@ function ShopList({ categoryId }) {
       });
     }
   }, [dispatch, categoryId, location.search]);
+
+  useEffect(() => {
+    // Kategori değiştiğinde currentPage'i sıfırla
+    setCurrentPage(1);
+  }, [categoryId]);
 
   const handleSortChange = (value, type) => {
     if (type === "price") {
@@ -111,15 +115,6 @@ function ShopList({ categoryId }) {
     history.push(`/product-detail/${productId}`);
   };
 
-  const handleCategoryChange = () => {
-    setSelectedPriceSort("");
-    setSelectedRatingSort("");
-  };
-
-  useEffect(() => {
-    handleCategoryChange();
-  }, [categoryId]);
-
   const itemsPerPage = 25;
   const totalPages = Math.ceil(total / itemsPerPage);
 
@@ -142,7 +137,7 @@ function ShopList({ categoryId }) {
           </button>
         </div>
 
-        <div className="flex items-center gap-5 ">
+        <div className="flex items-center gap-5">
           <div className="dropdown">
             <label
               tabIndex="0"
@@ -154,7 +149,7 @@ function ShopList({ categoryId }) {
               }}
             >
               Sort By{" "}
-              <FontAwesomeIcon icon={faAngleDown} className=" items-center" />
+              <FontAwesomeIcon icon={faAngleDown} className="items-center" />
             </label>
             {dropdownOpen && (
               <ul
