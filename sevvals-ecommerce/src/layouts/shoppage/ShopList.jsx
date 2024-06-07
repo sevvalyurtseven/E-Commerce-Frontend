@@ -247,6 +247,7 @@ function ShopList({ categoryId }) {
                   department={product.description}
                   originalPrice={product.price}
                   discountedPrice={product.price}
+                  className="h-full"
                 />
               </div>
             ))}
