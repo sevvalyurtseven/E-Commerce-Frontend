@@ -28,6 +28,13 @@ export const GET_CATEGORIES_SUCCESS =
 export const GET_CATEGORIES_ERROR =
   "Kategorileri fetch işlemi başarısız olduğunda kullanılır";
 
+export const GET_PRODUCT_FETCHING =
+  "Ürünü fetch işlemi başlatıldığında kullanılır";
+export const GET_PRODUCT_SUCCESS =
+  "Ürünü fetch işlemi başarıyla tamamlandığında kullanılır";
+export const GET_PRODUCT_ERROR =
+  "Ürünü fetch işlemi başarısız olduğunda kullanılır";
+
 // Action Creators:
 
 export const setCategories = (categories) => ({
@@ -93,6 +100,20 @@ export const fetchCategoriesError = (error) => ({
   payload: error,
 });
 
+export const fetchProductRequest = () => ({
+  type: GET_PRODUCT_FETCHING,
+});
+
+export const fetchProductSuccess = (product) => ({
+  type: GET_PRODUCT_SUCCESS,
+  payload: product,
+});
+
+export const fetchProductError = (error) => ({
+  type: GET_PRODUCT_ERROR,
+  payload: error,
+});
+
 // Async Action Creators:
 
 // Thunk Action Creator:
@@ -130,4 +151,14 @@ export const fetchCategories = () => {
       dispatch(fetchCategoriesError(error.message));
     }
   };
+};
+
+export const fetchProductById = (productId) => async (dispatch) => {
+  dispatch(fetchProductRequest());
+  try {
+    const response = await axiosInstance.get(`/products/${productId}`);
+    dispatch(fetchProductSuccess(response.data));
+  } catch (error) {
+    dispatch(fetchProductError(error));
+  }
 };
