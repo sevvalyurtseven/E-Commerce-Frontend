@@ -5,6 +5,9 @@ import {
   GET_PRODUCTS_ERROR,
   GET_PRODUCTS_FETCHING,
   GET_PRODUCTS_SUCCESS,
+  GET_PRODUCT_ERROR,
+  GET_PRODUCT_FETCHING,
+  GET_PRODUCT_SUCCESS,
   SET_CATEGORIES,
   SET_FETCH_STATE,
   SET_FILTER,
@@ -23,6 +26,9 @@ const initialState = {
   filter: "",
   isFetching: false, // fetching durumunu belirten alan
   error: null, // hata mesajını tutan alan
+  product: null,
+  isFetchingProduct: false,
+  productError: null,
 };
 
 export const productReducer = (state = initialState, action) => {
@@ -62,6 +68,16 @@ export const productReducer = (state = initialState, action) => {
       };
     case GET_CATEGORIES_ERROR:
       return { ...state, isFetching: false, error: action.payload };
+    case GET_PRODUCT_FETCHING:
+      return { ...state, isFetchingProduct: true, productError: null };
+    case GET_PRODUCT_SUCCESS:
+      return { ...state, isFetchingProduct: false, product: action.payload };
+    case GET_PRODUCT_ERROR:
+      return {
+        ...state,
+        isFetchingProduct: false,
+        productError: action.payload,
+      };
     default:
       return state;
   }
