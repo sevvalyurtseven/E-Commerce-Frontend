@@ -112,8 +112,11 @@ function ShopList({ categoryId }) {
     history.push({ search: query.toString() });
   };
 
-  const handleProductClick = (productId) => {
-    history.push(`/product-detail/${productId}`);
+  const handleProductClick = (product) => {
+    const productNameSlug = product.name.toLowerCase().replace(/\s+/g, "-");
+    history.push(
+      `/shop/${gender}/${categoryName}/${categoryId}/${productNameSlug}/${product.id}`
+    );
   };
 
   const handleCategoryChange = () => {
@@ -155,7 +158,7 @@ function ShopList({ categoryId }) {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               style={{
                 padding: "0.5rem 0.5rem",
-                whiteSpace: "nowrap", // Yazının tek satırda kalmasını sağladık
+                whiteSpace: "nowrap",
               }}
             >
               Sort By{" "}
@@ -243,8 +246,8 @@ function ShopList({ categoryId }) {
             {productList.map((product) => (
               <div
                 key={product.id}
-                onClick={() => handleProductClick(product.id)}
-                className="transition-transform duration-300 ease-in-out transform hover:scale-105"
+                onClick={() => handleProductClick(product)}
+                className="transition-transform duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
               >
                 <ProductCard
                   image={product.images[0]?.url}
@@ -280,7 +283,7 @@ function ShopList({ categoryId }) {
             breakClassName={"page-item"}
             breakLinkClassName={"page-link"}
             activeClassName={"active"}
-            forcePage={currentPage - 1} // Pagination'ı sıfırlamak için
+            forcePage={currentPage - 1}
           />
         )}
       </div>
