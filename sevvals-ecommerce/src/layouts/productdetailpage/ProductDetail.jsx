@@ -26,6 +26,12 @@ function ProductDetail() {
 
   const handleBackClick = () => {
     history.goBack();
+    setTimeout(() => {
+      window.scrollTo({
+        top: 600,
+        behavior: "smooth",
+      });
+    }, 10);
   };
 
   const nextSlide = () => {

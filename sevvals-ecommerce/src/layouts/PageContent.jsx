@@ -7,14 +7,24 @@ import TeamPage from "../pages/TeamPage";
 import AboutPage from "../pages/AboutPage";
 import SignUpPage from "../pages/SignUpPage";
 import LoginPage from "../pages/LoginPage";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 function PageContent() {
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && location.state.scrollToTop) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [location]);
 
   const handleProductClick = (product) => {
     const productNameSlug = product.name.toLowerCase().replace(/\s+/g, "-");
-
     const urlParts = ["shop"];
     if (product.gender) urlParts.push(product.gender);
     if (product.categoryName) urlParts.push(product.categoryName);
@@ -26,6 +36,10 @@ function PageContent() {
     const url = `/${urlParts.join("/")}`;
 
     history.push(url);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
   return (
     <Switch>
