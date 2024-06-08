@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../store/actions/productActions";
 import ProductCard from "../../components/ProductCard";
 
-function BestSellerProducts() {
+function BestSellerProducts({ handleProductClick }) {
   const dispatch = useDispatch();
   const { productList, total, isFetching } = useSelector(
     (state) => state.products
@@ -55,6 +55,7 @@ function BestSellerProducts() {
             department={product.description}
             originalPrice={product.price}
             discountedPrice={product.price}
+            onClick={() => handleProductClick(product)}
           />
         ))}
       </div>

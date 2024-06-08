@@ -8,14 +8,14 @@ import TopProductOfTheWeek from "../layouts/homepage/TopProductOfTheWeek";
 import FeaturedPosts from "../layouts/homepage/FeaturedPosts";
 import Footer from "../layouts/Footer";
 
-function HomePage() {
+function HomePage({ handleProductClick }) {
   return (
     <>
       <Header />
       <MainBanner />
       <Clients />
       <TopProductOfTheWeek />
-      <BestSellerProducts />
+      <BestSellerProducts handleProductClick={handleProductClick} />
       <FeaturedProducts />
       <BestServices />
       <FeaturedPosts />
