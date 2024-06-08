@@ -107,7 +107,7 @@ function Header() {
                     className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 grid grid-cols-2 gap-4 absolute"
                   >
                     <li className="menu-title">
-                      <span>Kadın</span>
+                      <span className="text-slate-800">Kadın</span>
                       <ul>
                         {categories
                           .filter((cat) => cat.gender === "k")
@@ -122,7 +122,7 @@ function Header() {
                       </ul>
                     </li>
                     <li className="menu-title">
-                      <span>Erkek</span>
+                      <span className="text-slate-800">Erkek</span>
                       <ul>
                         {categories
                           .filter((cat) => cat.gender === "e")
