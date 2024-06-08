@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import colors from "../assets/featured-posts/product-colors.png";
 
 function ProductCard({
@@ -8,10 +8,14 @@ function ProductCard({
   department,
   originalPrice,
   discountedPrice,
+  onClick,
 }) {
   const location = useLocation();
   return (
-    <div className="flex flex-col items-center text-center gap-5 bg-white border border-gray-100 rounded-md shadow-md pb-6 h-full">
+    <div
+      className="flex flex-col items-center text-center gap-5 bg-white border border-gray-100 rounded-md shadow-md pb-6 h-full cursor-pointe transition-transform duration-300 ease-in-out transform hover:scale-110"
+      onClick={onClick}
+    >
       <div className="flex-grow flex items-center justify-center overflow-hidden">
         <img src={image} alt={title} className="object-contain w-full" />
       </div>

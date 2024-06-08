@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../store/actions/productActions";
 import ProductCard from "../../components/ProductCard";
 import ReactPaginate from "react-paginate";
-import { useParams, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
@@ -11,7 +11,7 @@ import {
   faTableCellsLarge,
 } from "@fortawesome/free-solid-svg-icons";
 
-function ShopList({ categoryId }) {
+function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
   const dispatch = useDispatch();
   const { productList, total, isFetching } = useSelector(
     (state) => state.products
@@ -27,11 +27,10 @@ function ShopList({ categoryId }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const history = useHistory();
-  const { gender, categoryName } = useParams();
 
   const productSectionRef = useRef(null);
 
-  const itemsPerPage = 25;
+  const itemsPerPage = 28;
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -110,13 +109,6 @@ function ShopList({ categoryId }) {
       }
     });
     history.push({ search: query.toString() });
-  };
-
-  const handleProductClick = (product) => {
-    const productNameSlug = product.name.toLowerCase().replace(/\s+/g, "-");
-    history.push(
-      `/shop/${gender}/${categoryName}/${categoryId}/${productNameSlug}/${product.id}`
-    );
   };
 
   const handleCategoryChange = () => {
@@ -240,14 +232,13 @@ function ShopList({ categoryId }) {
           </div>
         ) : productList.length > 0 ? (
           <div
-            className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-[90%] py-16"
+            className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-[90%] py-20"
             ref={productSectionRef}
           >
             {productList.map((product) => (
               <div
                 key={product.id}
-                onClick={() => handleProductClick(product)}
-                className="transition-transform duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+                className="transition-transform duration-300 ease-in-out transform hover:scale-105 cursor-pointer pb-10"
               >
                 <ProductCard
                   image={product.images[0]?.url}
@@ -255,6 +246,7 @@ function ShopList({ categoryId }) {
                   department={product.description}
                   originalPrice={product.price}
                   discountedPrice={product.price}
+                  onClick={() => handleProductClick(product)}
                 />
               </div>
             ))}

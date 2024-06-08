@@ -7,20 +7,68 @@ import TeamPage from "../pages/TeamPage";
 import AboutPage from "../pages/AboutPage";
 import SignUpPage from "../pages/SignUpPage";
 import LoginPage from "../pages/LoginPage";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function PageContent() {
+  const history = useHistory();
+
+  const handleProductClick = (product) => {
+    const productNameSlug = product.name.toLowerCase().replace(/\s+/g, "-");
+
+    const urlParts = ["shop"];
+    if (product.gender) urlParts.push(product.gender);
+    if (product.categoryName) urlParts.push(product.categoryName);
+    if (product.categoryId) urlParts.push(product.categoryId);
+
+    urlParts.push(productNameSlug);
+    urlParts.push(product.id);
+
+    const url = `/${urlParts.join("/")}`;
+
+    history.push(url);
+  };
   return (
     <Switch>
-      <Route exact path="/" component={HomePage} />
       <Route
+        exact
+        path="/"
+        render={(props) => (
+          <HomePage {...props} handleProductClick={handleProductClick} />
+        )}
+      />
+      <Route
+        exact
         path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId"
-        component={ProductDetailPage}
+        render={(props) => (
+          <ProductDetailPage
+            {...props}
+            handleProductClick={handleProductClick}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/shop/:productNameSlug/:productId"
+        render={(props) => (
+          <ProductDetailPage
+            {...props}
+            handleProductClick={handleProductClick}
+          />
+        )}
       />
       <Route
         path="/shop/:gender/:categoryName/:categoryId"
-        component={ShopPage}
+        render={(props) => (
+          <ShopPage {...props} handleProductClick={handleProductClick} />
+        )}
       />
-      <Route exact path="/shop" component={ShopPage} />
+      <Route
+        exact
+        path="/shop"
+        render={(props) => (
+          <ShopPage {...props} handleProductClick={handleProductClick} />
+        )}
+      />
 
       <Route path="/contact" component={ContactPage} />
       <Route path="/team" component={TeamPage} />

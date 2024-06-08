@@ -6,7 +6,7 @@ import BestSellerProducts from "../layouts/productdetailpage/BestSellerProducts"
 import ProductDescription from "../layouts/productdetailpage/ProductDescription";
 import ProductDetail from "../layouts/productdetailpage/ProductDetail";
 
-function ProductDetailPage() {
+function ProductDetailPage({ handleProductClick }) {
   const { gender, categoryName, categoryId, productNameSlug, productId } =
     useParams();
   console.log("ProductDetail Page params:", {
@@ -27,7 +27,7 @@ function ProductDetailPage() {
         productId={productId}
       />
       <ProductDescription />
-      <BestSellerProducts />
+      <BestSellerProducts handleProductClick={handleProductClick} />
       <Clients />
       <Footer />
     </>

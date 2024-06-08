@@ -6,7 +6,7 @@ import Footer from "../layouts/Footer";
 import Header from "../layouts/Header";
 import Clients from "../layouts/Clients";
 
-function ShopPage() {
+function ShopPage({ handleProductClick }) {
   const { gender, categoryName, categoryId } = useParams();
   console.log("ShopPage params:", { gender, categoryName, categoryId }); // Parametrelerin doğru geçtiğini kontrol edin
   return (
@@ -17,7 +17,10 @@ function ShopPage() {
         categoryName={categoryName}
         categoryId={categoryId}
       />
-      <ShopList categoryId={categoryId} />
+      <ShopList
+        categoryId={categoryId}
+        handleProductClick={handleProductClick}
+      />
       <Clients />
       <Footer />
     </>
