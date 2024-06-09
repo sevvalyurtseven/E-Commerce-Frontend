@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
-import { fetchProductById } from "../../store/actions/productActions";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
@@ -14,7 +12,6 @@ import {
 import colors from "../../assets/featured-posts/product-colors.png";
 
 function ProductDetail({ product }) {
-  console.log("ProductDetail product:", product);
   const history = useHistory();
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -44,7 +41,7 @@ function ProductDetail({ product }) {
     <div className="bg-[#FAFAFA] sm:px-20 px-4 py-8">
       <button
         onClick={handleBackClick}
-        className="btn  mb-6  bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
+        className="btn mb-6 bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
       >
         <FontAwesomeIcon icon={faAngleLeft} /> Back
       </button>
