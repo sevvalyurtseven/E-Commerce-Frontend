@@ -28,7 +28,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
   removeItem,
-} from "../store/actions/shoppingCartActions"; // Bu aksiyonları oluşturduğunuzdan emin olun
+} from "../store/actions/shoppingCartActions";
 
 function Header() {
   const dispatch = useDispatch(); // Redux dispatch fonksiyonunu kullanmak için
@@ -36,7 +36,8 @@ function Header() {
   const user = client?.user || {}; // Kullanıcı bilgilerini almak için
   const categories = useSelector((state) => state.products.categories); // Kategori bilgilerini almak için
   const cart = useSelector((state) => state.shoppingCart.cart); // Alışveriş sepetini almak için
-  const products = useSelector((state) => state.products.productList); // Ürün bilgilerini almak için
+  const totalPrice = useSelector((state) => state.shoppingCart.totalPrice); // Toplam fiyatı almak için
+  const totalCount = useSelector((state) => state.shoppingCart.totalCount); // Toplam ürün sayısını almak için
   const history = useHistory(); // URL yönlendirmeleri için
 
   const [isMobile, setIsMobile] = useState(false); // Mobil cihaz durumunu yönetmek için
@@ -235,8 +236,8 @@ function Header() {
                     onClick={() => setIsCartDropdownOpen(!isCartDropdownOpen)}
                   >
                     <FontAwesomeIcon icon={faCartShopping} />
-                    {cart.length > 0 && (
-                      <span className="ml-2">{cart.length}</span>
+                    {totalCount > 0 && (
+                      <span className="ml-2">{totalCount}</span>
                     )}
                   </span>
                   {isCartDropdownOpen && (
@@ -267,7 +268,10 @@ function Header() {
                                     Adet: {cartItem.count}
                                   </p>
                                   <p className="font-bold text-red-500">
-                                    {cartItem.product.price} TL
+                                    {(
+                                      cartItem.product.price * cartItem.count
+                                    ).toFixed(2)}{" "}
+                                    TL
                                   </p>
                                 </div>
                                 <div className="flex items-center gap-2">
