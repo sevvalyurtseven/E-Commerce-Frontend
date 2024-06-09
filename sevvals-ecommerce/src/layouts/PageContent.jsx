@@ -23,50 +23,19 @@ function PageContent() {
     }
   }, [location]);
 
-  const handleProductClick = (product) => {
-    console.log("producttttttt", product);
-    const productNameSlug = product.name.toLowerCase().replace(/\s+/g, "-");
-    const url = `/shop/${product.gender}/${product.categoryName}/${product.categoryId}/${productNameSlug}/${product.id}`;
-
-    history.push(url);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <Switch>
-      <Route
-        exact
-        path="/"
-        render={(props) => (
-          <HomePage {...props} handleProductClick={handleProductClick} />
-        )}
-      />
+      <Route exact path="/" component={HomePage} />
       <Route
         exact
         path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId"
-        render={(props) => (
-          <ProductDetailPage
-            {...props}
-            handleProductClick={handleProductClick}
-          />
-        )}
+        component={ProductDetailPage}
       />
       <Route
         path="/shop/:gender/:categoryName/:categoryId"
-        render={(props) => (
-          <ShopPage {...props} handleProductClick={handleProductClick} />
-        )}
+        component={ShopPage}
       />
-      <Route
-        exact
-        path="/shop"
-        render={(props) => (
-          <ShopPage {...props} handleProductClick={handleProductClick} />
-        )}
-      />
+      <Route exact path="/shop" component={ShopPage} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/team" component={TeamPage} />
       <Route path="/about" component={AboutPage} />
