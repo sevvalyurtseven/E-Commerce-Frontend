@@ -9,11 +9,12 @@ import BestSellerProducts from "../layouts/productdetailpage/BestSellerProducts"
 import ProductDescription from "../layouts/productdetailpage/ProductDescription";
 import ProductDetail from "../layouts/productdetailpage/ProductDetail";
 
-function ProductDetailPage({ handleProductClick }) {
+function ProductDetailPage() {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const { product, isFetchingProduct } = useSelector((state) => state.products);
 
+  // Ürün detayını getirmek için
   useEffect(() => {
     dispatch(fetchProductById(productId));
   }, [dispatch, productId]);
@@ -31,7 +32,7 @@ function ProductDetailPage({ handleProductClick }) {
       <Header />
       <ProductDetail product={product} />
       <ProductDescription />
-      <BestSellerProducts handleProductClick={handleProductClick} />
+      <BestSellerProducts />
       <Clients />
       <Footer />
     </>
