@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../store/actions/productActions";
 import ProductCard from "../../components/ProductCard";
 
-function BestSellerProducts({ handleProductClick }) {
+function BestSellerProducts() {
   const dispatch = useDispatch();
-  const { productList, isFetching } = useSelector((state) => state.products);
+  const { productList, isFetching, categories } = useSelector(
+    (state) => state.products
+  );
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -19,6 +21,7 @@ function BestSellerProducts({ handleProductClick }) {
     );
   }
 
+  // Gösterilecek ilk 8 ürünü seçmek için
   const displayedProducts = productList.slice(0, 8);
 
   return (
@@ -37,7 +40,10 @@ function BestSellerProducts({ handleProductClick }) {
               department={product.description}
               originalPrice={product.price}
               discountedPrice={product.price}
-              onClick={() => handleProductClick(product)}
+              product={product}
+              category={categories.find(
+                (category) => category.id === product.category_id
+              )}
             />
           ))}
         </div>

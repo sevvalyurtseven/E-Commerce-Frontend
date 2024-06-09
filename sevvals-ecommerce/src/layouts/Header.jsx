@@ -8,6 +8,9 @@ import {
   faPhone,
   faSearch,
   faUser,
+  faPlus,
+  faMinus,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebook,
@@ -21,16 +24,25 @@ import { NavLink, useHistory } from "react-router-dom";
 import gravatarUrl from "gravatar-url";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../store/actions/clientActions";
+import {
+  increaseQuantity,
+  decreaseQuantity,
+  removeItem,
+} from "../store/actions/shoppingCartActions";
 
 function Header() {
   const dispatch = useDispatch(); // Redux dispatch fonksiyonunu kullanmak için
   const client = useSelector((state) => state.client); // Client durumunu almak için
   const user = client?.user || {}; // Kullanıcı bilgilerini almak için
   const categories = useSelector((state) => state.products.categories); // Kategori bilgilerini almak için
+  const cart = useSelector((state) => state.shoppingCart.cart); // Alışveriş sepetini almak için
+  const totalPrice = useSelector((state) => state.shoppingCart.totalPrice); // Toplam fiyatı almak için
+  const totalCount = useSelector((state) => state.shoppingCart.totalCount); // Toplam ürün sayısını almak için
   const history = useHistory(); // URL yönlendirmeleri için
 
   const [isMobile, setIsMobile] = useState(false); // Mobil cihaz durumunu yönetmek için
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown menü durumunu yönetmek için
+  const [isCartDropdownOpen, setIsCartDropdownOpen] = useState(false); // Sepet dropdown menüyü aç/kapat
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,6 +70,21 @@ function Header() {
         category.id
       }`
     ); // Kategoriye göre yönlendirme yap
+  };
+
+  const handleIncreaseQuantity = (productId, e) => {
+    e.stopPropagation();
+    dispatch(increaseQuantity(productId));
+  };
+
+  const handleDecreaseQuantity = (productId, e) => {
+    e.stopPropagation();
+    dispatch(decreaseQuantity(productId));
+  };
+
+  const handleRemoveItem = (productId, e) => {
+    e.stopPropagation();
+    dispatch(removeItem(productId));
   };
 
   return (
@@ -104,10 +131,10 @@ function Header() {
                 {isDropdownOpen && (
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 grid grid-cols-2 gap-4 absolute"
+                    className="dropdown-content menu p-2 shadow bg-white rounded-box w-96 grid grid-cols-2 gap-4 absolute"
                   >
                     <li className="menu-title">
-                      <span className="text-slate-800">Kadın</span>
+                      <span className="text-slate-800 font-bold">Kadın</span>
                       <ul>
                         {categories
                           .filter((cat) => cat.gender === "k")
@@ -115,6 +142,7 @@ function Header() {
                             <li
                               key={category.id}
                               onClick={() => handleCategoryClick(category)}
+                              className="dropdown-item"
                             >
                               <span>{category.title}</span>
                             </li>
@@ -122,7 +150,7 @@ function Header() {
                       </ul>
                     </li>
                     <li className="menu-title">
-                      <span className="text-slate-800">Erkek</span>
+                      <span className="text-slate-800 font-bold">Erkek</span>
                       <ul>
                         {categories
                           .filter((cat) => cat.gender === "e")
@@ -130,6 +158,7 @@ function Header() {
                             <li
                               key={category.id}
                               onClick={() => handleCategoryClick(category)}
+                              className="dropdown-item"
                             >
                               <span>{category.title}</span>
                             </li>
@@ -164,9 +193,9 @@ function Header() {
                 Pages
               </NavLink>
             </div>
-            <div className="header-main-auth flex items-center gap-4">
+            <div className="header-main-auth flex items-center gap-8">
               {user.email ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                   <img
                     src={gravatarUrl(user.email, { size: 40 })}
                     alt="User avatar"
@@ -181,7 +210,7 @@ function Header() {
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                   <NavLink to="/login">
                     <button className="btn">
                       <FontAwesomeIcon icon={faUser} className="text-sky-500" />
@@ -199,9 +228,101 @@ function Header() {
               <span>
                 <FontAwesomeIcon icon={faSearch} />
               </span>
-              <span>
-                <FontAwesomeIcon icon={faCartShopping} />
-              </span>
+              <div className="relative">
+                <div className="dropdown dropdown-end">
+                  <span
+                    tabIndex={0}
+                    className="relative cursor-pointer"
+                    onClick={() => setIsCartDropdownOpen(!isCartDropdownOpen)}
+                  >
+                    <FontAwesomeIcon icon={faCartShopping} />
+                    {totalCount > 0 && (
+                      <span className="ml-2">{totalCount}</span>
+                    )}
+                  </span>
+                  {isCartDropdownOpen && (
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content menu p-2 shadow bg-white rounded-box w-80 max-h-80 overflow-y-auto mt-6"
+                    >
+                      {cart.length > 0 ? (
+                        <div className="flex flex-col gap-4">
+                          {cart.map((cartItem) => (
+                            <li
+                              key={cartItem.product.id}
+                              className="flex items-start gap-4 mb-2"
+                            >
+                              <div>
+                                <div>
+                                  <img
+                                    src={cartItem.product.images?.[0]?.url}
+                                    alt={cartItem.product.name}
+                                    className="w-16 object-contain rounded"
+                                  />
+                                </div>
+                                <div className="flex-grow px-2">
+                                  <h5 className="font-bold text-sm whitespace-nowrap overflow-hidden text-ellipsis text-slate-950">
+                                    {cartItem.product.name}
+                                  </h5>
+                                  <p className="text-sm text-gray-600">
+                                    Adet: {cartItem.count}
+                                  </p>
+                                  <p className="font-bold text-red-500">
+                                    {(
+                                      cartItem.product.price * cartItem.count
+                                    ).toFixed(2)}{" "}
+                                    TL
+                                  </p>
+                                </div>
+                                <div className="flex items-center gap-2 text-black">
+                                  <button
+                                    onClick={(e) =>
+                                      handleIncreaseQuantity(
+                                        cartItem.product.id,
+                                        e
+                                      )
+                                    }
+                                  >
+                                    <FontAwesomeIcon icon={faPlus} />
+                                  </button>
+                                  <button
+                                    onClick={(e) =>
+                                      handleDecreaseQuantity(
+                                        cartItem.product.id,
+                                        e
+                                      )
+                                    }
+                                  >
+                                    <FontAwesomeIcon icon={faMinus} />
+                                  </button>
+                                  <button
+                                    onClick={(e) =>
+                                      handleRemoveItem(cartItem.product.id, e)
+                                    }
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </button>
+                                </div>
+                              </div>
+                            </li>
+                          ))}
+                          <div className="mt-4 flex justify-between">
+                            <button className="btn bg-gray-200 text-gray-700">
+                              Go To Cart
+                            </button>
+                            <button className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]">
+                              Complete Order
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-gray-500">There is no product</p>
+                      )}
+                    </ul>
+                  )}
+                </div>
+              </div>
+
               <span>
                 <FontAwesomeIcon icon={faHeart} />
               </span>
