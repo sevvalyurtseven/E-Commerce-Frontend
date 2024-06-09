@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import colors from "../assets/featured-posts/product-colors.png";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -36,9 +36,11 @@ function ProductCard({
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
 
-  // Ürün tıklandığında detay sayfasına yönlendirmek için
-  const handleProductClick = () => {
+  // Ürün detay sayfasına yönlendirmek için
+  const handleViewDetails = (e) => {
+    e.stopPropagation();
     const categoryTitleSlug = convertToEnglish(category.title).replace(
       /\s+/g,
       "-"
@@ -56,20 +58,33 @@ function ProductCard({
   };
 
   // Ürünü sepete eklemek için
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
     dispatch(addToCart(product));
     toast.success("Ürün sepete eklendi!");
+    setIsAddedToCart(true);
+    setTimeout(() => setIsAddedToCart(false), 3000); // 3 saniye sonra mesajı kaldır
   };
 
   return (
-    <div
-      className="flex flex-col items-center text-center gap-5 bg-white border border-gray-100 rounded-md shadow-md pb-6 h-full cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-110"
-      onClick={handleProductClick}
-    >
-      <div className="flex-grow flex items-center justify-center overflow-hidden">
+    <div className="relative flex flex-col items-center text-center gap-5 bg-white border border-gray-100 rounded-md shadow-md pb-6 h-full cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-110">
+      {isAddedToCart && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10 backdrop-blur-md">
+          <p className="text-white text-lg font-bold">Sepete eklendi!</p>
+        </div>
+      )}
+      <div
+        className={`flex-grow flex items-center justify-center overflow-hidden ${
+          isAddedToCart ? "blur-sm" : ""
+        }`}
+      >
         <img src={image} alt={title} className="object-contain w-full" />
       </div>
-      <div className="flex-grow flex flex-col justify-between">
+      <div
+        className={`flex-grow flex flex-col justify-between ${
+          isAddedToCart ? "blur-sm" : ""
+        }`}
+      >
         <div>
           <h5 className="text-slate-800 text-base font-bold leading-normal tracking-wider line-clamp-2">
             {title}
@@ -92,15 +107,20 @@ function ProductCard({
           <img src={colors} alt="product colors" />
         </div>
       )}
-      <button
-        className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
-        onClick={(e) => {
-          e.stopPropagation();
-          handleAddToCart();
-        }}
-      >
-        Add to Cart
-      </button>
+      <div className="flex justify-between gap-2 mt-2 w-full px-4">
+        <button
+          className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa] w-1/2"
+          onClick={handleAddToCart}
+        >
+          Add to Cart
+        </button>
+        <button
+          className="btn bg-gray-300 text-black hover:bg-gray-400 w-1/2"
+          onClick={handleViewDetails}
+        >
+          More Details
+        </button>
+      </div>
     </div>
   );
 }

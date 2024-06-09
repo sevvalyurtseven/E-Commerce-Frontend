@@ -274,7 +274,7 @@ function Header() {
                                     TL
                                   </p>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2 text-black">
                                   <button
                                     onClick={(e) =>
                                       handleIncreaseQuantity(
@@ -308,10 +308,10 @@ function Header() {
                           ))}
                           <div className="mt-4 flex justify-between">
                             <button className="btn bg-gray-200 text-gray-700">
-                              Cart Page
+                              Go To Cart
                             </button>
-                            <button className="btn bg-sky-500 text-white">
-                              Check out
+                            <button className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]">
+                              Complete Order
                             </button>
                           </div>
                         </div>
