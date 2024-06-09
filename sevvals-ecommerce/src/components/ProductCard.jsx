@@ -3,6 +3,24 @@ import { useLocation } from "react-router-dom";
 import colors from "../assets/featured-posts/product-colors.png";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
+const convertToEnglish = (str) => {
+  const charMap = {
+    ç: "c",
+    ğ: "g",
+    ı: "i",
+    ö: "o",
+    ş: "s",
+    ü: "u",
+    Ç: "C",
+    Ğ: "G",
+    İ: "I",
+    Ö: "O",
+    Ş: "S",
+    Ü: "U",
+  };
+  return str.replace(/[\u00c0-\u024f]/g, (c) => charMap[c] || c).toLowerCase();
+};
+
 function ProductCard({
   image,
   title,
@@ -12,13 +30,16 @@ function ProductCard({
   product,
   category,
 }) {
-  console.log("categoryyyyyy", category);
   const location = useLocation();
   const history = useHistory();
 
+  // Ürün tıklandığında detay sayfasına yönlendirmek için
   const handleProductClick = () => {
-    const categoryTitleSlug = category.title.toLowerCase().replace(/\s+/g, "-");
-    const productNameSlug = product.name.toLowerCase().replace(/\s+/g, "-");
+    const categoryTitleSlug = convertToEnglish(category.title).replace(
+      /\s+/g,
+      "-"
+    );
+    const productNameSlug = convertToEnglish(product.name).replace(/\s+/g, "-");
     const url = `/shop/${
       category.gender === "k" ? "kadin" : "erkek"
     }/${categoryTitleSlug}/${category.id}/${productNameSlug}/${product.id}`;
@@ -32,7 +53,7 @@ function ProductCard({
 
   return (
     <div
-      className="flex flex-col items-center text-center gap-5 bg-white border border-gray-100 rounded-md shadow-md pb-6 h-full cursor-pointe transition-transform duration-300 ease-in-out transform hover:scale-110"
+      className="flex flex-col items-center text-center gap-5 bg-white border border-gray-100 rounded-md shadow-md pb-6 h-full cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-110"
       onClick={handleProductClick}
     >
       <div className="flex-grow flex items-center justify-center overflow-hidden">
