@@ -5,7 +5,10 @@ import axiosInstance from "../../api/api";
 export const SET_CART = "Sepet içeriğini ayarlar";
 export const SET_PAYMENT = "Ödeme bilgilerini ayarlar";
 export const SET_ADDRESS = "Adres bilgilerini ayarlar";
-
+export const ADD_TO_CART = "Sepete ekleme işlemi";
+export const INCREASE_QUANTITY = "Sepetteki ürün miktarını artırma işlemi";
+export const DECREASE_QUANTITY = "Sepetteki ürün miktarını azaltma işlemi";
+export const REMOVE_FROM_CART = "Sepetten ürün çıkarma işlemi";
 // Fetch Constants:
 
 export const GET_CART = "Sepeti getirmek için kullanılır";
@@ -31,6 +34,25 @@ export const setPayment = (payment) => ({
 export const setAddress = (address) => ({
   type: SET_ADDRESS,
   payload: address,
+});
+
+export const addToCart = (product) => ({
+  type: ADD_TO_CART,
+  payload: product,
+});
+export const increaseQuantity = (productId) => ({
+  type: INCREASE_QUANTITY,
+  payload: productId,
+});
+
+export const decreaseQuantity = (productId) => ({
+  type: DECREASE_QUANTITY,
+  payload: productId,
+});
+
+export const removeItem = (productId) => ({
+  type: REMOVE_FROM_CART,
+  payload: productId,
 });
 
 export const fetchCartRequest = () => ({
