@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
@@ -9,10 +10,13 @@ import {
   faCartShopping,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { addToCart } from "../../store/actions/shoppingCartActions"; // addToCart işlemini import edin
 import colors from "../../assets/featured-posts/product-colors.png";
+import { toast } from "react-toastify";
 
 function ProductDetail({ product }) {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleBackClick = () => {
@@ -39,6 +43,11 @@ function ProductDetail({ product }) {
 
   const setSlide = (index) => {
     setCurrentSlide(index);
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+    toast.success("Ürün sepete eklendi!");
   };
 
   return (
@@ -150,7 +159,10 @@ function ProductDetail({ product }) {
                   <button className="px-5 lg:px-4 py-4 lg:py-3 border rounded-full">
                     <FontAwesomeIcon icon={faHeart} />
                   </button>
-                  <button className="px-5 lg:px-4 py-4 lg:py-3 border rounded-full">
+                  <button
+                    className="px-5 lg:px-4 py-4 lg:py-3 border rounded-full hover:bg-sky-500 hover:text-white"
+                    onClick={handleAddToCart}
+                  >
                     <FontAwesomeIcon icon={faCartShopping} />
                   </button>
                   <button className="px-5 lg:px-4 py-4 lg:py-3 border rounded-full">
