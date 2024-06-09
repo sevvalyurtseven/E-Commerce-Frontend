@@ -242,7 +242,7 @@ function Header() {
                   {isCartDropdownOpen && (
                     <ul
                       tabIndex={0}
-                      className="dropdown-content menu p-2 shadow bg-white rounded-box w-80"
+                      className="dropdown-content menu p-2 shadow bg-white rounded-box w-80 max-h-80 overflow-y-auto mt-6"
                     >
                       {cart.length > 0 ? (
                         <div className="flex flex-col gap-4">
