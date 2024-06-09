@@ -1,3 +1,4 @@
+import Decimal from "decimal.js";
 import {
   ADD_TO_CART,
   DECREASE_QUANTITY,
@@ -13,16 +14,36 @@ import {
 
 const initialState = {
   cart: [],
+  totalPrice: 0, // Toplam fiyatı başlangıç durumuna ekleyin
+  totalCount: 0, // Toplam miktarı başlangıç durumuna ekleyin
   payment: {},
   address: {},
   isFetching: false, // fetching durumunu belirten alan
   error: null, // hata mesajını tutan alan
 };
 
+// Toplam fiyatı hesaplayan yardımcı fonksiyon
+
+const calculateTotalPrice = (cart) => {
+  return cart.reduce(
+    (total, item) => total + item.product.price * item.count,
+    0
+  );
+};
+
+const calculateTotalCount = (cart) => {
+  return cart.reduce((total, item) => total + item.count, 0);
+};
+
 export const shoppingCartReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CART:
-      return { ...state, cart: action.payload };
+      return {
+        ...state,
+        cart: action.payload,
+        totalPrice: calculateTotalPrice(action.payload),
+        totalCount: calculateTotalCount(action.payload),
+      };
     case SET_PAYMENT:
       return { ...state, payment: action.payload };
     case SET_ADDRESS:
@@ -31,20 +52,21 @@ export const shoppingCartReducer = (state = initialState, action) => {
       const existingProductIndex = state.cart.findIndex(
         (item) => item.product.id === action.payload.id
       );
+      let newCart;
       if (existingProductIndex >= 0) {
-        const newCart = state.cart.slice();
+        newCart = state.cart.slice();
         newCart[existingProductIndex].count += 1;
-        return {
-          ...state,
-          cart: newCart,
-        };
+      } else {
+        newCart = [
+          ...state.cart,
+          { count: 1, checked: true, product: action.payload },
+        ];
       }
       return {
         ...state,
-        cart: [
-          ...state.cart,
-          { count: 1, checked: true, product: action.payload },
-        ],
+        cart: newCart,
+        totalPrice: calculateTotalPrice(newCart),
+        totalCount: calculateTotalCount(newCart),
       };
     }
     case INCREASE_QUANTITY: {
@@ -56,6 +78,8 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: newCart,
+        totalPrice: calculateTotalPrice(newCart),
+        totalCount: calculateTotalCount(newCart),
       };
     }
     case DECREASE_QUANTITY: {
@@ -67,6 +91,8 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: newCart,
+        totalPrice: calculateTotalPrice(newCart),
+        totalCount: calculateTotalCount(newCart),
       };
     }
     case REMOVE_FROM_CART: {
@@ -76,12 +102,20 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: newCart,
+        totalPrice: calculateTotalPrice(newCart),
+        totalCount: calculateTotalCount(newCart),
       };
     }
     case GET_CART_FETCHING:
       return { ...state, isFetching: true, error: null };
     case GET_CART_SUCCESS:
-      return { ...state, isFetching: false, cart: action.payload };
+      return {
+        ...state,
+        isFetching: false,
+        cart: action.payload,
+        totalPrice: calculateTotalPrice(action.payload),
+        totalCount: calculateTotalCount(action.payload),
+      };
     case GET_CART_ERROR:
       return { ...state, isFetching: false, error: action.payload };
     default:
