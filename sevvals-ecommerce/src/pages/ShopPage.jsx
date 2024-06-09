@@ -6,9 +6,12 @@ import Footer from "../layouts/Footer";
 import Header from "../layouts/Header";
 import Clients from "../layouts/Clients";
 
-function ShopPage({ handleProductClick }) {
+function ShopPage() {
   const { gender, categoryName, categoryId } = useParams();
-  console.log("ShopPage params:", { gender, categoryName, categoryId }); // Parametrelerin doğru geçtiğini kontrol edin
+
+  // Parametrelerin doğru geçtiğini kontrol etmek için
+  console.log("ShopPage params:", { gender, categoryName, categoryId });
+
   return (
     <>
       <Header />
@@ -21,7 +24,6 @@ function ShopPage({ handleProductClick }) {
         gender={gender}
         categoryName={categoryName}
         categoryId={categoryId}
-        handleProductClick={handleProductClick}
       />
       <Clients />
       <Footer />
