@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCategories,
-  fetchProducts,
-} from "../../store/actions/productActions";
+import { fetchProducts } from "../../store/actions/productActions";
 import ProductCard from "../../components/ProductCard";
 import ReactPaginate from "react-paginate";
 import { useLocation, useHistory } from "react-router-dom";
@@ -14,15 +11,12 @@ import {
   faTableCellsLarge,
 } from "@fortawesome/free-solid-svg-icons";
 
-function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
+function ShopList({ gender, categoryName, categoryId }) {
   const dispatch = useDispatch();
   const { productList, total, isFetching } = useSelector(
     (state) => state.products
   );
-
   const categories = useSelector((state) => state.products.categories);
-
-  console.log("ShopList paramsssss:", { gender, categoryName, categoryId });
 
   const [currentPage, setCurrentPage] = useState(1);
   const [priceSort, setPriceSort] = useState("");
@@ -34,11 +28,10 @@ function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const history = useHistory();
-
   const productSectionRef = useRef(null);
-
   const itemsPerPage = 28;
 
+  // Ürünleri ve filtreleme/sıralama parametrelerini almak için
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const priceSortParam = params.get("priceSort") || "";
@@ -58,6 +51,7 @@ function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
       .join(",");
     dispatch(fetchProducts(limit, offset, categoryId, filterParam, sortParams));
 
+    // Ürün listesine kaydırmak için
     if (productSectionRef.current) {
       window.scrollTo({
         top: productSectionRef.current.offsetTop,
@@ -66,6 +60,7 @@ function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
     }
   }, [dispatch, categoryId, location.search]);
 
+  // Sıralama değişikliklerini işlemek için
   const handleSortChange = (value, type) => {
     if (type === "price") {
       setSelectedPriceSort(value);
@@ -76,6 +71,7 @@ function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
     }
   };
 
+  // Filtre değişikliklerini işlemek için
   const handleFilterChange = (e) => {
     setSelectedFilter(e.target.value);
   };
@@ -101,6 +97,7 @@ function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
     updateUrlParams({ page: newPage, limit: itemsPerPage, offset });
   };
 
+  // URL parametrelerini güncellemek için
   const updateUrlParams = (params) => {
     const query = new URLSearchParams(location.search);
     if (categoryId) {
@@ -118,6 +115,7 @@ function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
     history.push({ search: query.toString() });
   };
 
+  // Kategori değişikliğini işlemek için
   const handleCategoryChange = () => {
     setSelectedPriceSort("");
     setSelectedRatingSort("");
