@@ -2,6 +2,9 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import colors from "../assets/featured-posts/product-colors.png";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../store/actions/shoppingCartActions";
+import { toast } from "react-toastify";
 
 const convertToEnglish = (str) => {
   const charMap = {
@@ -30,6 +33,7 @@ function ProductCard({
   product,
   category,
 }) {
+  const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
 
@@ -49,6 +53,12 @@ function ProductCard({
       top: 0,
       behavior: "smooth",
     });
+  };
+
+  // Ürünü sepete eklemek için
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+    toast.success("Ürün sepete eklendi!");
   };
 
   return (
@@ -82,6 +92,15 @@ function ProductCard({
           <img src={colors} alt="product colors" />
         </div>
       )}
+      <button
+        className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleAddToCart();
+        }}
+      >
+        Add to Cart
+      </button>
     </div>
   );
 }
