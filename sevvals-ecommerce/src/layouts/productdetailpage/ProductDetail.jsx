@@ -26,11 +26,15 @@ function ProductDetail({ product }) {
   };
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === 1 ? 0 : prev + 1));
+    setCurrentSlide((prev) =>
+      prev === product.images.length - 1 ? 0 : prev + 1
+    );
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? 1 : prev - 1));
+    setCurrentSlide((prev) =>
+      prev === 0 ? product.images.length - 1 : prev - 1
+    );
   };
 
   const setSlide = (index) => {
