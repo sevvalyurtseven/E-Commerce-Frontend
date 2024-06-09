@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../store/actions/productActions";
 import ProductCard from "../../components/ProductCard";
 
-function BestSellerProducts({ handleProductClick }) {
+function BestSellerProducts() {
   const dispatch = useDispatch();
-  const { productList, total, isFetching } = useSelector(
+  const { productList, total, isFetching, categories } = useSelector(
     (state) => state.products
   );
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,12 +50,15 @@ function BestSellerProducts({ handleProductClick }) {
         {displayedProducts.map((product) => (
           <ProductCard
             key={product.id}
-            image={product.images[0]?.url} // Değiştirilmiş image
+            image={product.images[0]?.url}
             title={product.name}
             department={product.description}
             originalPrice={product.price}
             discountedPrice={product.price}
-            onClick={() => handleProductClick(product)}
+            product={product}
+            category={categories.find(
+              (category) => category.id === product.category_id
+            )}
           />
         ))}
       </div>
