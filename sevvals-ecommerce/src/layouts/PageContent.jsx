@@ -24,16 +24,9 @@ function PageContent() {
   }, [location]);
 
   const handleProductClick = (product) => {
+    console.log("producttttttt", product);
     const productNameSlug = product.name.toLowerCase().replace(/\s+/g, "-");
-    const urlParts = ["shop"];
-    if (product.gender) urlParts.push(product.gender);
-    if (product.categoryName) urlParts.push(product.categoryName);
-    if (product.categoryId) urlParts.push(product.categoryId);
-
-    urlParts.push(productNameSlug);
-    urlParts.push(product.id);
-
-    const url = `/${urlParts.join("/")}`;
+    const url = `/shop/${product.gender}/${product.categoryName}/${product.categoryId}/${productNameSlug}/${product.id}`;
 
     history.push(url);
     window.scrollTo({
@@ -41,6 +34,7 @@ function PageContent() {
       behavior: "smooth",
     });
   };
+
   return (
     <Switch>
       <Route
@@ -61,16 +55,6 @@ function PageContent() {
         )}
       />
       <Route
-        exact
-        path="/shop/:productNameSlug/:productId"
-        render={(props) => (
-          <ProductDetailPage
-            {...props}
-            handleProductClick={handleProductClick}
-          />
-        )}
-      />
-      <Route
         path="/shop/:gender/:categoryName/:categoryId"
         render={(props) => (
           <ShopPage {...props} handleProductClick={handleProductClick} />
@@ -83,7 +67,6 @@ function PageContent() {
           <ShopPage {...props} handleProductClick={handleProductClick} />
         )}
       />
-
       <Route path="/contact" component={ContactPage} />
       <Route path="/team" component={TeamPage} />
       <Route path="/about" component={AboutPage} />

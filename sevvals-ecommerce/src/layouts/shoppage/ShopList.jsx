@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../../store/actions/productActions";
+import {
+  fetchCategories,
+  fetchProducts,
+} from "../../store/actions/productActions";
 import ProductCard from "../../components/ProductCard";
 import ReactPaginate from "react-paginate";
 import { useLocation, useHistory } from "react-router-dom";
@@ -16,6 +19,10 @@ function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
   const { productList, total, isFetching } = useSelector(
     (state) => state.products
   );
+
+  const categories = useSelector((state) => state.products.categories);
+
+  console.log("ShopList paramsssss:", { gender, categoryName, categoryId });
 
   const [currentPage, setCurrentPage] = useState(1);
   const [priceSort, setPriceSort] = useState("");
@@ -246,7 +253,10 @@ function ShopList({ gender, categoryName, categoryId, handleProductClick }) {
                   department={product.description}
                   originalPrice={product.price}
                   discountedPrice={product.price}
-                  onClick={() => handleProductClick(product)}
+                  product={product}
+                  category={categories.find(
+                    (category) => category.id === product.category_id
+                  )}
                 />
               </div>
             ))}

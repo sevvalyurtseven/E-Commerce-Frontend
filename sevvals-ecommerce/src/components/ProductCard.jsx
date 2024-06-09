@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import colors from "../assets/featured-posts/product-colors.png";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function ProductCard({
   image,
@@ -8,13 +9,31 @@ function ProductCard({
   department,
   originalPrice,
   discountedPrice,
-  onClick,
+  product,
+  category,
 }) {
+  console.log("categoryyyyyy", category);
   const location = useLocation();
+  const history = useHistory();
+
+  const handleProductClick = () => {
+    const categoryTitleSlug = category.title.toLowerCase().replace(/\s+/g, "-");
+    const productNameSlug = product.name.toLowerCase().replace(/\s+/g, "-");
+    const url = `/shop/${
+      category.gender === "k" ? "kadin" : "erkek"
+    }/${categoryTitleSlug}/${category.id}/${productNameSlug}/${product.id}`;
+
+    history.push(url);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div
       className="flex flex-col items-center text-center gap-5 bg-white border border-gray-100 rounded-md shadow-md pb-6 h-full cursor-pointe transition-transform duration-300 ease-in-out transform hover:scale-110"
-      onClick={onClick}
+      onClick={handleProductClick}
     >
       <div className="flex-grow flex items-center justify-center overflow-hidden">
         <img src={image} alt={title} className="object-contain w-full" />

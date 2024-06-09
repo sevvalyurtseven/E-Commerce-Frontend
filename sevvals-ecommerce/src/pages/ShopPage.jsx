@@ -18,6 +18,8 @@ function ShopPage({ handleProductClick }) {
         categoryId={categoryId}
       />
       <ShopList
+        gender={gender}
+        categoryName={categoryName}
         categoryId={categoryId}
         handleProductClick={handleProductClick}
       />

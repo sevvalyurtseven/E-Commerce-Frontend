@@ -13,16 +13,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import colors from "../../assets/featured-posts/product-colors.png";
 
-function ProductDetail() {
-  const { productId } = useParams();
-  const dispatch = useDispatch();
+function ProductDetail({ product }) {
+  console.log("ProductDetail product:", product);
   const history = useHistory();
-  const { product, isFetchingProduct } = useSelector((state) => state.products);
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    dispatch(fetchProductById(productId));
-  }, [dispatch, productId]);
 
   const handleBackClick = () => {
     history.goBack();
@@ -46,14 +40,6 @@ function ProductDetail() {
     setCurrentSlide(index);
   };
 
-  if (isFetchingProduct) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <button className="btn loading">Loading</button>
-      </div>
-    );
-  }
-
   return (
     <div className="bg-[#FAFAFA] sm:px-20 px-4 py-8">
       <button
@@ -71,15 +57,13 @@ function ProductDetail() {
                   className="flex transition-transform duration-500 ease-in-out"
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
-                  {[0, 1].map((index) => (
+                  {product.images.map((img, index) => (
                     <div
                       key={index}
                       className="w-full flex-shrink-0 h-full flex justify-center items-center"
                     >
                       <img
-                        src={
-                          product.images[index]?.url || product.images[0]?.url
-                        }
+                        src={img.url}
                         className="object-contain max-h-[500px] rounded-md"
                         alt={product.name}
                       />
@@ -104,10 +88,10 @@ function ProductDetail() {
                 </div>
               </div>
               <div className="flex mt-4 space-x-2 justify-center lg:justify-start">
-                {[0, 1].map((index) => (
+                {product.images.map((img, index) => (
                   <img
                     key={index}
-                    src={product.images[index]?.url || product.images[0]?.url}
+                    src={img.url}
                     className={`w-16 h-16 object-contain cursor-pointer rounded-md ${
                       currentSlide === index ? "border-2 border-blue-500" : ""
                     }`}
