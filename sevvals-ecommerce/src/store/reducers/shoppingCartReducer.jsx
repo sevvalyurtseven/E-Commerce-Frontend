@@ -1,4 +1,3 @@
-import Decimal from "decimal.js";
 import {
   ADD_TO_CART,
   DECREASE_QUANTITY,

@@ -4,7 +4,6 @@ import colors from "../assets/featured-posts/product-colors.png";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/actions/shoppingCartActions";
-import { toast } from "react-toastify";
 
 const convertToEnglish = (str) => {
   const charMap = {
@@ -61,9 +60,8 @@ function ProductCard({
   const handleAddToCart = (e) => {
     e.stopPropagation();
     dispatch(addToCart(product));
-    toast.success("Ürün sepete eklendi!");
     setIsAddedToCart(true);
-    setTimeout(() => setIsAddedToCart(false), 3000); // 3 saniye sonra mesajı kaldır
+    setTimeout(() => setIsAddedToCart(false), 1000); // 2 saniye sonra mesajı kaldır
   };
 
   return (
