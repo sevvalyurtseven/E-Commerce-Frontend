@@ -9,6 +9,7 @@ import SignUpPage from "../pages/SignUpPage";
 import LoginPage from "../pages/LoginPage";
 import { useHistory, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import ShoppingCartPage from "../pages/ShoppingCartPage";
 
 function PageContent() {
   const history = useHistory();
@@ -36,6 +37,7 @@ function PageContent() {
         component={ShopPage}
       />
       <Route exact path="/shop" component={ShopPage} />
+      <Route path="/cart" component={ShoppingCartPage} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/team" component={TeamPage} />
       <Route path="/about" component={AboutPage} />
