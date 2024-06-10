@@ -6,22 +6,31 @@ import {
   decreaseQuantity,
   increaseQuantity,
   removeItem,
+  applyDiscountCode,
 } from "../store/actions/shoppingCartActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function OrderSummary() {
   const cart = useSelector((state) => state.shoppingCart.cart);
+  const discountCodeFromState = useSelector(
+    (state) => state.shoppingCart.discountCode
+  );
+  const discountAmountFromState = useSelector(
+    (state) => state.shoppingCart.discountAmount
+  );
   const shippingCost = 29.99;
   const freeShippingThreshold = 400;
   const discountThreshold = 1000;
   const discountCode = "SEVVAL10"; // Örnek indirim kodu
   const discountPercentage = 0.1; // %10 indirim
-  const [appliedDiscountCode, setAppliedDiscountCode] = useState("");
-  const [discountAmount, setDiscountAmount] = useState(0);
-  const [isDiscountApplied, setIsDiscountApplied] = useState(false);
   const location = useLocation(); // Mevcut yolu kontrol etmek için useLocation kullanıyoruz
   const dispatch = useDispatch(); // dispatch fonksiyonunu kullanmak için ekledik
+
+  const [appliedDiscountCode, setAppliedDiscountCode] = useState(
+    discountCodeFromState
+  );
+  const [isDiscountApplied, setIsDiscountApplied] = useState(false);
 
   // İndirim kodunu uygulama fonksiyonu
   const handleApplyDiscountCode = () => {
@@ -29,11 +38,12 @@ function OrderSummary() {
       appliedDiscountCode === discountCode &&
       totalPrice >= discountThreshold
     ) {
-      setDiscountAmount(totalPrice * discountPercentage);
+      const discountAmount = totalPrice * discountPercentage;
+      dispatch(applyDiscountCode(discountCode, discountAmount));
       setIsDiscountApplied(true);
       toast.success("Discount code applied successfully!");
     } else {
-      setDiscountAmount(0);
+      dispatch(applyDiscountCode("", 0));
       setIsDiscountApplied(false);
       toast.error("Invalid discount code or minimum purchase not met.");
     }
@@ -67,22 +77,24 @@ function OrderSummary() {
 
     // Toplam fiyat indirim eşiğinin altına düştüğünde indirimi kaldır
     if (isDiscountApplied && totalPrice < discountThreshold) {
-      setDiscountAmount(0);
+      dispatch(applyDiscountCode("", 0));
       setIsDiscountApplied(false);
       toast.info(
-        "Toplam tutar eşik değerinin altına düştüğü için indirim kodu kaldırıldı."
+        "The discount code has been removed because the total amount has fallen below the threshold."
       );
     } else if (isDiscountApplied) {
-      setDiscountAmount(totalPrice * discountPercentage);
+      dispatch(
+        applyDiscountCode(discountCode, totalPrice * discountPercentage)
+      );
     }
-  }, [cart, totalPrice, isDiscountApplied]);
+  }, [cart, totalPrice, isDiscountApplied, dispatch]);
 
   // Siparişin ücretsiz kargo için uygun olup olmadığını kontrol et
   const isFreeShipping = totalPrice >= freeShippingThreshold;
   // İndirimler ve kargo maliyetleri uygulandıktan sonra nihai toplam fiyatı hesapla
   const finalTotalPrice = isFreeShipping
-    ? totalPrice - discountAmount
-    : totalPrice + shippingCost - discountAmount;
+    ? totalPrice - discountAmountFromState
+    : totalPrice + shippingCost - discountAmountFromState;
 
   // Ürün miktarını artırma fonksiyonu
   const handleIncrease = (productId) => {
@@ -174,7 +186,9 @@ function OrderSummary() {
         <p className="flex justify-between text-blue-600 font-medium">
           <span>Discount:</span>
           <span>
-            {discountAmount > 0 ? `-${discountAmount.toFixed(2)} TL` : "0 TL"}
+            {discountAmountFromState > 0
+              ? `-${discountAmountFromState.toFixed(2)} TL`
+              : "0 TL"}
           </span>
         </p>
         <p className="flex justify-between font-bold text-blue-700">
