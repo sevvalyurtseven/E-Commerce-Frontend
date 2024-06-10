@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faTruck } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   format,
@@ -20,6 +22,8 @@ import {
 function ShoppingCart() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.shoppingCart.cart);
+  const shippingCost = 29.99;
+  const freeShippingThreshold = 400;
 
   const handleIncrease = (productId) => {
     dispatch(increaseQuantity(productId));
@@ -44,6 +48,12 @@ function ShoppingCart() {
       .toFixed(2);
   };
 
+  const calculateTotalQuantity = () => {
+    return cart
+      .filter((item) => item.checked)
+      .reduce((total, item) => total + item.count, 0);
+  };
+
   const calculateShippingDate = () => {
     const currentDate = new Date();
     let shippingDate;
@@ -63,11 +73,21 @@ function ShoppingCart() {
     return format(shippingDate, "EEEE, MMMM d");
   };
 
-  const totalPrice = calculateTotalPrice();
+  const totalPrice = parseFloat(calculateTotalPrice());
+  const totalQuantity = calculateTotalQuantity();
+  const isFreeShipping = totalPrice >= freeShippingThreshold;
+  const finalTotalPrice = isFreeShipping
+    ? totalPrice
+    : (totalPrice + shippingCost).toFixed(2);
   const estimatedShippingTime = calculateShippingDate();
+
+  if (isFreeShipping) {
+    toast.success("Congratulations! You have free shipping.");
+  }
 
   return (
     <div className="container mx-auto p-4">
+      <ToastContainer />
       <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
       <div className="flex flex-col lg:flex-row justify-between space-y-4 lg:space-y-0">
         <div className="w-full lg:w-2/3 space-y-4 overflow-y-auto">
@@ -143,12 +163,18 @@ function ShoppingCart() {
             </h3>
             <div className="mb-4">
               <p className="flex justify-between text-blue-600">
-                <span>Product Total:</span>
-                <span>{totalPrice} TL</span>
+                <span>Total Quantity:</span>
+                <span>{totalQuantity}</span>
               </p>
               <p className="flex justify-between text-blue-600">
-                <span>Shipping:</span>
-                <span>29.99 TL</span>
+                <span>Total Price:</span>
+                <span>{totalPrice.toFixed(2)} TL</span>
+              </p>
+              <p className="flex justify-between text-blue-600">
+                <span>Shipping Cost:</span>
+                <span className={isFreeShipping ? "line-through" : ""}>
+                  {isFreeShipping ? "FREE" : `${shippingCost} TL`}
+                </span>
               </p>
               <p className="flex justify-between text-blue-600">
                 <span>Discount:</span>
@@ -156,7 +182,7 @@ function ShoppingCart() {
               </p>
               <p className="flex justify-between font-bold text-blue-700">
                 <span>Total:</span>
-                <span>{totalPrice} TL</span>
+                <span>{finalTotalPrice} TL</span>
               </p>
             </div>
             <button className="btn btn-primary w-full bg-blue-500 hover:bg-blue-700 text-sm">
@@ -164,6 +190,11 @@ function ShoppingCart() {
             </button>
           </div>
         </div>
+      </div>
+      <div className="sticky bottom-0 bg-yellow-100 bg-opacity-75 p-4 rounded-lg shadow-md text-center mt-4 w-[30%]">
+        <p className="text-sm font-bold text-yellow-700 flex items-center justify-center">
+          🚚 Free shipping for orders over {freeShippingThreshold} TL! 🚚
+        </p>
       </div>
     </div>
   );
