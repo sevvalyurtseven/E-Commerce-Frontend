@@ -218,10 +218,12 @@ function OrderSummary() {
             placeholder="Enter discount code"
             value={appliedDiscountCode}
             onChange={(e) => setAppliedDiscountCode(e.target.value)}
+            disabled={isDiscountApplied} // İndirim kodu uygulandıysa input'u devre dışı bırak
           />
           <button
             className="btn btn-outline w-full tracking-widest"
             onClick={handleApplyDiscountCode}
+            disabled={isDiscountApplied} // İndirim kodu uygulandıysa butonu devre dışı bırak
           >
             Apply Discount
           </button>
