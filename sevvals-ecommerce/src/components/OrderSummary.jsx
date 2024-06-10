@@ -31,6 +31,7 @@ function OrderSummary() {
     discountCodeFromState
   );
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
+  const [hasShownToast, setHasShownToast] = useState(false); // Toast gösterimi için flag
 
   // İndirim kodunu uygulama fonksiyonu
   const handleApplyDiscountCode = () => {
@@ -41,6 +42,7 @@ function OrderSummary() {
       const discountAmount = totalPrice * discountPercentage;
       dispatch(applyDiscountCode(discountCode, discountAmount));
       setIsDiscountApplied(true);
+      setHasShownToast(false); // İndirim kodu uygulandığında Toast'u sıfırla
       toast.success("Discount code applied successfully!");
     } else {
       dispatch(applyDiscountCode("", 0));
@@ -72,22 +74,35 @@ function OrderSummary() {
 
   // Sepet değiştiğinde toplam fiyat ve toplam miktarı güncellemek için effect
   useEffect(() => {
-    setTotalPrice(parseFloat(calculateTotalPrice()));
+    const newTotalPrice = parseFloat(calculateTotalPrice());
+    setTotalPrice(newTotalPrice);
     setTotalQuantity(calculateTotalQuantity());
 
     // Toplam fiyat indirim eşiğinin altına düştüğünde indirimi kaldır
-    if (isDiscountApplied && totalPrice < discountThreshold) {
+    if (isDiscountApplied && newTotalPrice < discountThreshold) {
       dispatch(applyDiscountCode("", 0));
       setIsDiscountApplied(false);
-      toast.info(
-        "The discount code has been removed because the total amount has fallen below the threshold."
-      );
+      if (!hasShownToast) {
+        toast.info(
+          "The discount code has been removed because the total amount has fallen below the threshold."
+        );
+        setHasShownToast(true); // Toast gösterildiğini işaretle
+      }
     } else if (isDiscountApplied) {
       dispatch(
-        applyDiscountCode(discountCode, totalPrice * discountPercentage)
+        applyDiscountCode(discountCode, newTotalPrice * discountPercentage)
       );
+      setHasShownToast(false); // İndirim tekrar uygulanınca Toast'u sıfırla
     }
-  }, [cart, totalPrice, isDiscountApplied, dispatch]);
+  }, [
+    cart,
+    isDiscountApplied,
+    discountCode,
+    discountPercentage,
+    discountThreshold,
+    dispatch,
+    hasShownToast,
+  ]);
 
   // Siparişin ücretsiz kargo için uygun olup olmadığını kontrol et
   const isFreeShipping = totalPrice >= freeShippingThreshold;
