@@ -307,9 +307,12 @@ function Header() {
                             </li>
                           ))}
                           <div className="mt-4 flex justify-between">
-                            <button className="btn bg-gray-200 text-gray-700">
+                            <NavLink
+                              to="/cart"
+                              className="btn bg-gray-200 text-gray-700"
+                            >
                               Go To Cart
-                            </button>
+                            </NavLink>
                             <button className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]">
                               Complete Order
                             </button>
