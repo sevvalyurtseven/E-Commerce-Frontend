@@ -1,6 +1,7 @@
 import {
   ADD_ADDRESS,
   ADD_TO_CART,
+  APPLY_DISCOUNT_CODE,
   DECREASE_QUANTITY,
   DELETE_ADDRESS,
   GET_CART_ERROR,
@@ -18,6 +19,8 @@ import {
 
 const initialState = {
   cart: [],
+  discountCode: "",
+  discountAmount: 0,
   totalPrice: 0, // Toplam fiyatı başlangıç durumuna ekleyin
   totalCount: 0, // Toplam miktarı başlangıç durumuna ekleyin
   payment: {},
@@ -27,10 +30,10 @@ const initialState = {
 };
 
 // Toplam fiyatı hesaplayan yardımcı fonksiyon
-const calculateTotalPrice = (cart) => {
-  return cart.reduce(
-    (total, item) => total + item.product.price * item.count,
-    0
+const calculateTotalPrice = (cart, discountAmount = 0) => {
+  return (
+    cart.reduce((total, item) => total + item.product.price * item.count, 0) -
+    discountAmount
   );
 };
 
@@ -56,7 +59,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: action.payload,
-        totalPrice: calculateTotalPrice(action.payload),
+        totalPrice: calculateTotalPrice(action.payload, state.discountAmount),
         totalCount: calculateTotalCount(action.payload),
       };
     case ADD_TO_CART: {
@@ -77,7 +80,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: newCart,
-        totalPrice: calculateTotalPrice(newCart),
+        totalPrice: calculateTotalPrice(newCart, state.discountAmount),
         totalCount: calculateTotalCount(newCart),
       };
     }
@@ -91,7 +94,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: newCart,
-        totalPrice: calculateTotalPrice(newCart),
+        totalPrice: calculateTotalPrice(newCart, state.discountAmount),
         totalCount: calculateTotalCount(newCart),
       };
     }
@@ -105,7 +108,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: newCart,
-        totalPrice: calculateTotalPrice(newCart),
+        totalPrice: calculateTotalPrice(newCart, state.discountAmount),
         totalCount: calculateTotalCount(newCart),
       };
     }
@@ -117,7 +120,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: newCart,
-        totalPrice: calculateTotalPrice(newCart),
+        totalPrice: calculateTotalPrice(newCart, state.discountAmount),
         totalCount: calculateTotalCount(newCart),
       };
     }
@@ -131,7 +134,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: newCart,
-        totalPrice: calculateTotalPrice(newCart),
+        totalPrice: calculateTotalPrice(newCart, state.discountAmount),
         totalCount: calculateTotalCount(newCart),
       };
     }
@@ -140,8 +143,17 @@ export const shoppingCartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: loadedCart,
-        totalPrice: calculateTotalPrice(loadedCart),
+        totalPrice: calculateTotalPrice(loadedCart, state.discountAmount),
         totalCount: calculateTotalCount(loadedCart),
+      };
+    }
+    case APPLY_DISCOUNT_CODE: {
+      const { code, discountAmount } = action.payload;
+      return {
+        ...state,
+        discountCode: code,
+        discountAmount: discountAmount,
+        totalPrice: calculateTotalPrice(state.cart, discountAmount),
       };
     }
     case GET_CART_FETCHING:
@@ -151,7 +163,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         cart: action.payload,
-        totalPrice: calculateTotalPrice(action.payload),
+        totalPrice: calculateTotalPrice(action.payload, state.discountAmount),
         totalCount: calculateTotalCount(action.payload),
       };
     case GET_CART_ERROR:

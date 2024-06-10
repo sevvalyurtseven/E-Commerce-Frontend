@@ -12,6 +12,7 @@ export const ADD_TO_CART = "Sepete ekleme işlemi";
 export const INCREASE_QUANTITY = "Sepetteki ürün miktarını artırma işlemi";
 export const DECREASE_QUANTITY = "Sepetteki ürün miktarını azaltma işlemi";
 export const REMOVE_FROM_CART = "Sepetten ürün çıkarma işlemi";
+export const APPLY_DISCOUNT_CODE = "İndirim kodunu uygulama işlemi";
 export const TOGGLE_ITEM_SELECTION = "Sepetteki ürün seçimi işlemi";
 export const LOAD_CART_FROM_STORAGE = "Sepet içeriğini yükleme işlemi";
 
@@ -74,6 +75,11 @@ export const decreaseQuantity = (productId) => ({
 export const removeItem = (productId) => ({
   type: REMOVE_FROM_CART,
   payload: productId,
+});
+
+export const applyDiscountCode = (code, discountAmount) => ({
+  type: APPLY_DISCOUNT_CODE,
+  payload: { code, discountAmount },
 });
 
 export const toggleItemSelection = (productId) => ({
