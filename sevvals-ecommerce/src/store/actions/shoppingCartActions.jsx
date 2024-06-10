@@ -9,6 +9,9 @@ export const ADD_TO_CART = "Sepete ekleme işlemi";
 export const INCREASE_QUANTITY = "Sepetteki ürün miktarını artırma işlemi";
 export const DECREASE_QUANTITY = "Sepetteki ürün miktarını azaltma işlemi";
 export const REMOVE_FROM_CART = "Sepetten ürün çıkarma işlemi";
+export const TOGGLE_ITEM_SELECTION = "Sepetteki ürün seçimi işlemi";
+export const LOAD_CART_FROM_STORAGE = "Sepet içeriğini yükleme işlemi";
+
 // Fetch Constants:
 
 export const GET_CART = "Sepeti getirmek için kullanılır";
@@ -53,6 +56,15 @@ export const decreaseQuantity = (productId) => ({
 export const removeItem = (productId) => ({
   type: REMOVE_FROM_CART,
   payload: productId,
+});
+
+export const toggleItemSelection = (productId) => ({
+  type: TOGGLE_ITEM_SELECTION,
+  payload: productId,
+});
+
+export const loadCartFromStorage = () => ({
+  type: LOAD_CART_FROM_STORAGE,
 });
 
 export const fetchCartRequest = () => ({
