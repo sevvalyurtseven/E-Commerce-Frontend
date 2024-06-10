@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
 
 function OrderSummary() {
@@ -122,9 +123,12 @@ function OrderSummary() {
           Use code "SEVVAL10" for 10% off orders over 1000 TL! 🎉
         </p>
       </div>
-      <button className="btn btn-primary w-full bg-blue-500 hover:bg-blue-700 text-sm tracking-widest">
+      <Link
+        to="/order"
+        className="btn btn-primary w-full bg-blue-500 hover:bg-blue-700 text-sm tracking-widest"
+      >
         Create Order
-      </button>
+      </Link>
     </div>
   );
 }
