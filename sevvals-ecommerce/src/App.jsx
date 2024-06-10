@@ -8,6 +8,7 @@ import axiosInstance from "./api/api";
 import { setUser } from "./store/actions/clientActions";
 import { fetchCategories } from "./store/actions/productActions";
 import { useLocation } from "react-router-dom";
+import { loadCartFromStorage } from "./store/actions/shoppingCartActions";
 
 function App() {
   const dispatch = useDispatch(); // Redux dispatch fonksiyonunu kullanmak için
@@ -36,6 +37,7 @@ function App() {
 
     verifyToken();
     dispatch(fetchCategories()); // Kategorileri fetch et
+    dispatch(loadCartFromStorage()); // Load the cart from localStorage
   }, [dispatch]);
 
   if (loading) {
