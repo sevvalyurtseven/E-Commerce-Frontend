@@ -5,10 +5,12 @@ import {
   GET_CART_FETCHING,
   GET_CART_SUCCESS,
   INCREASE_QUANTITY,
+  LOAD_CART_FROM_STORAGE,
   REMOVE_FROM_CART,
   SET_ADDRESS,
   SET_CART,
   SET_PAYMENT,
+  TOGGLE_ITEM_SELECTION,
 } from "../actions/shoppingCartActions";
 
 const initialState = {
@@ -34,6 +36,15 @@ const calculateTotalCount = (cart) => {
   return cart.reduce((total, item) => total + item.count, 0);
 };
 
+const saveCartToLocalStorage = (cart) => {
+  localStorage.setItem("shoppingCart", JSON.stringify(cart));
+};
+
+const loadCartFromLocalStorage = () => {
+  const cart = localStorage.getItem("shoppingCart");
+  return cart ? JSON.parse(cart) : [];
+};
+
 export const shoppingCartReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CART:
@@ -43,10 +54,6 @@ export const shoppingCartReducer = (state = initialState, action) => {
         totalPrice: calculateTotalPrice(action.payload),
         totalCount: calculateTotalCount(action.payload),
       };
-    case SET_PAYMENT:
-      return { ...state, payment: action.payload };
-    case SET_ADDRESS:
-      return { ...state, address: action.payload };
     case ADD_TO_CART: {
       const existingProductIndex = state.cart.findIndex(
         (item) => item.product.id === action.payload.id
@@ -61,6 +68,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
           { count: 1, checked: true, product: action.payload },
         ];
       }
+      saveCartToLocalStorage(newCart);
       return {
         ...state,
         cart: newCart,
@@ -74,6 +82,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
           ? { ...item, count: item.count + 1 }
           : item
       );
+      saveCartToLocalStorage(newCart);
       return {
         ...state,
         cart: newCart,
@@ -87,6 +96,7 @@ export const shoppingCartReducer = (state = initialState, action) => {
           ? { ...item, count: item.count - 1 }
           : item
       );
+      saveCartToLocalStorage(newCart);
       return {
         ...state,
         cart: newCart,
@@ -98,11 +108,35 @@ export const shoppingCartReducer = (state = initialState, action) => {
       const newCart = state.cart.filter(
         (item) => item.product.id !== action.payload
       );
+      saveCartToLocalStorage(newCart);
       return {
         ...state,
         cart: newCart,
         totalPrice: calculateTotalPrice(newCart),
         totalCount: calculateTotalCount(newCart),
+      };
+    }
+    case TOGGLE_ITEM_SELECTION: {
+      const newCart = state.cart.map((item) =>
+        item.product.id === action.payload
+          ? { ...item, checked: !item.checked }
+          : item
+      );
+      saveCartToLocalStorage(newCart);
+      return {
+        ...state,
+        cart: newCart,
+        totalPrice: calculateTotalPrice(newCart),
+        totalCount: calculateTotalCount(newCart),
+      };
+    }
+    case LOAD_CART_FROM_STORAGE: {
+      const loadedCart = loadCartFromLocalStorage();
+      return {
+        ...state,
+        cart: loadedCart,
+        totalPrice: calculateTotalPrice(loadedCart),
+        totalCount: calculateTotalCount(loadedCart),
       };
     }
     case GET_CART_FETCHING:
