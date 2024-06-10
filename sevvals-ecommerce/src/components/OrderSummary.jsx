@@ -30,7 +30,9 @@ function OrderSummary() {
   const [appliedDiscountCode, setAppliedDiscountCode] = useState(
     discountCodeFromState
   );
-  const [isDiscountApplied, setIsDiscountApplied] = useState(false);
+  const [isDiscountApplied, setIsDiscountApplied] = useState(
+    !!discountCodeFromState
+  );
   const [hasShownToast, setHasShownToast] = useState(false); // Toast gösterimi için flag
 
   // İndirim kodunu uygulama fonksiyonu
