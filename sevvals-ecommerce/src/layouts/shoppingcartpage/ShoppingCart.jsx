@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faTruck } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -69,7 +67,6 @@ function ShoppingCart() {
 
   return (
     <div className="container mx-auto p-4">
-      <ToastContainer />
       <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
       <div className="flex flex-col lg:flex-row justify-between space-y-4 lg:space-y-0">
         {/* Sepetteki Ürün Listesi */}
