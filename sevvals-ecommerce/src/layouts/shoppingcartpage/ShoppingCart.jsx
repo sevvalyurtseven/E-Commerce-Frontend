@@ -70,7 +70,7 @@ function ShoppingCart() {
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
       <div className="flex flex-col lg:flex-row justify-between space-y-4 lg:space-y-0">
-        <div className="w-full lg:w-2/3 space-y-4">
+        <div className="w-full lg:w-2/3 space-y-4 overflow-y-auto">
           <div className="bg-white shadow-md rounded-lg p-4">
             {cart.map((item) => (
               <div
@@ -137,7 +137,7 @@ function ShoppingCart() {
           </div>
         </div>
         <div className="w-full lg:w-1/3 max-w-md lg:ml-10">
-          <div className="bg-blue-100 shadow-md rounded-lg p-4 text-center">
+          <div className="bg-blue-100 shadow-md rounded-lg p-4 text-center sticky top-4">
             <h3 className="text-xl font-bold mb-4 text-blue-700">
               Order Summary
             </h3>
