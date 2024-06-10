@@ -1,6 +1,8 @@
 import {
+  ADD_ADDRESS,
   ADD_TO_CART,
   DECREASE_QUANTITY,
+  DELETE_ADDRESS,
   GET_CART_ERROR,
   GET_CART_FETCHING,
   GET_CART_SUCCESS,
@@ -11,6 +13,7 @@ import {
   SET_CART,
   SET_PAYMENT,
   TOGGLE_ITEM_SELECTION,
+  UPDATE_ADDRESS,
 } from "../actions/shoppingCartActions";
 
 const initialState = {
@@ -18,13 +21,12 @@ const initialState = {
   totalPrice: 0, // Toplam fiyatı başlangıç durumuna ekleyin
   totalCount: 0, // Toplam miktarı başlangıç durumuna ekleyin
   payment: {},
-  address: {},
+  addresses: [],
   isFetching: false, // fetching durumunu belirten alan
   error: null, // hata mesajını tutan alan
 };
 
 // Toplam fiyatı hesaplayan yardımcı fonksiyon
-
 const calculateTotalPrice = (cart) => {
   return cart.reduce(
     (total, item) => total + item.product.price * item.count,
@@ -32,14 +34,17 @@ const calculateTotalPrice = (cart) => {
   );
 };
 
+// Toplam miktarı hesaplayan yardımcı fonksiyon
 const calculateTotalCount = (cart) => {
   return cart.reduce((total, item) => total + item.count, 0);
 };
 
+// Sepeti LocalStorage'a kaydetme fonksiyonu
 const saveCartToLocalStorage = (cart) => {
   localStorage.setItem("shoppingCart", JSON.stringify(cart));
 };
 
+// LocalStorage'dan sepeti yükleme fonksiyonu
 const loadCartFromLocalStorage = () => {
   const cart = localStorage.getItem("shoppingCart");
   return cart ? JSON.parse(cart) : [];
@@ -151,6 +156,30 @@ export const shoppingCartReducer = (state = initialState, action) => {
       };
     case GET_CART_ERROR:
       return { ...state, isFetching: false, error: action.payload };
+    case SET_ADDRESS:
+      return {
+        ...state,
+        addresses: action.payload,
+      };
+    case ADD_ADDRESS:
+      return {
+        ...state,
+        addresses: [...state.addresses, action.payload],
+      };
+    case UPDATE_ADDRESS:
+      return {
+        ...state,
+        addresses: state.addresses.map((address) =>
+          address.id === action.payload.id ? action.payload : address
+        ),
+      };
+    case DELETE_ADDRESS:
+      return {
+        ...state,
+        addresses: state.addresses.filter(
+          (address) => address.id !== action.payload
+        ),
+      };
     default:
       return state;
   }
