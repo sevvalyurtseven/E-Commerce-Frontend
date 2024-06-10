@@ -5,6 +5,9 @@ import axiosInstance from "../../api/api";
 export const SET_CART = "Sepet içeriğini ayarlar";
 export const SET_PAYMENT = "Ödeme bilgilerini ayarlar";
 export const SET_ADDRESS = "Adres bilgilerini ayarlar";
+export const ADD_ADDRESS = "Adres ekleme işlemi";
+export const UPDATE_ADDRESS = "Adres bilgilerini güncelleme işlemi";
+export const DELETE_ADDRESS = "Adres bilgilerini silme işlemi";
 export const ADD_TO_CART = "Sepete ekleme işlemi";
 export const INCREASE_QUANTITY = "Sepetteki ürün miktarını artırma işlemi";
 export const DECREASE_QUANTITY = "Sepetteki ürün miktarını azaltma işlemi";
@@ -37,6 +40,21 @@ export const setPayment = (payment) => ({
 export const setAddress = (address) => ({
   type: SET_ADDRESS,
   payload: address,
+});
+
+export const addAddress = (address) => ({
+  type: ADD_ADDRESS,
+  payload: address,
+});
+
+export const updateAddress = (address) => ({
+  type: UPDATE_ADDRESS,
+  payload: address,
+});
+
+export const deleteAddress = (addressId) => ({
+  type: DELETE_ADDRESS,
+  payload: addressId,
 });
 
 export const addToCart = (product) => ({
@@ -93,6 +111,50 @@ export const fetchCart = () => {
       dispatch(fetchCartSuccess(response.data));
     } catch (error) {
       dispatch(fetchCartError(error.message));
+    }
+  };
+};
+
+export const fetchAddresses = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.get("/user/address");
+      dispatch(setAddress(response.data));
+    } catch (error) {
+      console.error("Adresler getirilemedi:", error);
+    }
+  };
+};
+
+export const createAddress = (address) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.post("/user/address", address);
+      dispatch(addAddress(response.data));
+    } catch (error) {
+      console.error("Adres eklenemedi:", error);
+    }
+  };
+};
+
+export const editAddress = (address) => {
+  return async (dispatch) => {
+    try {
+      await axiosInstance.put("/user/address", address);
+      dispatch(updateAddress(address));
+    } catch (error) {
+      console.error("Adres güncellenemedi:", error);
+    }
+  };
+};
+
+export const removeAddress = (addressId) => {
+  return async (dispatch) => {
+    try {
+      await axiosInstance.delete(`/user/address/${addressId}`);
+      dispatch(deleteAddress(addressId));
+    } catch (error) {
+      console.error("Adres silinemedi:", error);
     }
   };
 };
