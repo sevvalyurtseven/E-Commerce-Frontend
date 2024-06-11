@@ -147,10 +147,12 @@ export const createAddress = (address, token) => {
   };
 };
 
-export const editAddress = (address) => {
+export const editAddress = (address, token) => {
   return async (dispatch) => {
     try {
-      const response = await axiosInstance.put("/user/address", address);
+      const response = await axiosInstance.put("/user/address", address, {
+        headers: { Authorization: `${token}` },
+      });
       dispatch(updateAddress(response.data));
     } catch (error) {
       console.error("Adres güncellenemedi:", error);
@@ -158,10 +160,12 @@ export const editAddress = (address) => {
   };
 };
 
-export const removeAddress = (addressId) => {
+export const removeAddress = (addressId, token) => {
   return async (dispatch) => {
     try {
-      await axiosInstance.delete(`/user/address/${addressId}`);
+      await axiosInstance.delete(`/user/address/${addressId}`, {
+        headers: { Authorization: `${token}` },
+      });
       dispatch(deleteAddress(addressId));
     } catch (error) {
       console.error("Adres silinemedi:", error);
