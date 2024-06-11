@@ -1,4 +1,6 @@
+import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import ShopPage from "../pages/ShopPage";
 import ProductDetailPage from "../pages/ProductDetailPage";
@@ -7,9 +9,9 @@ import TeamPage from "../pages/TeamPage";
 import AboutPage from "../pages/AboutPage";
 import SignUpPage from "../pages/SignUpPage";
 import LoginPage from "../pages/LoginPage";
-import { useHistory, useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import ShoppingCartPage from "../pages/ShoppingCartPage";
+import OrderPage from "../pages/OrderPage";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 function PageContent() {
   const history = useHistory();
@@ -38,6 +40,8 @@ function PageContent() {
       />
       <Route exact path="/shop" component={ShopPage} />
       <Route path="/cart" component={ShoppingCartPage} />
+      <ProtectedRoute path="/order" component={OrderPage} />{" "}
+      {/* ProtectedRoute kullanımı */}
       <Route path="/contact" component={ContactPage} />
       <Route path="/team" component={TeamPage} />
       <Route path="/about" component={AboutPage} />
