@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
 import data from "../data.json"; // JSON dosyasını içe aktarın
 import {
   createAddress,
@@ -11,7 +12,7 @@ import {
 import OrderSummary from "./OrderSummary";
 
 const AddressForm = () => {
-  const { register, handleSubmit, setValue, watch, reset } = useForm();
+  const { register, handleSubmit, setValue, watch, reset, control } = useForm();
   const dispatch = useDispatch();
   const addresses = useSelector((state) => state.shoppingCart.addresses);
   const [isEditing, setIsEditing] = useState(false);
@@ -27,38 +28,46 @@ const AddressForm = () => {
   const selectedDistrict = watch("district");
 
   useEffect(() => {
-    // Şehirleri yükleyin
     const uniqueCities = [];
     data.forEach((item) => {
       if (!uniqueCities.includes(item.il)) {
         uniqueCities.push(item.il);
       }
     });
-    setCities(uniqueCities);
+    setCities(uniqueCities.map((city) => ({ value: city, label: city })));
   }, []);
 
   useEffect(() => {
     if (selectedCity) {
-      // İlçeleri yükleyin
-      const cityData = data.filter((item) => item.il === selectedCity);
+      const cityData = data.filter((item) => item.il === selectedCity.value);
       const uniqueDistricts = [];
       cityData.forEach((item) => {
         if (!uniqueDistricts.includes(item.ilce)) {
           uniqueDistricts.push(item.ilce);
         }
       });
-      setDistricts(uniqueDistricts);
+      setDistricts(
+        uniqueDistricts.map((district) => ({
+          value: district,
+          label: district,
+        }))
+      );
     }
   }, [selectedCity]);
 
   useEffect(() => {
     if (selectedDistrict) {
-      // Mahalleleri yükleyin
       const districtData = data.filter(
-        (item) => item.ilce === selectedDistrict && item.il === selectedCity
+        (item) =>
+          item.ilce === selectedDistrict.value && item.il === selectedCity.value
       );
       const uniqueNeighbourhoods = districtData.map((item) => item.mahalle_koy);
-      setNeighbourhoods(uniqueNeighbourhoods);
+      setNeighbourhoods(
+        uniqueNeighbourhoods.map((neighbourhood) => ({
+          value: neighbourhood,
+          label: neighbourhood,
+        }))
+      );
     }
   }, [selectedDistrict, selectedCity]);
 
@@ -67,11 +76,11 @@ const AddressForm = () => {
   const onSubmit = (formData) => {
     const addressData = {
       address: formData.addressDetails,
-      city: formData.city,
-      district: formData.district,
+      city: formData.city.value,
+      district: formData.district.value,
       name: formData.name,
       surname: formData.surname,
-      neighborhood: formData.neighborhood,
+      neighborhood: formData.neighborhood.value,
       phone: formData.phone,
       title: formData.addressTitle,
     };
@@ -93,9 +102,12 @@ const AddressForm = () => {
     setValue("name", address.name);
     setValue("surname", address.surname);
     setValue("phone", address.phone);
-    setValue("city", address.city);
-    setValue("district", address.district);
-    setValue("neighborhood", address.neighborhood);
+    setValue("city", { value: address.city, label: address.city });
+    setValue("district", { value: address.district, label: address.district });
+    setValue("neighborhood", {
+      value: address.neighborhood,
+      label: address.neighborhood,
+    });
     setValue("addressDetails", address.address);
     setIsEditing(true);
     setShowForm(true);
@@ -149,39 +161,33 @@ const AddressForm = () => {
               {...register("phone", { required: true })}
               className="input input-bordered w-full"
             />
-            <select
-              {...register("city", { required: true })}
-              className="select select-bordered w-full"
-            >
-              <option value="">İl Seçin</option>
-              {cities.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-            <select
-              {...register("district", { required: true })}
-              className="select select-bordered w-full"
-            >
-              <option value="">İlçe Seçin</option>
-              {districts.map((district) => (
-                <option key={district} value={district}>
-                  {district}
-                </option>
-              ))}
-            </select>
-            <select
-              {...register("neighborhood", { required: true })}
-              className="select select-bordered w-full"
-            >
-              <option value="">Mahalle Seçin</option>
-              {neighbourhoods.map((neighbourhood) => (
-                <option key={neighbourhood} value={neighbourhood}>
-                  {neighbourhood}
-                </option>
-              ))}
-            </select>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">İl</span>
+              </label>
+              <Select
+                options={cities}
+                {...register("city", { required: true })}
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">İlçe</span>
+              </label>
+              <Select
+                options={districts}
+                {...register("district", { required: true })}
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Mahalle</span>
+              </label>
+              <Select
+                options={neighbourhoods}
+                {...register("neighborhood", { required: true })}
+              />
+            </div>
             <textarea
               placeholder="Adres"
               {...register("addressDetails", { required: true })}
