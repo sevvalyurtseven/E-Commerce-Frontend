@@ -115,85 +115,101 @@ const AddressForm = () => {
 
   return (
     <div className="flex flex-col lg:flex-row justify-between mx-auto max-w-screen-xl py-10">
+      <div
+        className={`fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 ${
+          showForm ? "block" : "hidden"
+        }`}
+      >
+        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+          <h2 className="text-2xl font-bold mb-4">
+            {isEditing ? "Adres Güncelle" : "Adres Ekle"}
+          </h2>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <input
+              type="text"
+              placeholder="Adres Başlığı"
+              {...register("addressTitle", { required: true })}
+              className="input input-bordered w-full"
+            />
+            <input
+              type="text"
+              placeholder="İsim"
+              {...register("name", { required: true })}
+              className="input input-bordered w-full"
+            />
+            <input
+              type="text"
+              placeholder="Soyisim"
+              {...register("surname", { required: true })}
+              className="input input-bordered w-full"
+            />
+            <input
+              type="text"
+              placeholder="Telefon"
+              {...register("phone", { required: true })}
+              className="input input-bordered w-full"
+            />
+            <select
+              {...register("city", { required: true })}
+              className="select select-bordered w-full"
+            >
+              <option value="">İl Seçin</option>
+              {cities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+            <select
+              {...register("district", { required: true })}
+              className="select select-bordered w-full"
+            >
+              <option value="">İlçe Seçin</option>
+              {districts.map((district) => (
+                <option key={district} value={district}>
+                  {district}
+                </option>
+              ))}
+            </select>
+            <select
+              {...register("neighborhood", { required: true })}
+              className="select select-bordered w-full"
+            >
+              <option value="">Mahalle Seçin</option>
+              {neighbourhoods.map((neighbourhood) => (
+                <option key={neighbourhood} value={neighbourhood}>
+                  {neighbourhood}
+                </option>
+              ))}
+            </select>
+            <textarea
+              placeholder="Adres"
+              {...register("addressDetails", { required: true })}
+              className="textarea textarea-bordered w-full"
+            ></textarea>
+            <button type="submit" className="btn btn-primary w-full">
+              {isEditing ? "Güncelle" : "Ekle"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowForm(false)}
+              className="btn btn-secondary w-full"
+            >
+              Kapat
+            </button>
+          </form>
+        </div>
+      </div>
       <div className="w-full lg:w-6/12 px-4">
         {!showPayment ? (
           <>
             <h2 className="text-2xl font-bold mb-4">Adres Bilgileri</h2>
             <button
               className="btn btn-primary mb-4"
-              onClick={() => setShowForm(!showForm)}
+              onClick={() => setShowForm(true)}
             >
-              {showForm ? "Formu Kapat" : "Adres Ekle"}
+              Adres Ekle
             </button>
-            {showForm && (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Adres Başlığı"
-                  {...register("addressTitle", { required: true })}
-                  className="input input-bordered w-full"
-                />
-                <input
-                  type="text"
-                  placeholder="İsim"
-                  {...register("name", { required: true })}
-                  className="input input-bordered w-full"
-                />
-                <input
-                  type="text"
-                  placeholder="Soyisim"
-                  {...register("surname", { required: true })}
-                  className="input input-bordered w-full"
-                />
-                <input
-                  type="text"
-                  placeholder="Telefon"
-                  {...register("phone", { required: true })}
-                  className="input input-bordered w-full"
-                />
-                <select
-                  {...register("city", { required: true })}
-                  className="select select-bordered w-full"
-                >
-                  <option value="">İl Seçin</option>
-                  {cities.map((city) => (
-                    <option key={city} value={city}>
-                      {city}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  {...register("district", { required: true })}
-                  className="select select-bordered w-full"
-                >
-                  <option value="">İlçe Seçin</option>
-                  {districts.map((district) => (
-                    <option key={district} value={district}>
-                      {district}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  {...register("neighborhood", { required: true })}
-                  className="select select-bordered w-full"
-                >
-                  <option value="">Mahalle Seçin</option>
-                  {neighbourhoods.map((neighbourhood) => (
-                    <option key={neighbourhood} value={neighbourhood}>
-                      {neighbourhood}
-                    </option>
-                  ))}
-                </select>
-                <textarea
-                  placeholder="Adres"
-                  {...register("addressDetails", { required: true })}
-                  className="textarea textarea-bordered w-full"
-                ></textarea>
-                <button type="submit" className="btn btn-primary w-full">
-                  {isEditing ? "Güncelle" : "Ekle"}
-                </button>
-              </form>
-            )}
             <h3 className="text-xl font-bold mt-8">Kayıtlı Adresler</h3>
             <ul className="space-y-4">
               {addresses.map((address) => (
