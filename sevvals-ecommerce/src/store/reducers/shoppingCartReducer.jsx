@@ -25,6 +25,7 @@ const initialState = {
   totalCount: 0, // Toplam miktarı başlangıç durumuna ekleyin
   payment: {},
   addresses: [],
+  selectedAddress: null,
   isFetching: false, // fetching durumunu belirten alan
   error: null, // hata mesajını tutan alan
 };
