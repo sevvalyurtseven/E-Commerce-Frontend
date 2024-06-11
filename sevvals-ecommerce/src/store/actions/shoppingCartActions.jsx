@@ -121,10 +121,12 @@ export const fetchCart = () => {
   };
 };
 
-export const fetchAddresses = () => {
+export const fetchAddresses = (token) => {
   return async (dispatch) => {
     try {
-      const response = await axiosInstance.get("/user/address");
+      const response = await axiosInstance.get("/user/address", {
+        headers: { Authorization: `${token}` },
+      });
       dispatch(setAddress(response.data));
     } catch (error) {
       console.error("Adresler getirilemedi:", error);
@@ -132,10 +134,12 @@ export const fetchAddresses = () => {
   };
 };
 
-export const createAddress = (address) => {
+export const createAddress = (address, token) => {
   return async (dispatch) => {
     try {
-      const response = await axiosInstance.post("/user/address", address);
+      const response = await axiosInstance.post("/user/address", address, {
+        headers: { Authorization: `${token}` },
+      });
       dispatch(addAddress(response.data));
     } catch (error) {
       console.error("Adres eklenemedi:", error);
@@ -146,8 +150,8 @@ export const createAddress = (address) => {
 export const editAddress = (address) => {
   return async (dispatch) => {
     try {
-      await axiosInstance.put("/user/address", address);
-      dispatch(updateAddress(address));
+      const response = await axiosInstance.put("/user/address", address);
+      dispatch(updateAddress(response.data));
     } catch (error) {
       console.error("Adres güncellenemedi:", error);
     }
