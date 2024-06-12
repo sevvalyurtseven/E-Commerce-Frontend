@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axiosInstance from "../../api/api";
 
 // Action Type Constants:
@@ -122,9 +123,13 @@ export const createOrderAction = (order) => ({
   payload: order,
 });
 
-export const resetCartAction = () => ({
-  type: RESET_CART,
-});
+export const resetCartAction = () => {
+  // localStorage'dan sepeti temizle
+  localStorage.removeItem("shoppingCart");
+  return {
+    type: RESET_CART,
+  };
+};
 
 export const fetchCartRequest = () => ({
   type: GET_CART_FETCHING,
@@ -276,12 +281,9 @@ export const createOrder = (orderData, token) => {
 
       // Sepeti sıfırlama işlemi
       dispatch(resetCartAction());
-
-      // Kullanıcıyı tebrik etme
-      alert("Siparişiniz başarıyla oluşturuldu! Teşekkür ederiz.");
     } catch (error) {
       console.error("Sipariş oluşturulamadı:", error);
-      alert("Sipariş oluşturulamadı. Lütfen tekrar deneyin.");
+      toast.error("Sipariş oluşturulamadı. Lütfen tekrar deneyin.");
     }
   };
 };
