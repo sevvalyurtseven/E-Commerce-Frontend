@@ -19,6 +19,7 @@ import {
   TOGGLE_ITEM_SELECTION,
   UPDATE_ADDRESS,
   SELECT_PAYMENT_METHOD,
+  RESET_CART,
 } from "../actions/shoppingCartActions";
 
 const initialState = {
@@ -228,6 +229,16 @@ export const shoppingCartReducer = (state = initialState, action) => {
         ...state,
         selectedPaymentMethod: action.payload,
       };
+    case RESET_CART:
+      return {
+        ...state,
+        cart: [],
+        totalPrice: 0,
+        totalCount: 0,
+        discountCode: "",
+        discountAmount: 0,
+      };
+
     default:
       return state;
   }
