@@ -18,6 +18,7 @@ import {
   DELETE_PAYMENT_METHOD,
   TOGGLE_ITEM_SELECTION,
   UPDATE_ADDRESS,
+  SELECT_PAYMENT_METHOD,
 } from "../actions/shoppingCartActions";
 
 const initialState = {
@@ -221,6 +222,11 @@ export const shoppingCartReducer = (state = initialState, action) => {
         paymentMethods: state.paymentMethods.filter(
           (method) => method.id !== action.payload
         ),
+      };
+    case SELECT_PAYMENT_METHOD:
+      return {
+        ...state,
+        selectedPaymentMethod: action.payload,
       };
     default:
       return state;
