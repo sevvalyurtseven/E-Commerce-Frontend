@@ -3,7 +3,11 @@ import axiosInstance from "../../api/api";
 // Action Type Constants:
 
 export const SET_CART = "Sepet içeriğini ayarlar";
-export const SET_PAYMENT = "Ödeme bilgilerini ayarlar";
+export const SET_PAYMENT_METHODS = "Ödeme yöntemlerini ayarlar";
+export const ADD_PAYMENT_METHOD = "Ödeme yöntemini ekleme işlemi";
+export const UPDATE_PAYMENT_METHOD = "Ödeme yöntemini güncelleme işlemi";
+export const DELETE_PAYMENT_METHOD = "Ödeme yöntemini silme işlemi";
+export const SELECT_PAYMENT_METHOD = "Ödeme yöntemini seçme işlemi";
 export const SET_ADDRESS = "Adres bilgilerini ayarlar";
 export const ADD_ADDRESS = "Adres ekleme işlemi";
 export const UPDATE_ADDRESS = "Adres bilgilerini güncelleme işlemi";
@@ -33,9 +37,29 @@ export const setCart = (cart) => ({
   payload: cart,
 });
 
-export const setPayment = (payment) => ({
-  type: SET_PAYMENT,
-  payload: payment,
+export const setPaymentMethods = (methods) => ({
+  type: SET_PAYMENT_METHODS,
+  payload: methods,
+});
+
+export const addPaymentMethod = (method) => ({
+  type: ADD_PAYMENT_METHOD,
+  payload: method,
+});
+
+export const updatePaymentMethod = (method) => ({
+  type: UPDATE_PAYMENT_METHOD,
+  payload: method,
+});
+
+export const deletePaymentMethod = (methodId) => ({
+  type: DELETE_PAYMENT_METHOD,
+  payload: methodId,
+});
+
+export const selectPaymentMethod = (id) => ({
+  type: SELECT_PAYMENT_METHOD,
+  payload: id,
 });
 
 export const setAddress = (address) => ({
@@ -169,6 +193,62 @@ export const removeAddress = (addressId, token) => {
       dispatch(deleteAddress(addressId));
     } catch (error) {
       console.error("Adres silinemedi:", error);
+    }
+  };
+};
+
+export const fetchPaymentMethods = (token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.get("/user/card", {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(setPaymentMethods(response.data));
+    } catch (error) {
+      console.error("Ödeme yöntemleri getirilemedi:", error);
+    }
+  };
+};
+
+export const createPaymentMethod = (method, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.post("/user/card", method, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(addPaymentMethod(response.data));
+      // Ödeme yöntemlerini yeniden yükle
+      dispatch(fetchPaymentMethods(token));
+    } catch (error) {
+      console.error("Ödeme yöntemi eklenemedi:", error);
+    }
+  };
+};
+
+export const editPaymentMethod = (method, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.put("/user/card", method, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(updatePaymentMethod(response.data));
+      // Ödeme yöntemlerini yeniden yükle
+      dispatch(fetchPaymentMethods(token));
+    } catch (error) {
+      console.error("Ödeme yöntemi güncellenemedi:", error);
+    }
+  };
+};
+
+export const removePaymentMethod = (methodId, token) => {
+  return async (dispatch) => {
+    try {
+      await axiosInstance.delete(`/user/card/${methodId}`, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(deletePaymentMethod(methodId));
+    } catch (error) {
+      console.error("Ödeme yöntemi silinemedi:", error);
     }
   };
 };
