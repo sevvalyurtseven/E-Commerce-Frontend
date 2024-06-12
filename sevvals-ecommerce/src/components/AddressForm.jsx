@@ -17,7 +17,15 @@ function AddressForm({
   resetForm,
   initialValues = {},
 }) {
-  const { register, handleSubmit, setValue, watch, reset, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: initialValues,
   });
   const dispatch = useDispatch();
@@ -125,65 +133,99 @@ function AddressForm({
       <div className="mb-4">
         <label className="block text-gray-700 text-md">Address Title</label>
         <input
-          {...register("addressTitle")}
-          className="form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded"
+          {...register("addressTitle", {
+            required: "Address title is required",
+          })}
+          className={`form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded ${
+            errors.addressTitle ? "border-red-500" : ""
+          }`}
           placeholder="Address Title"
         />
+        {errors.addressTitle && (
+          <span className="text-red-500">{errors.addressTitle.message}</span>
+        )}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-md">First Name</label>
         <input
-          {...register("name")}
-          className="form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded"
+          {...register("name", { required: "First name is required" })}
+          className={`form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded ${
+            errors.name ? "border-red-500" : ""
+          }`}
           placeholder="First Name"
         />
+        {errors.name && (
+          <span className="text-red-500">{errors.name.message}</span>
+        )}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-md">Last Name</label>
         <input
-          {...register("surname")}
-          className="form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded"
+          {...register("surname", { required: "Last name is required" })}
+          className={`form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded ${
+            errors.surname ? "border-red-500" : ""
+          }`}
           placeholder="Last Name"
         />
+        {errors.surname && (
+          <span className="text-red-500">{errors.surname.message}</span>
+        )}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-md">Phone</label>
         <input
-          {...register("phone")}
-          className="form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded"
+          {...register("phone", { required: "Phone number is required" })}
+          className={`form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded ${
+            errors.phone ? "border-red-500" : ""
+          }`}
           placeholder="Phone"
         />
+        {errors.phone && (
+          <span className="text-red-500">{errors.phone.message}</span>
+        )}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-md">City</label>
         <Controller
           control={control}
           name="city"
+          rules={{ required: "City is required" }}
           render={({ field }) => (
             <Select
               {...field}
               options={cities}
               placeholder="Select City"
-              className="border border-gray-300 rounded"
+              className={`border ${
+                errors.city ? "border-red-500" : "border-gray-300"
+              } rounded`}
             />
           )}
         />
+        {errors.city && (
+          <span className="text-red-500">{errors.city.message}</span>
+        )}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-md">District</label>
         <Controller
           control={control}
           name="district"
+          rules={{ required: "District is required" }}
           render={({ field }) => (
             <Select
               {...field}
               options={districts}
               placeholder="Select District"
               isDisabled={!selectedCity}
-              className="border border-gray-300 rounded"
+              className={`border ${
+                errors.district ? "border-red-500" : "border-gray-300"
+              } rounded`}
             />
           )}
         />
+        {errors.district && (
+          <span className="text-red-500">{errors.district.message}</span>
+        )}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-md">
@@ -192,24 +234,37 @@ function AddressForm({
         <Controller
           control={control}
           name="neighborhood"
+          rules={{ required: "Neighborhood/Village is required" }}
           render={({ field }) => (
             <Select
               {...field}
               options={neighbourhoods}
               placeholder="Select Neighborhood/Village"
               isDisabled={!selectedDistrict}
-              className="border border-gray-300 rounded"
+              className={`border ${
+                errors.neighborhood ? "border-red-500" : "border-gray-300"
+              } rounded`}
             />
           )}
         />
+        {errors.neighborhood && (
+          <span className="text-red-500">{errors.neighborhood.message}</span>
+        )}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-md">Address Details</label>
         <textarea
-          {...register("addressDetails")}
-          className="form-textarea mt-1 block w-full p-2 text-md border border-gray-300 rounded"
+          {...register("addressDetails", {
+            required: "Address details are required",
+          })}
+          className={`form-textarea mt-1 block w-full p-2 text-md border border-gray-300 rounded ${
+            errors.addressDetails ? "border-red-500" : ""
+          }`}
           placeholder="Address Details"
         />
+        {errors.addressDetails && (
+          <span className="text-red-500">{errors.addressDetails.message}</span>
+        )}
       </div>
       <button type="submit" className="btn btn-primary py-2 px-4 text-md">
         {isEditing ? "Update" : "Add"}
