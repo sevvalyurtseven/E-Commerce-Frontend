@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddressForm from "../../components/AddressForm";
+import PaymentMethods from "../../components/PaymentMethods";
 import {
   fetchAddresses,
   removeAddress,
@@ -204,13 +205,7 @@ function Order() {
 
         {activeTab === "payment" && (
           <div>
-            <h2 className="text-2xl font-bold mb-4">Payment Information</h2>
-            <p className="text-lg mb-4 tracking-wider">
-              You can safely make your payment with a{" "}
-              <span className="font-bold">bank/credit card</span> or a{" "}
-              <span className="font-bold">shopping loan.</span>
-            </p>
-            <p>The payment information form will be here...</p>
+            <PaymentMethods />
           </div>
         )}
       </div>
