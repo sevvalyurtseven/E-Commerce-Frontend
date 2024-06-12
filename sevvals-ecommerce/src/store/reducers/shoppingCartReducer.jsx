@@ -12,7 +12,10 @@ import {
   REMOVE_FROM_CART,
   SET_ADDRESS,
   SET_CART,
-  SET_PAYMENT,
+  SET_PAYMENT_METHODS,
+  ADD_PAYMENT_METHOD,
+  UPDATE_PAYMENT_METHOD,
+  DELETE_PAYMENT_METHOD,
   TOGGLE_ITEM_SELECTION,
   UPDATE_ADDRESS,
 } from "../actions/shoppingCartActions";
@@ -26,6 +29,8 @@ const initialState = {
   payment: {},
   addresses: [],
   selectedAddress: null,
+  paymentMethods: [], // Ödeme yöntemlerini başlangıç durumuna ekleyin
+  selectedPaymentMethod: null, // Seçilen ödeme yöntemini ekleyin
   isFetching: false, // fetching durumunu belirten alan
   error: null, // hata mesajını tutan alan
 };
@@ -191,6 +196,30 @@ export const shoppingCartReducer = (state = initialState, action) => {
         ...state,
         addresses: state.addresses.filter(
           (address) => address.id !== action.payload
+        ),
+      };
+    case SET_PAYMENT_METHODS:
+      return {
+        ...state,
+        paymentMethods: action.payload,
+      };
+    case ADD_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethods: [...state.paymentMethods, action.payload],
+      };
+    case UPDATE_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethods: state.paymentMethods.map((method) =>
+          method.id === action.payload.id ? action.payload : method
+        ),
+      };
+    case DELETE_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethods: state.paymentMethods.filter(
+          (method) => method.id !== action.payload
         ),
       };
     default:
