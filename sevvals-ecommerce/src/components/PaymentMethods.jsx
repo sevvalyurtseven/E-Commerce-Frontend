@@ -110,13 +110,13 @@ function PaymentMethods() {
                   onClick={() => handleEditClick(method.id)}
                   className="btn btn-primary btn-sm"
                 >
-                  Düzenle
+                  Edit
                 </button>
                 <button
                   onClick={() => handleDeleteClick(method.id)}
                   className="btn btn-error btn-sm"
                 >
-                  Sil
+                  Delete
                 </button>
               </div>
             </div>
