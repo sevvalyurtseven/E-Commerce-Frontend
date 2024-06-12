@@ -7,6 +7,7 @@ export const SET_PAYMENT_METHODS = "Ödeme yöntemlerini ayarlar";
 export const ADD_PAYMENT_METHOD = "Ödeme yöntemini ekleme işlemi";
 export const UPDATE_PAYMENT_METHOD = "Ödeme yöntemini güncelleme işlemi";
 export const DELETE_PAYMENT_METHOD = "Ödeme yöntemini silme işlemi";
+export const SELECT_PAYMENT_METHOD = "Ödeme yöntemini seçme işlemi";
 export const SET_ADDRESS = "Adres bilgilerini ayarlar";
 export const ADD_ADDRESS = "Adres ekleme işlemi";
 export const UPDATE_ADDRESS = "Adres bilgilerini güncelleme işlemi";
@@ -54,6 +55,11 @@ export const updatePaymentMethod = (method) => ({
 export const deletePaymentMethod = (methodId) => ({
   type: DELETE_PAYMENT_METHOD,
   payload: methodId,
+});
+
+export const selectPaymentMethod = (id) => ({
+  type: SELECT_PAYMENT_METHOD,
+  payload: id,
 });
 
 export const setAddress = (address) => ({
