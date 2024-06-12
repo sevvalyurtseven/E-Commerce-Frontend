@@ -5,6 +5,7 @@ import PaymentMethods from "../../components/PaymentMethods";
 import {
   fetchAddresses,
   removeAddress,
+  createAddress,
 } from "../../store/actions/shoppingCartActions";
 import OrderSummary from "../../components/OrderSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +17,6 @@ function Order() {
   const [isEditing, setIsEditing] = useState(false);
   const [editAddressId, setEditAddressId] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [showAddresses, setShowAddresses] = useState(false);
   const [activeTab, setActiveTab] = useState("address");
   const [selectedAddress, setSelectedAddress] = useState(null);
 
@@ -41,6 +41,13 @@ function Order() {
     dispatch(removeAddress(addressId, token));
   };
 
+  // Adres ekleme işlevi
+  const handleAddAddress = (address) => {
+    dispatch(createAddress(address, token)).then(() => {
+      dispatch(fetchAddresses(token));
+    });
+  };
+
   // Sayfa yüklendiğinde adresleri fetch etme
   useEffect(() => {
     dispatch(fetchAddresses(token));
@@ -49,7 +56,6 @@ function Order() {
   // Adres seçimi işlevi
   const handleAddressSelection = (addressId) => {
     setSelectedAddress(addressId);
-    setShowAddresses(false); // Modalı kapat
   };
 
   // Sekme tıklama işlevi
@@ -94,14 +100,63 @@ function Order() {
               You can enter/select your address information below to{" "}
               <span className="font-bold">secure and accurate delivery.</span>
             </p>
-            {/* Yeni Adres Ekle Düğmesi */}
-            <button
-              className="btn bg-blue-500 hover:bg-blue-700 text-white w-full flex-grow shadow-lg rounded-lg text-3xl tracking-widest"
-              onClick={() => setShowForm(true)}
-            >
-              Add New Address <FontAwesomeIcon icon={faPlus} />
-            </button>
-            {/* Adres Formu */}
+            {/* Kayıtlı Adresler Listesi ve Yeni Adres Ekle Düğmesi */}
+            <div className="flex flex-wrap gap-4 tracking-wider text-lg max-h-[400px] overflow-y-auto">
+              <div
+                className="credit-card add-card p-4 rounded-lg shadow-lg cursor-pointer flex justify-center items-center flex-col transition-transform transform hover:scale-105"
+                onClick={() => setShowForm(true)}
+                style={{
+                  minWidth: "370px",
+                  minHeight: "270px",
+                  backgroundColor: "#f0f0f0",
+                }}
+              >
+                <FontAwesomeIcon icon={faPlus} size="3x" />
+                <span className="text-2xl font-bold text-gray-700 tracking-wider mt-4">
+                  Add New Address
+                </span>
+              </div>
+              {addresses.map((address) => (
+                <div
+                  key={address.id}
+                  className={`border p-4 rounded-lg shadow-lg cursor-pointer flex flex-col justify-between transition-transform transform hover:scale-105 ${
+                    selectedAddress === address.id
+                      ? "bg-blue-200 border-blue-500"
+                      : "border-gray-300"
+                  }`}
+                  style={{
+                    minWidth: "370px",
+                    minHeight: "270px",
+                    width: "370px",
+                  }}
+                  onClick={() => handleAddressSelection(address.id)}
+                >
+                  <h4 className="font-bold truncate">{address.title}</h4>
+                  <p className="truncate">
+                    {address.name} {address.surname}
+                  </p>
+                  <p className="truncate">{address.phone}</p>
+                  <p className="truncate">
+                    {address.city}, {address.district}, {address.neighborhood}
+                  </p>
+                  <p className="truncate">{address.address}</p>
+                  <div className="flex justify-end space-x-2 mt-4">
+                    <button
+                      onClick={() => handleEditClick(address)}
+                      className="btn btn-primary btn-sm"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteClick(address.id)}
+                      className="btn btn-error btn-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
             {showForm && (
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                 <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
@@ -117,6 +172,7 @@ function Order() {
                     setShowForm={setShowForm}
                     setIsEditing={setIsEditing}
                     resetForm={resetForm}
+                    onSubmit={handleAddAddress} // onSubmit işlevini ekleyin
                     initialValues={
                       isEditing
                         ? addresses.find(
@@ -128,70 +184,8 @@ function Order() {
                 </div>
               </div>
             )}
-            {/* Kayıtlı Adresler Düğmesi */}
-            <button
-              className="btn bg-blue-500 hover:bg-blue-700 text-white w-full flex-grow shadow-lg rounded-lg text-3xl tracking-widest"
-              onClick={() => setShowAddresses(true)}
-            >
-              Saved Addresses
-            </button>
-            {/* Kayıtlı Adresler Listesi */}
-            {showAddresses && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
-                  <button
-                    className="absolute top-2 right-2 text-gray-600"
-                    onClick={() => setShowAddresses(false)}
-                  >
-                    &times;
-                  </button>
-                  <h3 className="text-xl font-bold mb-4">Saved Addresses</h3>
-                  {addresses.length > 0 ? (
-                    <ul className="space-y-4">
-                      {addresses.map((address) => (
-                        <li
-                          key={address.id}
-                          className={`border p-4 rounded-lg cursor-pointer ${
-                            selectedAddress === address.id ? "bg-blue-200" : ""
-                          }`}
-                          onClick={() => handleAddressSelection(address.id)}
-                        >
-                          <h4 className="font-bold">{address.title}</h4>
-                          <p>
-                            {address.name} {address.surname}
-                          </p>
-                          <p>{address.phone}</p>
-                          <p>
-                            {address.city}, {address.district},{" "}
-                            {address.neighborhood}
-                          </p>
-                          <p>{address.address}</p>
-                          <div className="space-x-2 mt-2">
-                            {/* Düzenle ve Sil düğmeleri */}
-                            <button
-                              onClick={() => handleEditClick(address)}
-                              className="btn btn-primary btn-sm shadow-lg rounded-lg"
-                            >
-                              Edit
-                            </button>
-                            <button
-                              onClick={() => handleDeleteClick(address.id)}
-                              className="btn btn-error btn-sm shadow-lg rounded-lg"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No saved addresses found.</p>
-                  )}
-                </div>
-              </div>
-            )}
             {/* İleri Düğmesi */}
-            <div className="flex justify-end">
+            <div className="flex justify-end mt-4">
               <button
                 className="btn btn-outline shadow-md rounded-lg text-base tracking-widest w-auto"
                 onClick={handleNextClick}
