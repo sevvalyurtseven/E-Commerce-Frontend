@@ -7,7 +7,7 @@ import {
 } from "../store/actions/shoppingCartActions";
 
 import Cards from "react-credit-cards-2";
-import "react-credit-cards-2/dist/es/styles-compiled.css"; // Doğru dosya yolunu kullanarak
+import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
   const {
@@ -60,45 +60,59 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
       />
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label>Kart Numarası</label>
+          <label>Card Number</label>
           <input
             type="text"
             {...register("card_no", {
-              required: "Kart numarası gereklidir",
+              required: "Card number is required",
               minLength: {
                 value: 16,
-                message: "Kart numarası 16 haneli olmalıdır",
+                message: "Card number must be 16 digits",
               },
               maxLength: {
                 value: 16,
-                message: "Kart numarası 16 haneli olmalıdır",
+                message: "Card number must be 16 digits",
               },
               pattern: {
                 value: /^[0-9]+$/,
-                message: "Kart numarası sadece sayılardan oluşmalıdır",
+                message: "Card number must be numeric",
               },
             })}
             className={`input input-bordered w-full ${
               errors.card_no ? "border-red-500" : ""
             }`}
+            inputMode="numeric"
           />
           {errors.card_no && (
             <span className="text-red-500">{errors.card_no.message}</span>
           )}
         </div>
         <div>
-          <label>Son Kullanma Tarihi</label>
+          <label>Expiration Date</label>
           <div className="flex space-x-2">
             <div className="w-1/2">
               <input
-                type="number"
+                type="text"
                 {...register("expire_month", {
-                  required: "Ay gereklidir",
+                  required: "Month is required",
+                  minLength: {
+                    value: 2,
+                    message: "Month must be 2 digits",
+                  },
+                  maxLength: {
+                    value: 2,
+                    message: "Month must be 2 digits",
+                  },
+                  pattern: {
+                    value: /^(0[1-9]|1[0-2])$/,
+                    message: "Month must be between 01 and 12",
+                  },
                 })}
                 className={`input input-bordered w-full ${
                   errors.expire_month ? "border-red-500" : ""
                 }`}
-                placeholder="Ay"
+                placeholder="MM"
+                inputMode="numeric"
               />
               {errors.expire_month && (
                 <span className="text-red-500">
@@ -108,20 +122,42 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
             </div>
             <div className="w-1/2">
               <input
-                type="number"
-                {...register("expire_year", {})}
-                className="input input-bordered w-full"
-                placeholder="Yıl"
+                type="text"
+                {...register("expire_year", {
+                  required: "Year is required",
+                  minLength: {
+                    value: 2,
+                    message: "Year must be 2 digits",
+                  },
+                  maxLength: {
+                    value: 2,
+                    message: "Year must be 2 digits",
+                  },
+                  pattern: {
+                    value: /^[0-9]{2}$/,
+                    message: "Year must be numeric",
+                  },
+                })}
+                className={`input input-bordered w-full ${
+                  errors.expire_year ? "border-red-500" : ""
+                }`}
+                placeholder="YY"
+                inputMode="numeric"
               />
+              {errors.expire_year && (
+                <span className="text-red-500">
+                  {errors.expire_year.message}
+                </span>
+              )}
             </div>
           </div>
         </div>
         <div>
-          <label>Kart Üzerindeki İsim</label>
+          <label>Name on Card</label>
           <input
             type="text"
             {...register("name_on_card", {
-              required: "Kart üzerindeki isim gereklidir",
+              required: "Name on card is required",
             })}
             className={`input input-bordered w-full ${
               errors.name_on_card ? "border-red-500" : ""
@@ -132,7 +168,7 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
           )}
         </div>
         <button type="submit" className="btn btn-primary w-full">
-          {isEditing ? "Güncelle" : "Kaydet"}
+          {isEditing ? "Update" : "Save"}
         </button>
       </form>
     </div>
