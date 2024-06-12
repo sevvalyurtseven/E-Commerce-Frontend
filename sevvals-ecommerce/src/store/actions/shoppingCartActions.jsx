@@ -190,3 +190,55 @@ export const removeAddress = (addressId, token) => {
     }
   };
 };
+
+export const fetchPaymentMethods = (token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.get("/user/card", {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(setPaymentMethods(response.data));
+    } catch (error) {
+      console.error("Ödeme yöntemleri getirilemedi:", error);
+    }
+  };
+};
+
+export const createPaymentMethod = (method, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.post("/user/card", method, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(addPaymentMethod(response.data));
+    } catch (error) {
+      console.error("Ödeme yöntemi eklenemedi:", error);
+    }
+  };
+};
+
+export const editPaymentMethod = (method, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.put("/user/card", method, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(updatePaymentMethod(response.data));
+    } catch (error) {
+      console.error("Ödeme yöntemi güncellenemedi:", error);
+    }
+  };
+};
+
+export const removePaymentMethod = (methodId, token) => {
+  return async (dispatch) => {
+    try {
+      await axiosInstance.delete(`/user/card/${methodId}`, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(deletePaymentMethod(methodId));
+    } catch (error) {
+      console.error("Ödeme yöntemi silinemedi:", error);
+    }
+  };
+};
