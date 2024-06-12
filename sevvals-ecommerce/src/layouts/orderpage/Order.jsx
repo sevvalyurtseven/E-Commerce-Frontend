@@ -7,7 +7,7 @@ import {
 } from "../../store/actions/shoppingCartActions";
 import OrderSummary from "../../components/OrderSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Order() {
   const dispatch = useDispatch();
@@ -48,6 +48,10 @@ function Order() {
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+  };
+
+  const handleNextClick = () => {
+    setActiveTab("payment");
   };
 
   return (
@@ -163,9 +167,26 @@ function Order() {
                   ) : (
                     <p>Kayıtlı adres bulunmamaktadır.</p>
                   )}
+                  <button
+                    className="btn bg-blue-500 hover:bg-blue-700 text-white w-full mt-4 shadow-lg rounded-lg"
+                    onClick={() => {
+                      handleAddressSelection(selectedAddress);
+                      setShowAddresses(false);
+                    }}
+                  >
+                    Seç
+                  </button>
                 </div>
               </div>
             )}
+            <div className="flex justify-end">
+              <button
+                className="btn btn-outline shadow-md rounded-lg text-base tracking-widest w-auto"
+                onClick={handleNextClick}
+              >
+                Next <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+            </div>
           </div>
         )}
 
