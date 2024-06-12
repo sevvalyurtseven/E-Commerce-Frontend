@@ -6,6 +6,7 @@ import {
   fetchAddresses,
   removeAddress,
   createAddress,
+  createOrder,
 } from "../../store/actions/shoppingCartActions";
 import OrderSummary from "../../components/OrderSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +15,11 @@ import { faPlus, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 function Order() {
   const dispatch = useDispatch();
   const addresses = useSelector((state) => state.shoppingCart.addresses);
+  const selectedPaymentMethod = useSelector(
+    (state) => state.shoppingCart.selectedPaymentMethod
+  );
+  const cartItems = useSelector((state) => state.shoppingCart.cart);
+  const totalPrice = useSelector((state) => state.shoppingCart.totalPrice);
   const [isEditing, setIsEditing] = useState(false);
   const [editAddressId, setEditAddressId] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -66,6 +72,38 @@ function Order() {
   // İleri düğmesi tıklama işlevi
   const handleNextClick = () => {
     setActiveTab("payment");
+  };
+
+  const handleCreateOrder = () => {
+    // Sipariş verisi oluşturuluyor. Bu veri sunucuya gönderilecek.
+    const orderData = {
+      // Seçilen adresin ID'si
+      address_id: selectedAddress,
+      // Sipariş tarihi, ISO formatında
+      order_date: new Date().toISOString(),
+      // Seçilen ödeme kartının numarası
+      card_no: selectedPaymentMethod.card_no,
+      // Kart üzerindeki isim
+      card_name: selectedPaymentMethod.name_on_card,
+      // Kartın son kullanma ayı
+      card_expire_month: selectedPaymentMethod.expire_month,
+      // Kartın son kullanma yılı
+      card_expire_year: selectedPaymentMethod.expire_year,
+      // Kartın güvenlik kodu
+      card_ccv: selectedPaymentMethod.ccv, // Bu bilginin mevcut olduğunu varsayıyoruz
+      // Toplam fiyat
+      price: totalPrice,
+      // Sepetteki ürünler, her bir ürünün ID'si, miktarı ve detayı ile birlikte
+      products: cartItems.map((item) => ({
+        product_id: item.product.id,
+        count: item.count,
+        detail: item.product.detail, // Bu bilginin mevcut olduğunu varsayıyoruz
+      })),
+    };
+
+    // createOrder thunk action'ını çağırarak sipariş oluşturma isteği yapılıyor.
+    // Bu işlem, orderData ve token ile gerçekleştiriliyor.
+    dispatch(createOrder(orderData, token));
   };
 
   return (
@@ -208,7 +246,7 @@ function Order() {
         )}
       </div>
       <div className="w-full lg:w-4/12 px-4 mt-8 lg:mt-0">
-        <OrderSummary />
+        <OrderSummary handleCreateOrder={handleCreateOrder} />
       </div>
     </div>
   );
