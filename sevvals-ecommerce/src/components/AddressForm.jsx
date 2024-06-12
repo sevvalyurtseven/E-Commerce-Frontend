@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { useDispatch } from "react-redux";
-import data from "../data.json"; // JSON dosyasını içe aktarın
+import data from "../data.json"; // Import JSON data
 import {
   createAddress,
   editAddress,
@@ -123,39 +123,39 @@ function AddressForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4">
-        <label className="block text-gray-700 text-md">Adres Başlığı</label>
+        <label className="block text-gray-700 text-md">Address Title</label>
         <input
           {...register("addressTitle")}
           className="form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded"
-          placeholder="Adres Başlığı"
+          placeholder="Address Title"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-md">Ad</label>
+        <label className="block text-gray-700 text-md">First Name</label>
         <input
           {...register("name")}
           className="form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded"
-          placeholder="Ad"
+          placeholder="First Name"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-md">Soyad</label>
+        <label className="block text-gray-700 text-md">Last Name</label>
         <input
           {...register("surname")}
           className="form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded"
-          placeholder="Soyad"
+          placeholder="Last Name"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-md">Telefon</label>
+        <label className="block text-gray-700 text-md">Phone</label>
         <input
           {...register("phone")}
           className="form-input mt-1 block w-full p-2 text-md border border-gray-300 rounded"
-          placeholder="Telefon"
+          placeholder="Phone"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-md">Şehir</label>
+        <label className="block text-gray-700 text-md">City</label>
         <Controller
           control={control}
           name="city"
@@ -163,14 +163,14 @@ function AddressForm({
             <Select
               {...field}
               options={cities}
-              placeholder="Şehir seçin"
+              placeholder="Select City"
               className="border border-gray-300 rounded"
             />
           )}
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-md">İlçe</label>
+        <label className="block text-gray-700 text-md">District</label>
         <Controller
           control={control}
           name="district"
@@ -178,7 +178,7 @@ function AddressForm({
             <Select
               {...field}
               options={districts}
-              placeholder="İlçe seçin"
+              placeholder="Select District"
               isDisabled={!selectedCity}
               className="border border-gray-300 rounded"
             />
@@ -186,7 +186,9 @@ function AddressForm({
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-md">Mahalle/Köy</label>
+        <label className="block text-gray-700 text-md">
+          Neighborhood/Village
+        </label>
         <Controller
           control={control}
           name="neighborhood"
@@ -194,7 +196,7 @@ function AddressForm({
             <Select
               {...field}
               options={neighbourhoods}
-              placeholder="Mahalle/Köy seçin"
+              placeholder="Select Neighborhood/Village"
               isDisabled={!selectedDistrict}
               className="border border-gray-300 rounded"
             />
@@ -202,15 +204,15 @@ function AddressForm({
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-md">Adres Detayları</label>
+        <label className="block text-gray-700 text-md">Address Details</label>
         <textarea
           {...register("addressDetails")}
           className="form-textarea mt-1 block w-full p-2 text-md border border-gray-300 rounded"
-          placeholder="Adres Detayları"
+          placeholder="Address Details"
         />
       </div>
       <button type="submit" className="btn btn-primary py-2 px-4 text-md">
-        {isEditing ? "Güncelle" : "Ekle"}
+        {isEditing ? "Update" : "Add"}
       </button>
     </form>
   );
