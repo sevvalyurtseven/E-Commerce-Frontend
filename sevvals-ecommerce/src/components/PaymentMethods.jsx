@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import PaymentForm from "./PaymentForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -9,9 +8,8 @@ import {
   removePaymentMethod,
   selectPaymentMethod,
 } from "../store/actions/shoppingCartActions";
-
 import Cards from "react-credit-cards-2";
-import "react-credit-cards-2/dist/es/styles-compiled.css"; // Doğru dosya yolunu kullanarak
+import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 function PaymentMethods() {
   const dispatch = useDispatch();
@@ -69,13 +67,13 @@ function PaymentMethods() {
           </div>
         </div>
       )}
-      <div className="flex flex-wrap gap-4 tracking-wider text-lg">
+      <div className="flex flex-wrap gap-4 tracking-wider text-lg max-h-[570px] overflow-y-auto">
         <div
           className="credit-card add-card p-4 rounded-lg shadow-lg cursor-pointer flex justify-center items-center flex-col"
           onClick={handleAddNewClick}
           style={{
-            minWidth: "350px",
-            minHeight: "250px",
+            minWidth: "370px", // Genişliği artırın
+            minHeight: "270px", // Yüksekliği artırın
             backgroundColor: "#f0f0f0",
           }}
         >
@@ -87,15 +85,15 @@ function PaymentMethods() {
         {paymentMethods.map((method) => (
           <div
             key={method.id}
-            className={`credit-card p-4 rounded-lg shadow-lg cursor-pointer border ${
+            className={`credit-card p-4 rounded-lg shadow-lg cursor-pointer border transition-transform transform hover:scale-105 ${
               selectedPaymentMethod === method.id
-                ? "border-blue-500"
+                ? "border-blue-500 bg-blue-100"
                 : "border-gray-300"
             }`}
             onClick={() => handleCardSelect(method.id)}
             style={{
-              minWidth: "350px",
-              minHeight: "250px",
+              minWidth: "370px", // Genişliği artırın
+              minHeight: "270px", // Yüksekliği artırın
               position: "relative",
             }}
           >
