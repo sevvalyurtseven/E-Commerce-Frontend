@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,7 +11,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-function OrderSummary() {
+function OrderSummary({ handleCreateOrder }) {
+  // Redux store'dan sepet, indirim kodu ve indirim miktarını çekiyoruz
   const cart = useSelector((state) => state.shoppingCart.cart);
   const discountCodeFromState = useSelector(
     (state) => state.shoppingCart.discountCode
@@ -19,14 +20,18 @@ function OrderSummary() {
   const discountAmountFromState = useSelector(
     (state) => state.shoppingCart.discountAmount
   );
+
+  // Kargo ve indirim eşik değerlerini tanımlıyoruz
   const shippingCost = 29.99;
   const freeShippingThreshold = 400;
   const discountThreshold = 1000;
   const discountCode = "SEVVAL10"; // Örnek indirim kodu
   const discountPercentage = 0.1; // %10 indirim
-  const location = useLocation(); // Mevcut yolu kontrol etmek için useLocation kullanıyoruz
-  const dispatch = useDispatch(); // dispatch fonksiyonunu kullanmak için ekledik
 
+  const location = useLocation(); // Mevcut yolu kontrol etmek için useLocation kullanıyoruz
+  const dispatch = useDispatch(); // Redux dispatch fonksiyonunu kullanmak için ekledik
+
+  // Component state'leri
   const [appliedDiscountCode, setAppliedDiscountCode] = useState(
     discountCodeFromState
   );
@@ -234,12 +239,23 @@ function OrderSummary() {
           Use code "SEVVAL10" for 10% off orders over 1000 TL! 🎉
         </p>
       </div>
-      <Link
-        to="/order"
-        className="btn btn-primary w-full bg-blue-500 hover:bg-blue-700 text-sm tracking-widest mt-4"
-      >
-        Create Order
-      </Link>
+      {/* Create Order Butonu */}
+      {handleCreateOrder && (
+        <button
+          onClick={handleCreateOrder}
+          className="btn btn-primary w-full bg-blue-500 hover:bg-blue-700 text-sm tracking-widest mt-4"
+        >
+          Create Order
+        </button>
+      )}
+      {!handleCreateOrder && (
+        <Link
+          to="/order"
+          className="btn btn-primary w-full bg-blue-500 hover:bg-blue-700 text-sm tracking-widest mt-4"
+        >
+          Proceed to Checkout
+        </Link>
+      )}
     </div>
   );
 }
