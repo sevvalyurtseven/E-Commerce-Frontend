@@ -25,6 +25,7 @@ function PaymentMethods() {
   const [editPaymentMethodId, setEditPaymentMethodId] = useState(null);
 
   useEffect(() => {
+    // Ödeme yöntemlerini almak için dispatch çağrısı
     dispatch(fetchPaymentMethods(token));
   }, [dispatch, token]);
 
@@ -35,6 +36,7 @@ function PaymentMethods() {
   };
 
   const handleDeleteClick = (id) => {
+    // Ödeme yöntemini silmek için dispatch çağrısı
     dispatch(removePaymentMethod(id, token));
   };
 
@@ -45,6 +47,7 @@ function PaymentMethods() {
   };
 
   const handleCardSelect = (id) => {
+    // Ödeme yöntemini seçmek için dispatch çağrısı
     dispatch(selectPaymentMethod(id));
   };
 

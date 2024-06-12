@@ -24,6 +24,7 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
   );
 
   useEffect(() => {
+    // Düzenleme modunda ödeme yöntemi verilerini ayarlamak için
     if (isEditing && editPaymentMethodId) {
       const method = paymentMethods.find((pm) => pm.id === editPaymentMethodId);
       if (method) {
@@ -37,8 +38,10 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
 
   const onSubmit = (data) => {
     if (isEditing) {
+      // Düzenleme işlemi için dispatch çağrısı
       dispatch(editPaymentMethod({ ...data, id: editPaymentMethodId }, token));
     } else {
+      // Yeni ödeme yöntemi eklemek için dispatch çağrısı
       dispatch(createPaymentMethod(data, token));
     }
     setShowForm(false);
