@@ -199,6 +199,10 @@ function Order() {
 
         {activeTab === "payment" && (
           <div>
+            <p className="text-lg mb-4 tracking-wider">
+              You can safely make your payment with a bank/credit{" "}
+              <span className="font-bold">card or a shopping loan.</span>
+            </p>
             <PaymentMethods />
           </div>
         )}
