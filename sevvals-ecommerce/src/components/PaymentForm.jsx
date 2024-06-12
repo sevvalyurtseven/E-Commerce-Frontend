@@ -10,7 +10,13 @@ import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css"; // Doğru dosya yolunu kullanarak
 
 function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
-  const { register, handleSubmit, setValue, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm();
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const paymentMethods = useSelector(
@@ -57,38 +63,73 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
           <label>Kart Numarası</label>
           <input
             type="text"
-            {...register("card_no")}
-            required
-            className="input input-bordered w-full"
+            {...register("card_no", {
+              required: "Kart numarası gereklidir",
+              minLength: {
+                value: 16,
+                message: "Kart numarası 16 haneli olmalıdır",
+              },
+              maxLength: {
+                value: 16,
+                message: "Kart numarası 16 haneli olmalıdır",
+              },
+              pattern: {
+                value: /^[0-9]+$/,
+                message: "Kart numarası sadece sayılardan oluşmalıdır",
+              },
+            })}
+            className={`input input-bordered w-full ${
+              errors.card_no ? "border-red-500" : ""
+            }`}
           />
+          {errors.card_no && (
+            <span className="text-red-500">{errors.card_no.message}</span>
+          )}
         </div>
         <div>
           <label>Son Kullanma Tarihi</label>
           <div className="flex space-x-2">
-            <input
-              type="number"
-              {...register("expire_month")}
-              required
-              className="input input-bordered w-1/2"
-              placeholder="Ay"
-            />
-            <input
-              type="number"
-              {...register("expire_year")}
-              required
-              className="input input-bordered w-1/2"
-              placeholder="Yıl"
-            />
+            <div className="w-1/2">
+              <input
+                type="number"
+                {...register("expire_month", {
+                  required: "Ay gereklidir",
+                })}
+                className={`input input-bordered w-full ${
+                  errors.expire_month ? "border-red-500" : ""
+                }`}
+                placeholder="Ay"
+              />
+              {errors.expire_month && (
+                <span className="text-red-500">
+                  {errors.expire_month.message}
+                </span>
+              )}
+            </div>
+            <div className="w-1/2">
+              <input
+                type="number"
+                {...register("expire_year", {})}
+                className="input input-bordered w-full"
+                placeholder="Yıl"
+              />
+            </div>
           </div>
         </div>
         <div>
           <label>Kart Üzerindeki İsim</label>
           <input
             type="text"
-            {...register("name_on_card")}
-            required
-            className="input input-bordered w-full"
+            {...register("name_on_card", {
+              required: "Kart üzerindeki isim gereklidir",
+            })}
+            className={`input input-bordered w-full ${
+              errors.name_on_card ? "border-red-500" : ""
+            }`}
           />
+          {errors.name_on_card && (
+            <span className="text-red-500">{errors.name_on_card.message}</span>
+          )}
         </div>
         <button type="submit" className="btn btn-primary w-full">
           {isEditing ? "Güncelle" : "Kaydet"}
