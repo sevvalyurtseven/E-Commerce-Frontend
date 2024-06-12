@@ -230,6 +230,8 @@ export const editPaymentMethod = (method, token) => {
         headers: { Authorization: `${token}` },
       });
       dispatch(updatePaymentMethod(response.data));
+      // Ödeme yöntemlerini yeniden yükle
+      dispatch(fetchPaymentMethods(token));
     } catch (error) {
       console.error("Ödeme yöntemi güncellenemedi:", error);
     }
