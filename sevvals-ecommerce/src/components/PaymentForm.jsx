@@ -50,7 +50,7 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
   const name_on_card = watch("name_on_card") || "";
 
   return (
-    <div>
+    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
       <Cards
         cvc=""
         expiry={`${expire_month}/${expire_year}`}
@@ -58,9 +58,11 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
         name={name_on_card}
         number={card_no}
       />
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-6">
         <div>
-          <label>Card Number</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
+            Card Number
+          </label>
           <input
             type="text"
             {...register("card_no", {
@@ -84,11 +86,15 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
             inputMode="numeric"
           />
           {errors.card_no && (
-            <span className="text-red-500">{errors.card_no.message}</span>
+            <span className="text-red-500 text-sm">
+              {errors.card_no.message}
+            </span>
           )}
         </div>
         <div>
-          <label>Expiration Date</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
+            Expiration Date
+          </label>
           <div className="flex space-x-2">
             <div className="w-1/2">
               <input
@@ -115,7 +121,7 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
                 inputMode="numeric"
               />
               {errors.expire_month && (
-                <span className="text-red-500">
+                <span className="text-red-500 text-sm">
                   {errors.expire_month.message}
                 </span>
               )}
@@ -145,7 +151,7 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
                 inputMode="numeric"
               />
               {errors.expire_year && (
-                <span className="text-red-500">
+                <span className="text-red-500 text-sm">
                   {errors.expire_year.message}
                 </span>
               )}
@@ -153,7 +159,9 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
           </div>
         </div>
         <div>
-          <label>Name on Card</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
+            Name on Card
+          </label>
           <input
             type="text"
             {...register("name_on_card", {
@@ -164,10 +172,15 @@ function PaymentForm({ isEditing, editPaymentMethodId, setShowForm }) {
             }`}
           />
           {errors.name_on_card && (
-            <span className="text-red-500">{errors.name_on_card.message}</span>
+            <span className="text-red-500 text-sm">
+              {errors.name_on_card.message}
+            </span>
           )}
         </div>
-        <button type="submit" className="btn btn-primary w-full">
+        <button
+          type="submit"
+          className="btn btn-primary w-full py-2 font-semibold"
+        >
           {isEditing ? "Update" : "Save"}
         </button>
       </form>
