@@ -217,6 +217,8 @@ export const createPaymentMethod = (method, token) => {
         headers: { Authorization: `${token}` },
       });
       dispatch(addPaymentMethod(response.data));
+      // Ödeme yöntemlerini yeniden yükle
+      dispatch(fetchPaymentMethods(token));
     } catch (error) {
       console.error("Ödeme yöntemi eklenemedi:", error);
     }
