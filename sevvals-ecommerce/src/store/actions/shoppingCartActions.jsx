@@ -5,10 +5,14 @@ import axiosInstance from "../../api/api";
 export const SET_CART = "Sepet içeriğini ayarlar";
 export const SET_PAYMENT = "Ödeme bilgilerini ayarlar";
 export const SET_ADDRESS = "Adres bilgilerini ayarlar";
+export const ADD_ADDRESS = "Adres ekleme işlemi";
+export const UPDATE_ADDRESS = "Adres bilgilerini güncelleme işlemi";
+export const DELETE_ADDRESS = "Adres bilgilerini silme işlemi";
 export const ADD_TO_CART = "Sepete ekleme işlemi";
 export const INCREASE_QUANTITY = "Sepetteki ürün miktarını artırma işlemi";
 export const DECREASE_QUANTITY = "Sepetteki ürün miktarını azaltma işlemi";
 export const REMOVE_FROM_CART = "Sepetten ürün çıkarma işlemi";
+export const APPLY_DISCOUNT_CODE = "İndirim kodunu uygulama işlemi";
 export const TOGGLE_ITEM_SELECTION = "Sepetteki ürün seçimi işlemi";
 export const LOAD_CART_FROM_STORAGE = "Sepet içeriğini yükleme işlemi";
 
@@ -39,6 +43,21 @@ export const setAddress = (address) => ({
   payload: address,
 });
 
+export const addAddress = (address) => ({
+  type: ADD_ADDRESS,
+  payload: address,
+});
+
+export const updateAddress = (address) => ({
+  type: UPDATE_ADDRESS,
+  payload: address,
+});
+
+export const deleteAddress = (addressId) => ({
+  type: DELETE_ADDRESS,
+  payload: addressId,
+});
+
 export const addToCart = (product) => ({
   type: ADD_TO_CART,
   payload: product,
@@ -56,6 +75,11 @@ export const decreaseQuantity = (productId) => ({
 export const removeItem = (productId) => ({
   type: REMOVE_FROM_CART,
   payload: productId,
+});
+
+export const applyDiscountCode = (code, discountAmount) => ({
+  type: APPLY_DISCOUNT_CODE,
+  payload: { code, discountAmount },
 });
 
 export const toggleItemSelection = (productId) => ({
@@ -93,6 +117,58 @@ export const fetchCart = () => {
       dispatch(fetchCartSuccess(response.data));
     } catch (error) {
       dispatch(fetchCartError(error.message));
+    }
+  };
+};
+
+export const fetchAddresses = (token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.get("/user/address", {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(setAddress(response.data));
+    } catch (error) {
+      console.error("Adresler getirilemedi:", error);
+    }
+  };
+};
+
+export const createAddress = (address, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.post("/user/address", address, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(addAddress(response.data));
+    } catch (error) {
+      console.error("Adres eklenemedi:", error);
+    }
+  };
+};
+
+export const editAddress = (address, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.put("/user/address", address, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(updateAddress(response.data));
+    } catch (error) {
+      console.error("Adres güncellenemedi:", error);
+    }
+  };
+};
+
+export const removeAddress = (addressId, token) => {
+  return async (dispatch) => {
+    try {
+      await axiosInstance.delete(`/user/address/${addressId}`, {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(deleteAddress(addressId));
+    } catch (error) {
+      console.error("Adres silinemedi:", error);
     }
   };
 };
