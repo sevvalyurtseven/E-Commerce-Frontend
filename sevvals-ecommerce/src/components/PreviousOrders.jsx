@@ -267,49 +267,54 @@ const PreviousOrders = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
-                          <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
-                            Total Amount
-                          </h3>
-                          <p className="text-gray-700 mb-2 text-lg tracking-wider">
-                            <strong className="text-gray-900">
-                              Total Price:
-                            </strong>{" "}
-                            {order.price} TL
-                          </p>
-                          {shippingCost > 0 && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          <div className="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
+                            <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
+                              Total Amount
+                            </h3>
                             <p className="text-gray-700 mb-2 text-lg tracking-wider">
                               <strong className="text-gray-900">
-                                Shipping Cost:
+                                Total Price:
                               </strong>{" "}
-                              {shippingCost} TL
+                              {order.price} TL
                             </p>
-                          )}
-                          {discountAmount > 0 && (
-                            <p className="text-gray-700 mb-2 text-lg tracking-wider">
+                            {shippingCost > 0 && (
+                              <p className="text-gray-700 mb-2 text-lg tracking-wider">
+                                <strong className="text-gray-900">
+                                  Shipping Cost:
+                                </strong>{" "}
+                                {shippingCost} TL
+                              </p>
+                            )}
+                            {discountAmount > 0 && (
+                              <p className="text-gray-700 mb-2 text-lg tracking-wider">
+                                <strong className="text-gray-900">
+                                  Discount:
+                                </strong>{" "}
+                                -{discountAmount.toFixed(2)} TL
+                              </p>
+                            )}
+                            <p className="text-gray-700 text-lg tracking-wider">
                               <strong className="text-gray-900">
-                                Discount:
+                                Final Total:
                               </strong>{" "}
-                              -{discountAmount.toFixed(2)} TL
+                              {finalTotalPrice.toFixed(2)} TL
                             </p>
-                          )}
-                          <p className="text-gray-700 text-lg tracking-wider">
-                            <strong className="text-gray-900">
-                              Final Total:
-                            </strong>{" "}
-                            {finalTotalPrice.toFixed(2)} TL
-                          </p>
-                        </div>
-                        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-                          <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
-                            Delivery Time
-                          </h3>
-                          <p className="text-gray-700 text-lg tracking-wider">
-                            <strong className="text-gray-900">
-                              Estimated Shipping Date:
-                            </strong>{" "}
-                            {format(new Date(order.order_date), "dd MMMM yyyy")}
-                          </p>
+                          </div>
+                          <div className="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
+                            <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
+                              Delivery Time
+                            </h3>
+                            <p className="text-gray-700 text-lg tracking-wider">
+                              <strong className="text-gray-900">
+                                Shipping Date:
+                              </strong>{" "}
+                              {format(
+                                new Date(order.order_date),
+                                "dd MMMM yyyy"
+                              )}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </Collapsible>
