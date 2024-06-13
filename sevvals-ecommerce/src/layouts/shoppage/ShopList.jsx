@@ -237,7 +237,7 @@ function ShopList({ gender, categoryName, categoryId }) {
           </div>
         ) : productList.length > 0 ? (
           <div
-            className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-[90%] py-20"
+            className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-[80%] py-20"
             ref={productSectionRef}
           >
             {productList.map((product) => (
