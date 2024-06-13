@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom"; // useHistory'yi ekleyin
 import AddressForm from "../../components/AddressForm";
 import PaymentMethods from "../../components/PaymentMethods";
 import {
@@ -14,6 +15,7 @@ import { faPlus, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Order() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const addresses = useSelector((state) => state.shoppingCart.addresses);
   const selectedPaymentMethod = useSelector(
     (state) => state.shoppingCart.selectedPaymentMethod
@@ -103,7 +105,9 @@ function Order() {
 
     // createOrder thunk action'ını çağırarak sipariş oluşturma isteği yapılıyor.
     // Bu işlem, orderData ve token ile gerçekleştiriliyor.
-    dispatch(createOrder(orderData, token));
+    dispatch(createOrder(orderData, token)).then(() => {
+      history.push("/order-confirmation"); // Sipariş oluşturulduktan sonra yönlendirme
+    });
   };
 
   return (
