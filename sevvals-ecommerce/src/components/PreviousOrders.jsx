@@ -12,7 +12,16 @@ import {
   faShoppingBag,
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
-import { format, getMonth, getYear } from "date-fns";
+import {
+  format,
+  getMonth,
+  getYear,
+  addDays,
+  isThursday,
+  isFriday,
+  isSaturday,
+  isSunday,
+} from "date-fns";
 import { useHistory } from "react-router-dom";
 
 const PreviousOrders = () => {
@@ -89,6 +98,22 @@ const PreviousOrders = () => {
       ? Math.ceil(ordersByMonth[selectedMonth].orders.length / ordersPerPage)
       : 0;
 
+  const calculateShippingDate = (orderDate) => {
+    let shippingDate;
+    if (isThursday(orderDate)) {
+      shippingDate = addDays(orderDate, 4); // Perşembe günü verilen siparişler pazartesi kargoya verilir
+    } else if (
+      isFriday(orderDate) ||
+      isSaturday(orderDate) ||
+      isSunday(orderDate)
+    ) {
+      shippingDate = addDays(orderDate, 3); // Cuma, cumartesi veya pazar günü verilen siparişler pazartesi kargoya verilir
+    } else {
+      shippingDate = addDays(orderDate, 2); // Diğer günlerde 2 gün sonra kargoya verilir
+    }
+    return shippingDate;
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50 p-10">
       {/* Sol Panel */}
@@ -141,6 +166,9 @@ const PreviousOrders = () => {
                   const formattedOrderDate = format(
                     new Date(order.order_date),
                     "dd MMMM yyyy"
+                  );
+                  const shippingDate = calculateShippingDate(
+                    new Date(order.order_date)
                   );
 
                   return (
@@ -303,16 +331,13 @@ const PreviousOrders = () => {
                           </div>
                           <div className="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
                             <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
-                              Delivery Time
+                              Shipping Date
                             </h3>
                             <p className="text-gray-700 text-lg tracking-wider">
                               <strong className="text-gray-900">
                                 Shipping Date:
                               </strong>{" "}
-                              {format(
-                                new Date(order.order_date),
-                                "dd MMMM yyyy"
-                              )}
+                              {format(shippingDate, "dd MMMM yyyy")}
                             </p>
                           </div>
                         </div>
