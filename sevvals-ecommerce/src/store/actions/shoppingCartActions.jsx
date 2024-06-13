@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axiosInstance from "../../api/api";
 
 // Action Type Constants:
@@ -19,6 +20,8 @@ export const REMOVE_FROM_CART = "Sepetten ürün çıkarma işlemi";
 export const APPLY_DISCOUNT_CODE = "İndirim kodunu uygulama işlemi";
 export const TOGGLE_ITEM_SELECTION = "Sepetteki ürün seçimi işlemi";
 export const LOAD_CART_FROM_STORAGE = "Sepet içeriğini yükleme işlemi";
+export const CREATE_ORDER = "Sipariş oluşturma işlemi";
+export const RESET_CART = "Sepeti sıfırlama işlemi";
 
 // Fetch Constants:
 
@@ -114,6 +117,19 @@ export const toggleItemSelection = (productId) => ({
 export const loadCartFromStorage = () => ({
   type: LOAD_CART_FROM_STORAGE,
 });
+
+export const createOrderAction = (order) => ({
+  type: CREATE_ORDER,
+  payload: order,
+});
+
+export const resetCartAction = () => {
+  // localStorage'dan sepeti temizle
+  localStorage.removeItem("shoppingCart");
+  return {
+    type: RESET_CART,
+  };
+};
 
 export const fetchCartRequest = () => ({
   type: GET_CART_FETCHING,
@@ -249,6 +265,25 @@ export const removePaymentMethod = (methodId, token) => {
       dispatch(deletePaymentMethod(methodId));
     } catch (error) {
       console.error("Ödeme yöntemi silinemedi:", error);
+    }
+  };
+};
+
+export const createOrder = (orderData, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.post("/order", orderData, {
+        headers: { Authorization: ` ${token}` },
+      });
+
+      // Sipariş başarıyla oluşturuldu
+      dispatch(createOrderAction(response.data));
+
+      // Sepeti sıfırlama işlemi
+      dispatch(resetCartAction());
+    } catch (error) {
+      console.error("Sipariş oluşturulamadı:", error);
+      toast.error("Sipariş oluşturulamadı. Lütfen tekrar deneyin.");
     }
   };
 };

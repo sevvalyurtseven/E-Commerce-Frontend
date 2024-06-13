@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { useDispatch } from "react-redux";
-import data from "../data.json"; // Import JSON data
+import data from "../data.json"; // JSON verilerini içe aktar
 import {
   createAddress,
   editAddress,
@@ -37,6 +37,7 @@ function AddressForm({
   const selectedDistrict = watch("district");
 
   useEffect(() => {
+    // Şehir verilerini ayarlamak için
     const uniqueCities = [];
     data.forEach((item) => {
       if (!uniqueCities.includes(item.il)) {
@@ -47,6 +48,7 @@ function AddressForm({
   }, []);
 
   useEffect(() => {
+    // İlçe verilerini ayarlamak için
     if (selectedCity) {
       const cityData = data.filter((item) => item.il === selectedCity.value);
       const uniqueDistricts = [];
@@ -65,6 +67,7 @@ function AddressForm({
   }, [selectedCity]);
 
   useEffect(() => {
+    // Mahalle verilerini ayarlamak için
     if (selectedDistrict) {
       const districtData = data.filter(
         (item) =>
@@ -107,6 +110,7 @@ function AddressForm({
   };
 
   useEffect(() => {
+    // Düzenleme modunda başlangıç değerlerini ayarlamak için
     if (isEditing && initialValues) {
       setValue("addressTitle", initialValues.title);
       setValue("name", initialValues.name);
