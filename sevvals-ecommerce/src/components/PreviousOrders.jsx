@@ -83,6 +83,10 @@ const PreviousOrders = () => {
                 : 0;
             const finalTotalPrice = order.price + shippingCost - discountAmount;
             const shippingDate = calculateShippingDate(order.order_date);
+            const formattedOrderDate = format(
+              new Date(order.order_date),
+              "dd MMMM yyyy"
+            );
 
             return (
               <Collapsible
@@ -103,7 +107,7 @@ const PreviousOrders = () => {
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="text-lg text-gray-600">
-                        {order.order_date}
+                        {formattedOrderDate}
                       </span>
                       <FontAwesomeIcon
                         icon={faChevronDown}
