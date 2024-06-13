@@ -176,29 +176,52 @@ const PreviousOrders = () => {
                           Order Summary
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-                          <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h3 className="text-2xl font-semibold mb-4 text-gray-700 tracking-wider">
+                          <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
                               Address Information
                             </h3>
                             {address ? (
                               <>
                                 <p className="text-gray-700 mb-2 text-lg tracking-wider">
-                                  <strong>Title:</strong> {address.title}
+                                  <strong className="text-gray-900">
+                                    Title:
+                                  </strong>{" "}
+                                  {address.title}
                                 </p>
                                 <p className="text-gray-700 mb-2 text-lg tracking-wider">
-                                  <strong>Name:</strong> {address.name}{" "}
-                                  {address.surname}
+                                  <strong className="text-gray-900">
+                                    Name:
+                                  </strong>{" "}
+                                  {address.name} {address.surname}
                                 </p>
                                 <p className="text-gray-700 mb-2 text-lg tracking-wider">
-                                  <strong>Phone:</strong> {address.phone}
+                                  <strong className="text-gray-900">
+                                    Phone:
+                                  </strong>{" "}
+                                  {address.phone}
                                 </p>
                                 <p className="text-gray-700 mb-2 text-lg tracking-wider">
-                                  <strong>City, District, Neighborhood:</strong>{" "}
-                                  {address.city}, {address.district},{" "}
+                                  <strong className="text-gray-900">
+                                    City:
+                                  </strong>{" "}
+                                  {address.city}
+                                </p>
+                                <p className="text-gray-700 mb-2 text-lg tracking-wider">
+                                  <strong className="text-gray-900">
+                                    District:
+                                  </strong>{" "}
+                                  {address.district}
+                                </p>
+                                <p className="text-gray-700 text-lg tracking-wider">
+                                  <strong className="text-gray-900">
+                                    Neighborhood:
+                                  </strong>{" "}
                                   {address.neighborhood}
                                 </p>
                                 <p className="text-gray-700 text-lg tracking-wider">
-                                  <strong>Address Details:</strong>{" "}
+                                  <strong className="text-gray-900">
+                                    Address Details:
+                                  </strong>{" "}
                                   {address.address}
                                 </p>
                               </>
@@ -208,64 +231,80 @@ const PreviousOrders = () => {
                               </p>
                             )}
                           </div>
-                          <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h3 className="text-2xl font-semibold mb-4 text-gray-700 tracking-wider">
+                          <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+                            <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
                               Products
                             </h3>
-                            {order.products.map((item) => (
-                              <div
-                                key={item.product_id}
-                                className="flex items-center justify-between mb-4"
-                              >
-                                <img
-                                  src={item.images[0]?.url || "placeholder.jpg"}
-                                  alt={item.name}
-                                  className="w-16 h-16 object-contain rounded-md shadow-md"
-                                />
-                                <div className="ml-4 flex flex-col">
-                                  <h4 className="text-lg font-semibold text-gray-800 tracking-wider">
-                                    {item.name}
-                                  </h4>
-                                  <p className="text-sm text-gray-600 tracking-wider">
-                                    Quantity: {item.count}
-                                  </p>
+                            <div className="max-h-48 overflow-y-auto">
+                              {order.products.map((item) => (
+                                <div
+                                  key={item.product_id}
+                                  className="flex items-center justify-between mb-4"
+                                >
+                                  <img
+                                    src={
+                                      item.images[0]?.url || "placeholder.jpg"
+                                    }
+                                    alt={item.name}
+                                    className="w-16 h-16 object-contain rounded-md shadow-md"
+                                  />
+                                  <div className="ml-4 flex flex-col">
+                                    <h4 className="text-lg font-semibold text-gray-900 tracking-wider">
+                                      {item.name}
+                                    </h4>
+                                    <p className="text-sm text-gray-600 tracking-wider">
+                                      Quantity: {item.count}
+                                    </p>
+                                  </div>
+                                  <span className="text-lg text-gray-900 tracking-wider">
+                                    {(item.price * item.count).toFixed(2)} TL
+                                  </span>
                                 </div>
-                                <span className="text-lg text-gray-800 tracking-wider">
-                                  {(item.price * item.count).toFixed(2)} TL
-                                </span>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-                          <h3 className="text-2xl font-semibold mb-4 text-gray-700 tracking-wider">
+                        <div className="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
+                          <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
                             Total Amount
                           </h3>
                           <p className="text-gray-700 mb-2 text-lg tracking-wider">
-                            <strong>Total Price:</strong> {order.price} TL
+                            <strong className="text-gray-900">
+                              Total Price:
+                            </strong>{" "}
+                            {order.price} TL
                           </p>
                           {shippingCost > 0 && (
                             <p className="text-gray-700 mb-2 text-lg tracking-wider">
-                              <strong>Shipping Cost:</strong> {shippingCost} TL
+                              <strong className="text-gray-900">
+                                Shipping Cost:
+                              </strong>{" "}
+                              {shippingCost} TL
                             </p>
                           )}
                           {discountAmount > 0 && (
                             <p className="text-gray-700 mb-2 text-lg tracking-wider">
-                              <strong>Discount:</strong> -
-                              {discountAmount.toFixed(2)} TL
+                              <strong className="text-gray-900">
+                                Discount:
+                              </strong>{" "}
+                              -{discountAmount.toFixed(2)} TL
                             </p>
                           )}
                           <p className="text-gray-700 text-lg tracking-wider">
-                            <strong>Final Total:</strong>{" "}
+                            <strong className="text-gray-900">
+                              Final Total:
+                            </strong>{" "}
                             {finalTotalPrice.toFixed(2)} TL
                           </p>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                          <h3 className="text-2xl font-semibold mb-4 text-gray-700 tracking-wider">
+                        <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+                          <h3 className="text-2xl font-semibold mb-4 text-indigo-600 tracking-wider">
                             Delivery Time
                           </h3>
                           <p className="text-gray-700 text-lg tracking-wider">
-                            <strong>Estimated Shipping Date:</strong>{" "}
+                            <strong className="text-gray-900">
+                              Estimated Shipping Date:
+                            </strong>{" "}
                             {format(new Date(order.order_date), "dd MMMM yyyy")}
                           </p>
                         </div>
