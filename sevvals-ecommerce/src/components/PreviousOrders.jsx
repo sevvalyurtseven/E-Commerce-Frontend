@@ -203,7 +203,7 @@ const PreviousOrders = () => {
                       openedClassName="shadow-2xl rounded-lg overflow-hidden"
                     >
                       <div className="p-8 bg-white border-t-4 border-indigo-600 rounded-b-lg">
-                        <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center tracking-wider">
+                        <h2 className="text-3xl font-semibold mb-6 text-indigo-600 text-center tracking-wider">
                           Order Summary
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
@@ -279,7 +279,7 @@ const PreviousOrders = () => {
                                     alt={item.name}
                                     className="w-16 h-16 object-contain rounded-md shadow-md"
                                   />
-                                  <div className="ml-4 flex flex-col">
+                                  <div className="ml-4 flex-1">
                                     <h4 className="text-lg font-semibold text-gray-900 tracking-wider">
                                       {item.name}
                                     </h4>
