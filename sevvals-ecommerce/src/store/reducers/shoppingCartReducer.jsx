@@ -20,6 +20,9 @@ import {
   UPDATE_ADDRESS,
   SELECT_PAYMENT_METHOD,
   RESET_CART,
+  FETCH_ORDERS_FAILURE,
+  FETCH_ORDERS_SUCCESS,
+  FETCH_ORDERS_REQUEST,
 } from "../actions/shoppingCartActions";
 
 const initialState = {
@@ -35,6 +38,7 @@ const initialState = {
   selectedPaymentMethod: null, // Seçilen ödeme yöntemini ekleyin
   isFetching: false, // fetching durumunu belirten alan
   error: null, // hata mesajını tutan alan
+  orders: [], // Yeni eklenen orders durumu
 };
 
 // Toplam fiyatı hesaplayan yardımcı fonksiyon
@@ -238,7 +242,24 @@ export const shoppingCartReducer = (state = initialState, action) => {
         discountCode: "",
         discountAmount: 0,
       };
-
+    case FETCH_ORDERS_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
+    case FETCH_ORDERS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        orders: action.payload,
+      };
+    case FETCH_ORDERS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload,
+      };
     default:
       return state;
   }
