@@ -13,6 +13,7 @@ import ShoppingCartPage from "../pages/ShoppingCartPage";
 import OrderPage from "../pages/OrderPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import OrderConfirmation from "./confirmpage/OrderConfirmation";
+import PreviousOrdersPage from "../pages/PreviousOrdersPage";
 
 function PageContent() {
   const history = useHistory();
@@ -44,6 +45,7 @@ function PageContent() {
       <ProtectedRoute path="/order" component={OrderPage} />{" "}
       {/* ProtectedRoute kullanımı */}
       <Route path="/order-confirmation" component={OrderConfirmation} />
+      <ProtectedRoute path="/previous-orders" component={PreviousOrdersPage} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/team" component={TeamPage} />
       <Route path="/about" component={AboutPage} />
