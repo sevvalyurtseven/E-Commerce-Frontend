@@ -11,6 +11,8 @@ import {
   faPlus,
   faMinus,
   faTrash,
+  faSignOutAlt,
+  faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebook,
@@ -193,21 +195,44 @@ function Header() {
                 Pages
               </NavLink>
             </div>
-            <div className="header-main-auth flex items-center gap-8">
+            <div className="header-main-auth flex items-center gap-10 mr-10">
               {user.email ? (
-                <div className="flex items-center gap-4">
-                  <img
-                    src={gravatarUrl(user.email, { size: 40 })}
-                    alt="User avatar"
-                    className="rounded-full"
-                  />
-                  <span>{user.name || user.email}</span>
-                  <button
-                    onClick={handleLogout}
-                    className="ml-4 btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
+                <div className="dropdown dropdown-end">
+                  <label
+                    tabIndex={0}
+                    className="btn btn-ghost rounded-btn flex items-center mr-20  gap-2 text-lg tracking-wider"
                   >
-                    Logout
-                  </button>
+                    <img
+                      src={gravatarUrl(user.email, { size: 40 })}
+                      alt="User avatar"
+                      className="rounded-full"
+                    />
+                    <span>{user.name || user.email}</span>
+                    <FontAwesomeIcon icon={faAngleDown} />
+                  </label>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 text-neutral-500  tracking-wider mr-20"
+                  >
+                    <li className="hover:bg-sky-100 flex items-center gap-2">
+                      <NavLink
+                        to="/previous-orders"
+                        className="flex items-center w-full text-left"
+                      >
+                        <FontAwesomeIcon icon={faHistory} />
+                        <span>Previous Orders</span>
+                      </NavLink>
+                    </li>
+                    <li className="hover:bg-sky-100 flex items-center gap-2">
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center w-full text-left"
+                      >
+                        <FontAwesomeIcon icon={faSignOutAlt} />
+                        <span>Logout</span>
+                      </button>
+                    </li>
+                  </ul>
                 </div>
               ) : (
                 <div className="flex items-center gap-4">
