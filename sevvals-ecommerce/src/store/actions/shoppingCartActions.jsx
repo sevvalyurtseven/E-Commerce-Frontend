@@ -32,6 +32,11 @@ export const GET_CART_SUCCESS =
   "Sepet fetch işlemi başarıyla tamamlandığında kullanılır";
 export const GET_CART_ERROR =
   "Sepet fetch işlemi başarısız olduğunda kullanılır";
+export const FETCH_ORDERS_REQUEST = "Siparişleri getirmek için kullanılır";
+export const FETCH_ORDERS_SUCCESS =
+  "Siparişleri getirme işlemi başarıyla tamamlandığında kullanılır";
+export const FETCH_ORDERS_FAILURE =
+  "Siparisleri getirme işlemi başarısız oldugunda kullanılır";
 
 // Action Creators:
 
@@ -142,6 +147,20 @@ export const fetchCartSuccess = (cart) => ({
 
 export const fetchCartError = (error) => ({
   type: GET_CART_ERROR,
+  payload: error,
+});
+
+export const fetchOrdersRequest = () => ({
+  type: FETCH_ORDERS_REQUEST,
+});
+
+export const fetchOrdersSuccess = (orders) => ({
+  type: FETCH_ORDERS_SUCCESS,
+  payload: orders,
+});
+
+export const fetchOrdersFailure = (error) => ({
+  type: FETCH_ORDERS_FAILURE,
   payload: error,
 });
 
@@ -284,6 +303,21 @@ export const createOrder = (orderData, token) => {
     } catch (error) {
       console.error("Sipariş oluşturulamadı:", error);
       toast.error("Sipariş oluşturulamadı. Lütfen tekrar deneyin.");
+    }
+  };
+};
+
+export const fetchOrders = (token) => {
+  return async (dispatch) => {
+    dispatch(fetchOrdersRequest());
+    try {
+      const response = await axiosInstance.get("/order", {
+        headers: { Authorization: `${token}` },
+      });
+      dispatch(fetchOrdersSuccess(response.data));
+    } catch (error) {
+      dispatch(fetchOrdersFailure(error.message));
+      toast.error("Siparişler alınamadı. Lütfen tekrar deneyin.");
     }
   };
 };
