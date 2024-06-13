@@ -10,8 +10,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
   faShoppingBag,
+  faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import { format, getMonth, getYear } from "date-fns";
+import { useHistory } from "react-router-dom";
 
 const PreviousOrders = () => {
   const dispatch = useDispatch();
@@ -23,6 +25,7 @@ const PreviousOrders = () => {
   const [openOrderId, setOpenOrderId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const ordersPerPage = 7;
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(fetchOrders(token));
@@ -123,7 +126,7 @@ const PreviousOrders = () => {
             </p>
           ) : (
             <div className="space-y-8">
-              {selectedMonth !== null &&
+              {selectedMonth !== null && displayOrders.length > 0 ? (
                 displayOrders.map((order) => {
                   const address = getAddressById(order.address_id);
                   const shippingCost = order.price >= 400 ? 0 : 29.99;
@@ -311,8 +314,13 @@ const PreviousOrders = () => {
                       </div>
                     </Collapsible>
                   );
-                })}
-              {selectedMonth !== null && (
+                })
+              ) : (
+                <p className="text-center text-gray-700 text-xl font-semibold tracking-wider mt-10">
+                  No order history for this month.
+                </p>
+              )}
+              {selectedMonth !== null && displayOrders.length > 0 && (
                 <ReactPaginate
                   previousLabel={"Previous"}
                   nextLabel={"Next"}
@@ -328,6 +336,15 @@ const PreviousOrders = () => {
               )}
             </div>
           )}
+        </div>
+        <div className="flex justify-center mt-8">
+          <button
+            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-500 transition-colors duration-200"
+            onClick={() => history.push("/")}
+          >
+            <FontAwesomeIcon icon={faHome} className="mr-2" />
+            Back to Home
+          </button>
         </div>
       </div>
     </div>
