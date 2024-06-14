@@ -59,6 +59,7 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(userLogout()); // Kullanıcıyı çıkış yaptır
+    setIsCartDropdownOpen(false); // Sepet dropdown menüsünü kapat
   };
 
   const toggleDropdown = () => {
