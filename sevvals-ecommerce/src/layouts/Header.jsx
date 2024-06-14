@@ -339,9 +339,12 @@ function Header() {
                             >
                               Go To Cart
                             </NavLink>
-                            <button className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]">
+                            <NavLink
+                              to="/order"
+                              className="btn bg-sky-500 text-white hover:bg-[#e7a0da] hover:text-[#fafafa]"
+                            >
                               Complete Order
-                            </button>
+                            </NavLink>
                           </div>
                         </div>
                       ) : (
