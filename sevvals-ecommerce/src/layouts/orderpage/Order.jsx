@@ -53,6 +53,7 @@ function Order() {
   const handleAddAddress = (address) => {
     dispatch(createAddress(address, token)).then(() => {
       dispatch(fetchAddresses(token));
+      resetForm(); // Formu sıfırla
     });
   };
 
