@@ -8,7 +8,10 @@ import axiosInstance from "./api/api";
 import { setUser } from "./store/actions/clientActions";
 import { fetchCategories } from "./store/actions/productActions";
 import { useLocation } from "react-router-dom";
-import { loadCartFromStorage } from "./store/actions/shoppingCartActions";
+import {
+  loadCartFromStorage,
+  setCart,
+} from "./store/actions/shoppingCartActions";
 
 function App() {
   const dispatch = useDispatch(); // Redux dispatch fonksiyonunu kullanmak için
@@ -26,6 +29,13 @@ function App() {
       try {
         const response = await axiosInstance.get("/verify");
         dispatch(setUser(response.data)); // Kullanıcıyı Redux'a kaydet
+
+        // Kaydedilmiş sepeti localStorage'dan yükle ve Redux state'ine ekle
+        const savedCart = localStorage.getItem("savedCart");
+        if (savedCart) {
+          dispatch(setCart(JSON.parse(savedCart)));
+          localStorage.removeItem("savedCart"); // Kaydedilmiş sepeti temizle
+        }
       } catch (error) {
         console.error("Token verification failed", error);
         localStorage.removeItem("token");
@@ -37,7 +47,7 @@ function App() {
 
     verifyToken();
     dispatch(fetchCategories()); // Kategorileri fetch et
-    dispatch(loadCartFromStorage()); // Load the cart from localStorage
+    dispatch(loadCartFromStorage()); // Sepeti localStorage'dan yükle
   }, [dispatch]);
 
   if (loading) {
