@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import axiosInstance from "../../api/api";
+import { resetCartAction, setCart } from "./shoppingCartActions";
 
 // Action Type Constants:
 
@@ -108,6 +109,14 @@ export const userLogin = (data) => {
         if (data.rememberMe) {
           localStorage.setItem("token", response.data.token);
         }
+
+        // Kaydedilmiş sepeti yükle ve Redux state'ine ekle
+        const savedCart = localStorage.getItem("savedCart");
+        if (savedCart) {
+          dispatch(setCart(JSON.parse(savedCart)));
+          localStorage.removeItem("savedCart"); // Sepeti temizle
+        }
+
         return response.data;
       })
       .catch((error) => {
@@ -118,7 +127,11 @@ export const userLogin = (data) => {
 };
 
 export const userLogout = () => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const cart = getState().shoppingCart.cart;
+    localStorage.setItem("savedCart", JSON.stringify(cart)); // Sepeti kaydet
+
+    dispatch(resetCartAction()); // Sepeti sıfırla
     dispatch(logoutUser());
     localStorage.removeItem("token");
     toast.success("Logged out successfully!");
