@@ -12,6 +12,7 @@ import {
 import OrderSummary from "../../components/OrderSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 function Order() {
   const dispatch = useDispatch();
@@ -78,6 +79,13 @@ function Order() {
   };
 
   const handleCreateOrder = () => {
+    if (!selectedPaymentMethod || !selectedAddress) {
+      toast.error(
+        "Please select a payment method and address before creating the order."
+      );
+      return;
+    }
+
     // Sipariş verisi oluşturuluyor. Bu veri sunucuya gönderilecek.
     const orderData = {
       // Seçilen adresin ID'si
